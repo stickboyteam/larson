@@ -1,0 +1,583 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E1DF41C194341320051E651 /* StudentRosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF41B194341320051E651 /* StudentRosterCell.m */; };
+		0E1DF41F19435CC80051E651 /* StudentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */; };
+		0E1DF4221943803A0051E651 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF4211943803A0051E651 /* AttendanceViewController.m */; };
+		0E4D408219421C670015FA07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408119421C670015FA07 /* Foundation.framework */; };
+		0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408319421C670015FA07 /* CoreGraphics.framework */; };
+		0E4D408619421C670015FA07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408519421C670015FA07 /* UIKit.framework */; };
+		0E4D408C19421C670015FA07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E4D408A19421C670015FA07 /* InfoPlist.strings */; };
+		0E4D408E19421C670015FA07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D408D19421C670015FA07 /* main.m */; };
+		0E4D409219421C670015FA07 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D409119421C670015FA07 /* AppDelegate.m */; };
+		0E4D40A419421C670015FA07 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D40A319421C670015FA07 /* XCTest.framework */; };
+		0E4D40A519421C670015FA07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408119421C670015FA07 /* Foundation.framework */; };
+		0E4D40A619421C670015FA07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408519421C670015FA07 /* UIKit.framework */; };
+		0E4D40AE19421C670015FA07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E4D40AC19421C670015FA07 /* InfoPlist.strings */; };
+		0E4D40B019421C670015FA07 /* LarsonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D40AF19421C670015FA07 /* LarsonTests.m */; };
+		0E4D40BE19421EFD0015FA07 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D40BC19421EFD0015FA07 /* LoginViewController.m */; };
+		0E71398E19430D830092DC5F /* StudentRosterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71398D19430D830092DC5F /* StudentRosterViewController.m */; };
+		0E84B5141945F72500061423 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5091945F72500061423 /* Lato-Black.ttf */; };
+		0E84B5151945F72500061423 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50A1945F72500061423 /* Lato-BlackItalic.ttf */; };
+		0E84B5161945F72500061423 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50B1945F72500061423 /* Lato-Bold.ttf */; };
+		0E84B5171945F72500061423 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50C1945F72500061423 /* Lato-BoldItalic.ttf */; };
+		0E84B5181945F72500061423 /* Lato-Hairline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50D1945F72500061423 /* Lato-Hairline.ttf */; };
+		0E84B5191945F72500061423 /* Lato-HairlineItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50E1945F72500061423 /* Lato-HairlineItalic.ttf */; };
+		0E84B51A1945F72500061423 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50F1945F72500061423 /* Lato-Italic.ttf */; };
+		0E84B51B1945F72500061423 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5101945F72500061423 /* Lato-Light.ttf */; };
+		0E84B51C1945F72500061423 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5111945F72500061423 /* Lato-LightItalic.ttf */; };
+		0E84B51D1945F72500061423 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5121945F72500061423 /* Lato-Regular.ttf */; };
+		0E84B51E1945F72500061423 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5131945F72500061423 /* OFL.txt */; };
+		0E84B5201945FD1D00061423 /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */; };
+		0E84B523194607E400061423 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84B522194607E400061423 /* CustomTextField.m */; };
+		0E8ECFF0194B2FDC00EF7705 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */; };
+		0E8ECFF2194B31D800EF7705 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFF1194B31D800EF7705 /* Default.png */; };
+		0E8ECFF4194B31E300EF7705 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFF3194B31E300EF7705 /* Default@2x.png */; };
+		0EAB854B1942D939002C00A6 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB85491942D939002C00A6 /* ClassesViewController.m */; };
+		0EAB85511942F43D002C00A6 /* ClassesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB85501942F43D002C00A6 /* ClassesTableCell.m */; };
+		0EAB85581942FCD3002C00A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAB85571942FCD3002C00A6 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0E4D40A719421C670015FA07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E4D407619421C670015FA07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E4D407D19421C670015FA07;
+			remoteInfo = Larson;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E1DF41A194341320051E651 /* StudentRosterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentRosterCell.h; sourceTree = "<group>"; };
+		0E1DF41B194341320051E651 /* StudentRosterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentRosterCell.m; sourceTree = "<group>"; };
+		0E1DF41D19435CC80051E651 /* StudentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentInfoViewController.h; sourceTree = "<group>"; };
+		0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentInfoViewController.m; sourceTree = "<group>"; };
+		0E1DF4201943803A0051E651 /* AttendanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttendanceViewController.h; sourceTree = "<group>"; };
+		0E1DF4211943803A0051E651 /* AttendanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
+		0E4D407E19421C670015FA07 /* Larson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Larson.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E4D408119421C670015FA07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0E4D408319421C670015FA07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0E4D408519421C670015FA07 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0E4D408919421C670015FA07 /* Larson-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Larson-Info.plist"; sourceTree = "<group>"; };
+		0E4D408B19421C670015FA07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E4D408D19421C670015FA07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E4D408F19421C670015FA07 /* Larson-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Larson-Prefix.pch"; sourceTree = "<group>"; };
+		0E4D409019421C670015FA07 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E4D409119421C670015FA07 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0E4D40A219421C670015FA07 /* LarsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LarsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E4D40A319421C670015FA07 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0E4D40AB19421C670015FA07 /* LarsonTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LarsonTests-Info.plist"; sourceTree = "<group>"; };
+		0E4D40AD19421C670015FA07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E4D40AF19421C670015FA07 /* LarsonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LarsonTests.m; sourceTree = "<group>"; };
+		0E4D40BB19421EFD0015FA07 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		0E4D40BC19421EFD0015FA07 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		0E4D40C019421FB50015FA07 /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		0E71398C19430D830092DC5F /* StudentRosterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentRosterViewController.h; sourceTree = "<group>"; };
+		0E71398D19430D830092DC5F /* StudentRosterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentRosterViewController.m; sourceTree = "<group>"; };
+		0E84B5091945F72500061423 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		0E84B50A1945F72500061423 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		0E84B50B1945F72500061423 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		0E84B50C1945F72500061423 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		0E84B50D1945F72500061423 /* Lato-Hairline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Hairline.ttf"; sourceTree = "<group>"; };
+		0E84B50E1945F72500061423 /* Lato-HairlineItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-HairlineItalic.ttf"; sourceTree = "<group>"; };
+		0E84B50F1945F72500061423 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
+		0E84B5101945F72500061423 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
+		0E84B5111945F72500061423 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		0E84B5121945F72500061423 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		0E84B5131945F72500061423 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
+		0E84B521194607E400061423 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
+		0E84B522194607E400061423 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
+		0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0E8ECFF1194B31D800EF7705 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		0E8ECFF3194B31E300EF7705 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		0EAB85481942D939002C00A6 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
+		0EAB85491942D939002C00A6 /* ClassesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesViewController.m; sourceTree = "<group>"; };
+		0EAB854F1942F43D002C00A6 /* ClassesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesTableCell.h; sourceTree = "<group>"; };
+		0EAB85501942F43D002C00A6 /* ClassesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesTableCell.m; sourceTree = "<group>"; };
+		0EAB85571942FCD3002C00A6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E4D407B19421C670015FA07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */,
+				0E4D408619421C670015FA07 /* UIKit.framework in Frameworks */,
+				0E4D408219421C670015FA07 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E4D409F19421C670015FA07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4D40A419421C670015FA07 /* XCTest.framework in Frameworks */,
+				0E4D40A619421C670015FA07 /* UIKit.framework in Frameworks */,
+				0E4D40A519421C670015FA07 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E4D407519421C670015FA07 = {
+			isa = PBXGroup;
+			children = (
+				0E4D408719421C670015FA07 /* Larson */,
+				0E4D40A919421C670015FA07 /* LarsonTests */,
+				0E4D408019421C670015FA07 /* Frameworks */,
+				0E4D407F19421C670015FA07 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0E4D407F19421C670015FA07 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E4D407E19421C670015FA07 /* Larson.app */,
+				0E4D40A219421C670015FA07 /* LarsonTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E4D408019421C670015FA07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E4D408119421C670015FA07 /* Foundation.framework */,
+				0E4D408319421C670015FA07 /* CoreGraphics.framework */,
+				0E4D408519421C670015FA07 /* UIKit.framework */,
+				0E4D40A319421C670015FA07 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0E4D408719421C670015FA07 /* Larson */ = {
+			isa = PBXGroup;
+			children = (
+				0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */,
+				0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */,
+				0E4D409019421C670015FA07 /* AppDelegate.h */,
+				0E4D409119421C670015FA07 /* AppDelegate.m */,
+				0E4D40BB19421EFD0015FA07 /* LoginViewController.h */,
+				0E4D40BC19421EFD0015FA07 /* LoginViewController.m */,
+				0EAB85481942D939002C00A6 /* ClassesViewController.h */,
+				0EAB85491942D939002C00A6 /* ClassesViewController.m */,
+				0EAB854F1942F43D002C00A6 /* ClassesTableCell.h */,
+				0EAB85501942F43D002C00A6 /* ClassesTableCell.m */,
+				0EAB85571942FCD3002C00A6 /* Main.storyboard */,
+				0E71398C19430D830092DC5F /* StudentRosterViewController.h */,
+				0E71398D19430D830092DC5F /* StudentRosterViewController.m */,
+				0E1DF41A194341320051E651 /* StudentRosterCell.h */,
+				0E1DF41B194341320051E651 /* StudentRosterCell.m */,
+				0E1DF41D19435CC80051E651 /* StudentInfoViewController.h */,
+				0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */,
+				0E1DF4201943803A0051E651 /* AttendanceViewController.h */,
+				0E1DF4211943803A0051E651 /* AttendanceViewController.m */,
+				0E4D408819421C670015FA07 /* Supporting Files */,
+				0E84B5081945F72500061423 /* Lato (Font) */,
+				0E84B521194607E400061423 /* CustomTextField.h */,
+				0E84B522194607E400061423 /* CustomTextField.m */,
+			);
+			path = Larson;
+			sourceTree = "<group>";
+		};
+		0E4D408819421C670015FA07 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0E8ECFF3194B31E300EF7705 /* Default@2x.png */,
+				0E8ECFF1194B31D800EF7705 /* Default.png */,
+				0E4D408919421C670015FA07 /* Larson-Info.plist */,
+				0E4D408A19421C670015FA07 /* InfoPlist.strings */,
+				0E4D408D19421C670015FA07 /* main.m */,
+				0E4D408F19421C670015FA07 /* Larson-Prefix.pch */,
+				0E4D40C019421FB50015FA07 /* Defines.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0E4D40A919421C670015FA07 /* LarsonTests */ = {
+			isa = PBXGroup;
+			children = (
+				0E4D40AF19421C670015FA07 /* LarsonTests.m */,
+				0E4D40AA19421C670015FA07 /* Supporting Files */,
+			);
+			path = LarsonTests;
+			sourceTree = "<group>";
+		};
+		0E4D40AA19421C670015FA07 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0E4D40AB19421C670015FA07 /* LarsonTests-Info.plist */,
+				0E4D40AC19421C670015FA07 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0E84B5081945F72500061423 /* Lato (Font) */ = {
+			isa = PBXGroup;
+			children = (
+				0E84B5091945F72500061423 /* Lato-Black.ttf */,
+				0E84B50A1945F72500061423 /* Lato-BlackItalic.ttf */,
+				0E84B50B1945F72500061423 /* Lato-Bold.ttf */,
+				0E84B50C1945F72500061423 /* Lato-BoldItalic.ttf */,
+				0E84B50D1945F72500061423 /* Lato-Hairline.ttf */,
+				0E84B50E1945F72500061423 /* Lato-HairlineItalic.ttf */,
+				0E84B50F1945F72500061423 /* Lato-Italic.ttf */,
+				0E84B5101945F72500061423 /* Lato-Light.ttf */,
+				0E84B5111945F72500061423 /* Lato-LightItalic.ttf */,
+				0E84B5121945F72500061423 /* Lato-Regular.ttf */,
+				0E84B5131945F72500061423 /* OFL.txt */,
+			);
+			path = "Lato (Font)";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E4D407D19421C670015FA07 /* Larson */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E4D40B319421C670015FA07 /* Build configuration list for PBXNativeTarget "Larson" */;
+			buildPhases = (
+				0E4D407A19421C670015FA07 /* Sources */,
+				0E4D407B19421C670015FA07 /* Frameworks */,
+				0E4D407C19421C670015FA07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Larson;
+			productName = Larson;
+			productReference = 0E4D407E19421C670015FA07 /* Larson.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0E4D40A119421C670015FA07 /* LarsonTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E4D40B619421C670015FA07 /* Build configuration list for PBXNativeTarget "LarsonTests" */;
+			buildPhases = (
+				0E4D409E19421C670015FA07 /* Sources */,
+				0E4D409F19421C670015FA07 /* Frameworks */,
+				0E4D40A019421C670015FA07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E4D40A819421C670015FA07 /* PBXTargetDependency */,
+			);
+			name = LarsonTests;
+			productName = LarsonTests;
+			productReference = 0E4D40A219421C670015FA07 /* LarsonTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E4D407619421C670015FA07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Vishwanath Vallamkondi";
+				TargetAttributes = {
+					0E4D40A119421C670015FA07 = {
+						TestTargetID = 0E4D407D19421C670015FA07;
+					};
+				};
+			};
+			buildConfigurationList = 0E4D407919421C670015FA07 /* Build configuration list for PBXProject "Larson" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0E4D407519421C670015FA07;
+			productRefGroup = 0E4D407F19421C670015FA07 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E4D407D19421C670015FA07 /* Larson */,
+				0E4D40A119421C670015FA07 /* LarsonTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0E4D407C19421C670015FA07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E8ECFF4194B31E300EF7705 /* Default@2x.png in Resources */,
+				0E84B51E1945F72500061423 /* OFL.txt in Resources */,
+				0E84B51A1945F72500061423 /* Lato-Italic.ttf in Resources */,
+				0E84B5141945F72500061423 /* Lato-Black.ttf in Resources */,
+				0E84B5161945F72500061423 /* Lato-Bold.ttf in Resources */,
+				0E8ECFF2194B31D800EF7705 /* Default.png in Resources */,
+				0E84B51B1945F72500061423 /* Lato-Light.ttf in Resources */,
+				0E84B5151945F72500061423 /* Lato-BlackItalic.ttf in Resources */,
+				0E4D408C19421C670015FA07 /* InfoPlist.strings in Resources */,
+				0E84B51C1945F72500061423 /* Lato-LightItalic.ttf in Resources */,
+				0E84B5191945F72500061423 /* Lato-HairlineItalic.ttf in Resources */,
+				0E8ECFF0194B2FDC00EF7705 /* Images.xcassets in Resources */,
+				0E84B5171945F72500061423 /* Lato-BoldItalic.ttf in Resources */,
+				0E84B51D1945F72500061423 /* Lato-Regular.ttf in Resources */,
+				0E84B5181945F72500061423 /* Lato-Hairline.ttf in Resources */,
+				0EAB85581942FCD3002C00A6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E4D40A019421C670015FA07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4D40AE19421C670015FA07 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E4D407A19421C670015FA07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4D409219421C670015FA07 /* AppDelegate.m in Sources */,
+				0E1DF41C194341320051E651 /* StudentRosterCell.m in Sources */,
+				0E84B523194607E400061423 /* CustomTextField.m in Sources */,
+				0E84B5201945FD1D00061423 /* UIFont+IBCustomFonts.m in Sources */,
+				0E1DF4221943803A0051E651 /* AttendanceViewController.m in Sources */,
+				0E1DF41F19435CC80051E651 /* StudentInfoViewController.m in Sources */,
+				0EAB85511942F43D002C00A6 /* ClassesTableCell.m in Sources */,
+				0E4D408E19421C670015FA07 /* main.m in Sources */,
+				0E71398E19430D830092DC5F /* StudentRosterViewController.m in Sources */,
+				0E4D40BE19421EFD0015FA07 /* LoginViewController.m in Sources */,
+				0EAB854B1942D939002C00A6 /* ClassesViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E4D409E19421C670015FA07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E4D40B019421C670015FA07 /* LarsonTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0E4D40A819421C670015FA07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E4D407D19421C670015FA07 /* Larson */;
+			targetProxy = 0E4D40A719421C670015FA07 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0E4D408A19421C670015FA07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E4D408B19421C670015FA07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0E4D40AC19421C670015FA07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E4D40AD19421C670015FA07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E4D40B119421C670015FA07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		0E4D40B219421C670015FA07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0E4D40B419421C670015FA07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
+				INFOPLIST_FILE = "Larson/Larson-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "099769E6-6299-43E5-9B8F-1816523CA5AB";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0E4D40B519421C670015FA07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
+				INFOPLIST_FILE = "Larson/Larson-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "099769E6-6299-43E5-9B8F-1816523CA5AB";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		0E4D40B719421C670015FA07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Larson.app/Larson";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "LarsonTests/LarsonTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		0E4D40B819421C670015FA07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Larson.app/Larson";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
+				INFOPLIST_FILE = "LarsonTests/LarsonTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E4D407919421C670015FA07 /* Build configuration list for PBXProject "Larson" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E4D40B119421C670015FA07 /* Debug */,
+				0E4D40B219421C670015FA07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E4D40B319421C670015FA07 /* Build configuration list for PBXNativeTarget "Larson" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E4D40B419421C670015FA07 /* Debug */,
+				0E4D40B519421C670015FA07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E4D40B619421C670015FA07 /* Build configuration list for PBXNativeTarget "LarsonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E4D40B719421C670015FA07 /* Debug */,
+				0E4D40B819421C670015FA07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E4D407619421C670015FA07 /* Project object */;
+}
