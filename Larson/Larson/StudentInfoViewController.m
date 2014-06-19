@@ -29,7 +29,27 @@
 	// Do any additional setup after loading the view.
     
     self.view.backgroundColor = UIColorFromHEX(kCommonBGColor);
-    _titleLabel.text = @"New Student Information";
+    if (self.screenType == kScreenTypeEditStudent)
+        _titleLabel.text = @"Edit Student Information";
+    else
+        _titleLabel.text = @"New Student Information";
+    
+    _firstNameField.text = [self.studentDict objectForKey:@"name"];
+    if ([self.studentDict objectForKey:@"lastname"])
+        _lastNameField.text = [self.studentDict objectForKey:@"lastname"];
+    else
+        _lastNameField.text = @"";
+    _emailField.text = [self.studentDict objectForKey:@"email"];
+    _addressField.text = [self.studentDict objectForKey:@"address"];
+    _phoneNumberField.text = [self.studentDict objectForKey:@"phone"];
+    _apartmentField.text = [self.studentDict objectForKey:@"apt"];
+    _cityField.text = [self.studentDict objectForKey:@"city"];
+    _stateField.text = [self.studentDict objectForKey:@"state"];
+    _zipcodeField.text = [self.studentDict objectForKey:@"zip"];
+    
+    _courseNameLabel.text = [self.classDict objectForKey:@"className"];
+    _courseFeeLabel.text = [NSString stringWithFormat:@"$%@",[self.studentDict objectForKey:@"classBalance"]];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,6 +76,16 @@
 - (IBAction)logoutButtonAction:(id)sender
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)scanButtonAction:(id)sender
+{
+    
+}
+
+- (IBAction)cancelButtonAction:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

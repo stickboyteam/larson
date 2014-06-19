@@ -22,6 +22,9 @@
 		0E4D40AE19421C670015FA07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E4D40AC19421C670015FA07 /* InfoPlist.strings */; };
 		0E4D40B019421C670015FA07 /* LarsonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D40AF19421C670015FA07 /* LarsonTests.m */; };
 		0E4D40BE19421EFD0015FA07 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4D40BC19421EFD0015FA07 /* LoginViewController.m */; };
+		0E514CAD19531F0F00AA3B1C /* HttpConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CAC19531F0F00AA3B1C /* HttpConnection.m */; };
+		0E514CB01953215F00AA3B1C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */; };
+		0E514CB31953309300AA3B1C /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CB21953309300AA3B1C /* UIUtils.m */; };
 		0E71398E19430D830092DC5F /* StudentRosterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71398D19430D830092DC5F /* StudentRosterViewController.m */; };
 		0E84B5141945F72500061423 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5091945F72500061423 /* Lato-Black.ttf */; };
 		0E84B5151945F72500061423 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50A1945F72500061423 /* Lato-BlackItalic.ttf */; };
@@ -79,6 +82,12 @@
 		0E4D40BB19421EFD0015FA07 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		0E4D40BC19421EFD0015FA07 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		0E4D40C019421FB50015FA07 /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		0E514CAB19531F0F00AA3B1C /* HttpConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpConnection.h; sourceTree = "<group>"; };
+		0E514CAC19531F0F00AA3B1C /* HttpConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpConnection.m; sourceTree = "<group>"; };
+		0E514CAE1953215F00AA3B1C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		0E514CB11953309300AA3B1C /* UIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtils.h; sourceTree = "<group>"; };
+		0E514CB21953309300AA3B1C /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
 		0E71398C19430D830092DC5F /* StudentRosterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentRosterViewController.h; sourceTree = "<group>"; };
 		0E71398D19430D830092DC5F /* StudentRosterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentRosterViewController.m; sourceTree = "<group>"; };
 		0E84B5091945F72500061423 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
@@ -162,6 +171,8 @@
 		0E4D408719421C670015FA07 /* Larson */ = {
 			isa = PBXGroup;
 			children = (
+				0E514CAE1953215F00AA3B1C /* MBProgressHUD.h */,
+				0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */,
 				0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */,
 				0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */,
 				0E4D409019421C670015FA07 /* AppDelegate.h */,
@@ -185,6 +196,10 @@
 				0E84B5081945F72500061423 /* Lato (Font) */,
 				0E84B521194607E400061423 /* CustomTextField.h */,
 				0E84B522194607E400061423 /* CustomTextField.m */,
+				0E514CAB19531F0F00AA3B1C /* HttpConnection.h */,
+				0E514CAC19531F0F00AA3B1C /* HttpConnection.m */,
+				0E514CB11953309300AA3B1C /* UIUtils.h */,
+				0E514CB21953309300AA3B1C /* UIUtils.m */,
 			);
 			path = Larson;
 			sourceTree = "<group>";
@@ -352,12 +367,15 @@
 				0E4D409219421C670015FA07 /* AppDelegate.m in Sources */,
 				0E1DF41C194341320051E651 /* StudentRosterCell.m in Sources */,
 				0E84B523194607E400061423 /* CustomTextField.m in Sources */,
+				0E514CAD19531F0F00AA3B1C /* HttpConnection.m in Sources */,
 				0E84B5201945FD1D00061423 /* UIFont+IBCustomFonts.m in Sources */,
 				0E1DF4221943803A0051E651 /* AttendanceViewController.m in Sources */,
 				0E1DF41F19435CC80051E651 /* StudentInfoViewController.m in Sources */,
 				0EAB85511942F43D002C00A6 /* ClassesTableCell.m in Sources */,
 				0E4D408E19421C670015FA07 /* main.m in Sources */,
+				0E514CB01953215F00AA3B1C /* MBProgressHUD.m in Sources */,
 				0E71398E19430D830092DC5F /* StudentRosterViewController.m in Sources */,
+				0E514CB31953309300AA3B1C /* UIUtils.m in Sources */,
 				0E4D40BE19421EFD0015FA07 /* LoginViewController.m in Sources */,
 				0EAB854B1942D939002C00A6 /* ClassesViewController.m in Sources */,
 			);

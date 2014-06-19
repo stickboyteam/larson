@@ -178,7 +178,7 @@
                                                     <rect key="frame" x="0.0" y="16" width="78" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SL1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v1B-JL-uNS">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SL1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="30" id="v1B-JL-uNS">
                                                     <rect key="frame" x="0.0" y="16" width="78" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
@@ -263,7 +263,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SL1 - 0923FW • Total Students - 17/24" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bY3-mm-n2o">
-                                        <rect key="frame" x="143" y="42" width="605" height="21"/>
+                                        <rect key="frame" x="143" y="42" width="345" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -276,6 +276,26 @@
                                         <color key="textColor" red="0.9215686917" green="0.231372565" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uYt-n1-bUi">
+                                        <rect key="frame" x="491" y="39" width="125" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="btn_add_student">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addNewStudentButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="7Qv-kA-ZfG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PS8-QY-8DH">
+                                        <rect key="frame" x="626" y="38" width="122" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="btn_start_att">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="startAttendanceButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="ob0-gX-o1P"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -287,8 +307,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="5o7-Ju-ZwI"/>
-                                    <action selector="logoutButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="DaK-N8-8eB"/>
+                                    <action selector="logoutButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="OdZ-xG-rFa"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ver" id="IQ0-5s-ri1">
@@ -357,14 +376,21 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ae9-So-w9S">
-                                                    <rect key="frame" x="570" y="37" width="78" height="40"/>
+                                                    <rect key="frame" x="609" y="43" width="63" height="33"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" image="btn_edit">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sVZ-ar-yCO">
+                                                    <rect key="frame" x="536" y="43" width="63" height="33"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="btn_scan-1">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ICA-tV-IVH">
-                                                    <rect key="frame" x="662" y="37" width="91" height="40"/>
+                                                    <rect key="frame" x="682" y="43" width="74" height="33"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="btn_payment">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -381,6 +407,7 @@
                                             <outlet property="lastNameLabel" destination="bF8-Qk-WDe" id="wyS-JS-Okg"/>
                                             <outlet property="paymentButton" destination="ICA-tV-IVH" id="Jsk-XT-k71"/>
                                             <outlet property="phoneNumberLabel" destination="b8o-KW-XzY" id="Bve-VL-URh"/>
+                                            <outlet property="scanButton" destination="sVZ-ar-yCO" id="XWQ-P5-hTY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -684,13 +711,33 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vaC-OZ-TEh">
-                                <rect key="frame" x="300" y="810" width="168" height="63"/>
+                                <rect key="frame" x="300" y="795" width="168" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="btn_scan">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="scanButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="3Hr-1H-XU8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p9A-sB-f9x">
+                                <rect key="frame" x="540" y="795" width="168" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="btn_cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="tGb-pa-V80"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ovD-48-z2G">
+                                <rect key="frame" x="60" y="795" width="168" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="btn_save">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="saveButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="49m-7I-DYv"/>
+                                    <action selector="saveButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="QHu-ut-tJS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DcN-jB-Pqe">
@@ -702,7 +749,6 @@
                                 </state>
                                 <connections>
                                     <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="3NI-yl-bVk"/>
-                                    <action selector="logoutButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="lpU-sN-JNa"/>
                                     <action selector="logoutButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="pil-9L-KJI"/>
                                 </connections>
                             </button>
@@ -772,7 +818,6 @@
                                 <connections>
                                     <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="0oX-dl-0l4"/>
                                     <action selector="logoutButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="IYB-z0-8s3"/>
-                                    <action selector="logoutButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="OQU-HR-tJ4"/>
                                     <action selector="logoutButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="zcp-vV-Upa"/>
                                 </connections>
                             </button>
@@ -842,17 +887,22 @@
         <image name="bg_popup" width="768" height="1024"/>
         <image name="bg_white1" width="705" height="394"/>
         <image name="bg_white2" width="702" height="190"/>
+        <image name="btn_add_student" width="125" height="30"/>
+        <image name="btn_cancel" width="168" height="63"/>
         <image name="btn_cash_check" width="256" height="40"/>
         <image name="btn_cash_check-1" width="164" height="53"/>
         <image name="btn_ccard" width="256" height="40"/>
         <image name="btn_ccard-1" width="164" height="53"/>
-        <image name="btn_edit" width="78" height="40"/>
+        <image name="btn_edit" width="63" height="33"/>
         <image name="btn_email" width="192" height="30"/>
         <image name="btn_login" width="164" height="53"/>
         <image name="btn_logout" width="93" height="30"/>
         <image name="btn_next" width="78" height="40"/>
-        <image name="btn_payment" width="91" height="40"/>
+        <image name="btn_payment" width="74" height="33"/>
         <image name="btn_save" width="168" height="63"/>
+        <image name="btn_scan" width="168" height="63"/>
+        <image name="btn_scan-1" width="63" height="33"/>
+        <image name="btn_start_att" width="122" height="30"/>
         <image name="inpu_box" width="459" height="149"/>
         <image name="input_box" width="526" height="110"/>
         <image name="logo_red" width="127" height="88"/>

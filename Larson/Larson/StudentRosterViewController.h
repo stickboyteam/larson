@@ -22,7 +22,14 @@
     IBOutlet UITextField *_amountField;
 }
 
+@property (nonatomic, strong) NSDictionary* classObject;
+@property (nonatomic, strong) NSDictionary* classDetailObject;
+
 - (IBAction)cashCheckButtonAction:(id)sender;
 - (IBAction)creditCardButtonAction:(id)sender;
 - (IBAction)takePaymentTapGestureAction:(id)sender;
+- (IBAction)addNewStudentButtonAction:(id)sender;
+- (IBAction)startAttendanceButtonAction:(id)sender;
+- (IBAction)logoutButtonAction:(id)sender;
+
 @end

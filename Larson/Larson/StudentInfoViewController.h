@@ -22,11 +22,18 @@
     IBOutlet UITextField *_stateField;
     IBOutlet UITextField *_zipcodeField;
     IBOutlet UILabel *_courseNameLabel;
-    IBOutlet UILabel *_courseFeeLabel;
+    IBOutlet UILabel *_courseFeeLabel;    
 }
+
+@property (nonatomic, assign) ScreenType screenType;
+@property (nonatomic, strong) NSDictionary *studentDict;
+@property (nonatomic, strong) NSDictionary *classDict;
 
 - (IBAction)cashCheckPaymentButtonAction:(id)sender;
 - (IBAction)creditCardPaymentButtonAction:(id)sender;
 - (IBAction)saveButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
+- (IBAction)scanButtonAction:(id)sender;
+- (IBAction)cancelButtonAction:(id)sender;
+
 @end

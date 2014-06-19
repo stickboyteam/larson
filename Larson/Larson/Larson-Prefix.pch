@@ -14,4 +14,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #import "Defines.h"
+#import "UIUtils.h"
+#import "HttpConnection.h"
+#import "MBProgressHUD.h"
+
 #endif

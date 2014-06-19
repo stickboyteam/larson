@@ -20,5 +20,22 @@
 #define kStudentRosterViewID    @"StudentRosterView"
 #define kStudentInfoViewID      @"StudentInfoView"
 
+typedef enum serverRequestType
+{
+	kRequestTypeLogin = 100,
+    kRequestTypeClassDetail
+} RequestType;
+
+typedef enum screenType
+{
+	kScreenTypeEditStudent = 200,
+    kScreenTypeNewStudent
+} ScreenType;
+
+#define kServerURL @"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/"
+
+#define kSubURLLogin   @"api/login.php"
+#define kSubURLClassDetail @"api/class-details.php"
+
 #endif
 

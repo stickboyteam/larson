@@ -60,11 +60,17 @@
 
 - (void) nextButtonAction:(id)sender
 {
-    StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
-    if (studentRosterVC)
-    {
-        [self.navigationController pushViewController:studentRosterVC animated:YES];
-    }
+    _rowIndex = [sender tag];
+    NSDictionary* classDict = [self.classesList objectAtIndex:[sender tag]];
+    [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
+}
+
+- (void) classDetailRequestWithClassId:(NSString*)classId
+{
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
+    [conn setRequestType:kRequestTypeClassDetail];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 #pragma mark - tableView dataSource
@@ -76,7 +82,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return [self.classesList count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -92,6 +98,10 @@
     
     cell.nextButton.tag = indexPath.row;
     [cell.nextButton addTarget:self action:@selector(nextButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    NSDictionary* classDict = [self.classesList objectAtIndex:indexPath.row];
+    cell.codeCategoryLabel.text = [classDict objectForKey:@"classPrefix"];
+    cell.courseNameLabel.text = [classDict objectForKey:@"className"];
+    cell.courseCodeLabel.text = [classDict objectForKey:@"classCode"];
     
     return cell;
 }
@@ -101,6 +111,36 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+}
+
+#pragma mark - HttpConnection delegate
+
+
+- (void) httpConnection:(id)handler didFailWithError:(NSError*)error
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    NSDictionary* responseDict = (NSDictionary*)[handler responseData];
+    if ([[responseDict objectForKey:@"status"] isEqualToString:@"failure"])
+    {
+        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
+    }
+}
+
+- (void) httpConnection:(id)handler didFinishedSucessfully:(NSData*)data
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    NSDictionary* responseDict = (NSDictionary*)[handler responseData];
+    if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
+    {
+        StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
+        if (studentRosterVC)
+        {
+            studentRosterVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
+            studentRosterVC.classObject = [self.classesList objectAtIndex:_rowIndex];
+            [self.navigationController pushViewController:studentRosterVC animated:YES];
+        }
+    }
 }
 
 @end

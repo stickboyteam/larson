@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 Vishwanath Vallamkondi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <HttpConnectionDelegate>
 {
     
     IBOutlet UITextField *_loginInputField;
