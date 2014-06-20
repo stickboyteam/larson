@@ -23,7 +23,8 @@
 typedef enum serverRequestType
 {
 	kRequestTypeLogin = 100,
-    kRequestTypeClassDetail
+    kRequestTypeClassDetail,
+    kRequestTypeEditStudentInfo
 } RequestType;
 
 typedef enum screenType
@@ -36,6 +37,11 @@ typedef enum screenType
 
 #define kSubURLLogin   @"api/login.php"
 #define kSubURLClassDetail @"api/class-details.php"
+#define kSubURLEditStudentInfo  @"api/edit-student.php"
+#define kSubURLAddStudentInfo   @"api/new-student.php"
+
+
+#define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 
 #endif
 

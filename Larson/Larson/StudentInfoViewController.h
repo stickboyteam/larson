@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Vishwanath Vallamkondi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "StudentRosterViewController.h"
 
 @interface StudentInfoViewController : UIViewController
 {
@@ -28,6 +28,8 @@
 @property (nonatomic, assign) ScreenType screenType;
 @property (nonatomic, strong) NSDictionary *studentDict;
 @property (nonatomic, strong) NSDictionary *classDict;
+
+@property (nonatomic, strong) id <StudentRosterViewControllerDelegate> delegate;
 
 - (IBAction)cashCheckPaymentButtonAction:(id)sender;
 - (IBAction)creditCardPaymentButtonAction:(id)sender;

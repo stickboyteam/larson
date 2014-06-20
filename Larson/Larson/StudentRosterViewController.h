@@ -6,9 +6,13 @@
 //  Copyright (c) 2014 Vishwanath Vallamkondi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@protocol StudentRosterViewControllerDelegate <NSObject>
 
-@interface StudentRosterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+- (void) dismissWithStudentInfo:(NSDictionary*)studentInfo;
+
+@end
+
+@interface StudentRosterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, StudentRosterViewControllerDelegate>
 {
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UILabel *_courseCodeLabel;
@@ -20,6 +24,8 @@
     IBOutlet UIView *_takePaymentView;
     
     IBOutlet UITextField *_amountField;
+    
+    NSInteger _rowIndex;
 }
 
 @property (nonatomic, strong) NSDictionary* classObject;

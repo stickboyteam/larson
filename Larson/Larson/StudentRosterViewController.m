@@ -68,9 +68,14 @@
 
 - (IBAction)addNewStudentButtonAction:(id)sender
 {
+    _rowIndex = -1;
+    
     StudentInfoViewController* addStudentInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentInfoViewID];
     if (addStudentInfoVC)
     {
+        addStudentInfoVC.screenType = kScreenTypeNewStudent;
+        addStudentInfoVC.classDict = self.classObject;
+        addStudentInfoVC.delegate = self;
         [self.navigationController pushViewController:addStudentInfoVC animated:YES];
     }
 }
@@ -84,12 +89,14 @@
 
 - (void) editButtonAction:(id)sender
 {
+    _rowIndex = [sender tag];
     StudentInfoViewController* editStudentInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentInfoViewID];
     if (editStudentInfoVC)
     {
         editStudentInfoVC.screenType = kScreenTypeEditStudent;
         editStudentInfoVC.studentDict = [[self.classDetailObject objectForKey:@"students"] objectAtIndex:[sender tag]];
         editStudentInfoVC.classDict = self.classObject;
+        editStudentInfoVC.delegate = self;
         [self.navigationController pushViewController:editStudentInfoVC animated:YES];
     }
 }
@@ -155,5 +162,26 @@
     
 }
 
+#pragma mark - 
+
+- (void) dismissWithStudentInfo:(NSDictionary*)studentInfo
+{
+    NSMutableArray* studentsList = [NSMutableArray arrayWithArray:[self.classDetailObject objectForKey:@"students"]];
+
+    if (_rowIndex == -1)
+    {
+        [studentsList addObject:studentInfo];
+    }
+    else
+    {
+//        [studentsList replaceObjectAtIndex:_rowIndex withObject:studentInfo];
+    }
+    
+    NSMutableDictionary* classDetailDict = [NSMutableDictionary dictionaryWithDictionary:self.classDetailObject];
+    [classDetailDict setObject:studentsList forKey:@"students"];
+    self.classDetailObject = [NSDictionary dictionaryWithDictionary:classDetailDict];
+
+    [_tableView reloadData];
+}
 
 @end

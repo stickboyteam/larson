@@ -61,7 +61,12 @@
 
 - (IBAction)loginButtonAction:(id)sender
 {
-    [self loginRequestWithPasscode:_loginInputField.text];
+    _trim(_loginInputField.text);
+    
+    if (_loginInputField.text.length > 0)
+    {
+        [self loginRequestWithPasscode:_loginInputField.text];
+    }
 }
 
 - (void) loginRequestWithPasscode:(NSString*)passcode
@@ -75,11 +80,7 @@
 - (void) httpConnection:(id)handler didFailWithError:(NSError*)error
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSDictionary* responseDict = (NSDictionary*)[handler responseData];
-    if ([[responseDict objectForKey:@"status"] isEqualToString:@"failure"])
-    {
-        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
-    }
+    [UIUtils alertWithErrorMessage:error.localizedDescription];
 }
 
 - (void) httpConnection:(id)handler didFinishedSucessfully:(NSData*)data
@@ -95,6 +96,10 @@
             classesVC.classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
             [self.navigationController pushViewController:classesVC animated:YES];
         }
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
     }
 }
 

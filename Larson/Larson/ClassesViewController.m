@@ -115,15 +115,10 @@
 
 #pragma mark - HttpConnection delegate
 
-
 - (void) httpConnection:(id)handler didFailWithError:(NSError*)error
 {
     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    NSDictionary* responseDict = (NSDictionary*)[handler responseData];
-    if ([[responseDict objectForKey:@"status"] isEqualToString:@"failure"])
-    {
-        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
-    }
+    [UIUtils alertWithErrorMessage:error.localizedDescription];
 }
 
 - (void) httpConnection:(id)handler didFinishedSucessfully:(NSData*)data
@@ -140,6 +135,10 @@
             studentRosterVC.classObject = [self.classesList objectAtIndex:_rowIndex];
             [self.navigationController pushViewController:studentRosterVC animated:YES];
         }
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
     }
 }
 
