@@ -28,6 +28,8 @@
     IBOutlet UITextField *_amountField;
     
     NSInteger _rowIndex;
+    
+    NSArray *_sortedStudentsList;
 }
 
 @property (nonatomic, strong) NSDictionary* classObject;
@@ -40,5 +42,7 @@
 - (IBAction)startAttendanceButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
 - (IBAction)backButtonAction:(id)sender;
+- (IBAction)sortByNameButtonAction:(id)sender;
+- (IBAction)sortByBalanceButtonAction:(id)sender;
 
 @end

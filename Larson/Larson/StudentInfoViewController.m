@@ -164,11 +164,6 @@
     payment.shortDescription = description;
     payment.paymentDetails = paymentDetails; // if not including payment details, then leave payment.paymentDetails as nil
     
-    if (!payment.processable)
-    {
-        [UIUtils alertWithErrorMessage:@"Unable to process your payment, please try later"];
-    }
-    
     // Set up payPalConfig
     PayPalConfiguration *payPalConfig = [[PayPalConfiguration alloc] init];
     if (kPayPalMerchantAcceptCreditCards)
@@ -185,7 +180,14 @@
     payPalConfig.acceptCreditCards = acceptCreditCard;
     
     PayPalPaymentViewController *paymentViewController = [[PayPalPaymentViewController alloc] initWithPayment:payment                                                                                                configuration:payPalConfig                                                                                                     delegate:self];
-    [self presentViewController:paymentViewController animated:YES completion:nil];
+    
+    if (!payment.processable)
+    {
+        [UIUtils alertWithErrorMessage:@"Unable to process your payment, please try later"];
+    }
+
+    if (paymentViewController)
+        [self presentViewController:paymentViewController animated:YES completion:nil];
 }
 
 #pragma mark - HttpConnection delegate
@@ -241,7 +243,10 @@
 - (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment
 {
     NSLog(@"PayPal Payment Success!");
-    //    self.resultText = [completedPayment description];
+    NSLog(@"PayPal Payment description %@",[completedPayment description]);
+    NSLog(@"PayPal Payment confirmation %@",[completedPayment confirmation]);
+    
+    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
     //details to be sent to server
     
     [self dismissViewControllerAnimated:YES completion:nil];

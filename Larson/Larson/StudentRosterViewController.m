@@ -39,6 +39,13 @@
     
     _courseNameLabel.text = [self.classObject objectForKey:@"className"];
     _courseCodeLabel.text = [NSString stringWithFormat:@"%@ • Total Students %@/%@",[self.classObject objectForKey:@"classCode"],[self.classDetailObject objectForKey:@"classStudentEnrolledTotal"],[self.classDetailObject objectForKey:@"classStudentTotal"]];
+    
+    [_sortByBalanceButton setImage:nil forState:UIControlStateNormal];
+    [_sortByNameButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+    
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -66,14 +73,14 @@
 
 - (IBAction)cashCheckButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [[self.classDetailObject objectForKey:@"students"] objectAtIndex:[sender tag]];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
     [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
 }
 
 - (IBAction)creditCardButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [[self.classDetailObject objectForKey:@"students"] objectAtIndex:[sender tag]];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
     [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
 }
@@ -106,6 +113,30 @@
     }
 }
 
+- (IBAction)sortByNameButtonAction:(id)sender
+{
+    [_sortByBalanceButton setImage:nil forState:UIControlStateNormal];
+    [_sortByNameButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
+
+    [_tableView reloadData];
+}
+
+- (IBAction)sortByBalanceButtonAction:(id)sender
+{
+    [_sortByBalanceButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+    [_sortByNameButton setImage:nil forState:UIControlStateNormal];
+
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"classBalance"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
+    
+    [_tableView reloadData];
+}
+
 #pragma mark -
 
 - (void) editButtonAction:(id)sender
@@ -115,7 +146,7 @@
     if (editStudentInfoVC)
     {
         editStudentInfoVC.screenType = kScreenTypeEditStudent;
-        editStudentInfoVC.studentDict = [[self.classDetailObject objectForKey:@"students"] objectAtIndex:[sender tag]];
+        editStudentInfoVC.studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
         editStudentInfoVC.classDict = self.classObject;
         editStudentInfoVC.delegate = self;
         [self.navigationController pushViewController:editStudentInfoVC animated:YES];
@@ -188,7 +219,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.classDetailObject objectForKey:@"students"] count];
+    return [_sortedStudentsList count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -209,7 +240,7 @@
     [cell.paymentButton addTarget:self action:@selector(paymentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.scanButton addTarget:self action:@selector(scanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSDictionary* studentDict = [[self.classDetailObject objectForKey:@"students"] objectAtIndex:indexPath.row];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:indexPath.row];
     cell.firstNameLabel.text = [studentDict objectForKey:@"name"];
     if ([studentDict objectForKey:@"lastname"])
         cell.lastNameLabel.text = [studentDict objectForKey:@"lastname"];
@@ -238,21 +269,23 @@
 - (void) dismissWithStudentInfo:(NSDictionary*)studentInfo
 {
     NSMutableArray* studentsList = [NSMutableArray arrayWithArray:[self.classDetailObject objectForKey:@"students"]];
-
+    
     if (_rowIndex == -1)
     {
-        [studentsList addObject:studentInfo];
+//        [studentsList addObject:studentInfo];
     }
     else
     {
-//        [studentsList replaceObjectAtIndex:_rowIndex withObject:studentInfo];
+        NSMutableArray *filteredarray = [NSMutableArray arrayWithArray:[studentsList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(id == %@)", [studentInfo objectForKey:@"id"]]]];
+        NSInteger index = [studentsList indexOfObject:[filteredarray lastObject]];
+        [studentsList replaceObjectAtIndex:index withObject:studentInfo];
     }
     
     NSMutableDictionary* classDetailDict = [NSMutableDictionary dictionaryWithDictionary:self.classDetailObject];
     [classDetailDict setObject:studentsList forKey:@"students"];
     self.classDetailObject = [NSDictionary dictionaryWithDictionary:classDetailDict];
 
-    [_tableView reloadData];
+    [self sortByNameButtonAction:nil];
 }
 
 #pragma mark PayPalPaymentDelegate methods
@@ -260,10 +293,14 @@
 - (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment
 {
     NSLog(@"PayPal Payment Success!");
-//    self.resultText = [completedPayment description];
+    NSLog(@"PayPal Payment description %@",[completedPayment description]);
+    NSLog(@"PayPal Payment confirmation %@",[completedPayment confirmation]);
+    
+    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
     //details to be sent to server
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    [_takePaymentView removeFromSuperview];
 }
 
 - (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController

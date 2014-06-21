@@ -146,7 +146,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassesTableCell" rowHeight="85" id="eOp-lT-ybF" customClass="ClassesTableCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ClassesTableCell" rowHeight="85" id="eOp-lT-ybF" customClass="ClassesTableCell">
                                         <rect key="frame" x="0.0" y="55" width="768" height="85"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eOp-lT-ybF" id="vWP-Zx-Tg9">
@@ -247,7 +247,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="sortByCodeButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="faz-1O-1pp"/>
+                                            <action selector="sortByNameButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="TwK-4n-HvB"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2JU-wc-bJP">
@@ -259,7 +259,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="sortByNameButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="yTc-rJ-ecV"/>
+                                            <action selector="sortByBalanceButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="oYh-ox-ubs"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SL1 - 0923FW • Total Students - 17/24" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bY3-mm-n2o">
@@ -331,7 +331,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentRosterCell" rowHeight="88" id="OgU-ml-Ylo" customClass="StudentRosterCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="StudentRosterCell" rowHeight="88" id="OgU-ml-Ylo" customClass="StudentRosterCell">
                                         <rect key="frame" x="0.0" y="55" width="768" height="88"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OgU-ml-Ylo" id="pJ2-Ps-M1c">
@@ -843,9 +843,6 @@
                                 </state>
                                 <connections>
                                     <action selector="backButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="9e8-H5-IXP"/>
-                                    <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="ECG-Z0-sLW"/>
-                                    <action selector="logoutButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="TsC-KJ-s5d"/>
-                                    <action selector="logoutButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="g3I-lT-anF"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ver" id="FOs-t6-pNm">

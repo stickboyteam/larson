@@ -64,5 +64,8 @@ typedef enum screenType
 // - For testing, use PayPalEnvironmentNoNetwork.
 #define kPayPalEnvironment PayPalEnvironmentSandbox
 
+#define kPayPalClientID @"AWlWVBA5vnk0r1wWKNLRJNXgT011RrF7GOUzJTUBolhtDaekfBzHGhFeonS3"
+#define kPayPalSecretID @"EOd5ghBqh6vEqAnlBuDYh-NBhhVP7RsdxvXpBrr5aUS_InFil4Z75vbT1f7v"
+
 #endif
 
