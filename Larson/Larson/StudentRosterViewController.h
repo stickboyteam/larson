@@ -6,13 +6,15 @@
 //  Copyright (c) 2014 Vishwanath Vallamkondi. All rights reserved.
 //
 
+#import "PayPalMobile.h"
+
 @protocol StudentRosterViewControllerDelegate <NSObject>
 
 - (void) dismissWithStudentInfo:(NSDictionary*)studentInfo;
 
 @end
 
-@interface StudentRosterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, StudentRosterViewControllerDelegate>
+@interface StudentRosterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, StudentRosterViewControllerDelegate, PayPalPaymentDelegate>
 {
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UILabel *_courseCodeLabel;
@@ -37,5 +39,6 @@
 - (IBAction)addNewStudentButtonAction:(id)sender;
 - (IBAction)startAttendanceButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
+- (IBAction)backButtonAction:(id)sender;
 
 @end

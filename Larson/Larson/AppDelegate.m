@@ -8,16 +8,15 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "PayPalMobile.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    LoginViewController* loginVC = [[LoginViewController alloc] init];
-//    UINavigationController* navC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-//    self.window.rootViewController = navC;
-    [self.window makeKeyAndVisible];
+
+    [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"YOUR_CLIENT_ID_FOR_PRODUCTION",                                                           PayPalEnvironmentSandbox : @"YOUR_CLIENT_ID_FOR_SANDBOX"}];
+
     return YES;
 }
 							

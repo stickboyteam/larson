@@ -27,6 +27,8 @@
             [request setHTTPBody:postData];
             
 			_urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+            
+            NSLog(@"Request string %@%@",request.URL,postString);
 		}
 	}
 	return self;
@@ -103,6 +105,7 @@
         id response = [NSJSONSerialization JSONObjectWithData:_responseData options:NSJSONReadingAllowFragments error:&error];
         if (error == nil)
         {
+            NSLog(@"Response == %@",response);
             return response;
         }
         else

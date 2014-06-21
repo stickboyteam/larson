@@ -7,8 +7,9 @@
 //
 
 #import "StudentRosterViewController.h"
+#import "PayPalMobile.h"
 
-@interface StudentInfoViewController : UIViewController
+@interface StudentInfoViewController : UIViewController <PayPalPaymentDelegate>
 {
     IBOutlet UILabel* _titleLabel;
     

@@ -7,6 +7,7 @@
 //
 
 #import "StudentInfoViewController.h"
+#import "AttendanceViewController.h"
 
 @interface StudentInfoViewController ()
 
@@ -33,13 +34,13 @@
     {
         _titleLabel.text = @"Edit Student Information";
         [self updateStudentInfoUI];
-        [self updateClassInfoUIWithBalance:[self.studentDict objectForKey:@"classBalance"]];
     }
     else
     {
         _titleLabel.text = @"New Student Information";
-        [self updateClassInfoUIWithBalance:@"0.00"];
     }
+    
+    [self updateClassInfoUIWithBalance:[self.studentDict objectForKey:@"classBalance"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,12 +51,14 @@
 
 - (IBAction)cashCheckPaymentButtonAction:(id)sender
 {
-    
+    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+    [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
 }
 
 - (IBAction)creditCardPaymentButtonAction:(id)sender
 {
-    
+    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+    [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
 }
 
 - (IBAction)saveButtonAction:(id)sender
@@ -85,7 +88,11 @@
 
 - (IBAction)scanButtonAction:(id)sender
 {
-    
+    AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
+    if (attendanceVC)
+    {
+        [self.navigationController pushViewController:attendanceVC animated:YES];
+    }
 }
 
 - (IBAction)cancelButtonAction:(id)sender
@@ -114,7 +121,10 @@
 - (void) updateClassInfoUIWithBalance:(NSString*)balance
 {
     _courseNameLabel.text = [self.classDict objectForKey:@"className"];
-    _courseFeeLabel.text = [NSString stringWithFormat:@"$%@",balance];
+    if (balance.length > 0)
+        _courseFeeLabel.text = [NSString stringWithFormat:@"$%@",balance];
+    else
+        _courseFeeLabel.text = @"$0.00";
 }
 
 - (void) editStudentInfoRequest
@@ -128,11 +138,54 @@
 
 - (void) addStudentInfoRequest
 {
-    NSString* postString = [NSString stringWithFormat:@"&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",_firstNameField.text,_lastNameField.text,_emailField.text,_phoneNumberField.text,_addressField.text,_apartmentField.text,_cityField.text,_stateField.text,_zipcodeField.text];
+    NSString* postString = [NSString stringWithFormat:@"&classId=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",[self.classDict objectForKey:@"classId"],_firstNameField.text,_lastNameField.text,_emailField.text,_phoneNumberField.text,_addressField.text,_apartmentField.text,_cityField.text,_stateField.text,_zipcodeField.text];
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAddStudentInfo withPostString:postString];
     [conn setRequestType:kRequestTypeEditStudentInfo];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];    
+}
+
+- (void) initiatePaymentWithPaypalWithCreditCard:(BOOL)acceptCreditCard withDescription:(NSString*)description
+{
+    NSString* amount = [self.studentDict objectForKey:@"classBalance"];
+    int totalAmount = [amount intValue];
+    //include payment details
+    NSDecimalNumber *shipping = [[NSDecimalNumber alloc] initWithInt:_calculateShippingAmount(totalAmount)];
+    NSDecimalNumber *tax = [[NSDecimalNumber alloc] initWithInt:_calculateTaxAmount(totalAmount)];
+    NSDecimalNumber *subtotal = [[NSDecimalNumber alloc] initWithInt:totalAmount];
+    
+    PayPalPaymentDetails *paymentDetails = [PayPalPaymentDetails paymentDetailsWithSubtotal:subtotal                                                                              withShipping:shipping                                                                                    withTax:tax];
+    
+    NSDecimalNumber *total = [[subtotal decimalNumberByAdding:shipping] decimalNumberByAdding:tax];
+    
+    PayPalPayment *payment = [[PayPalPayment alloc] init];
+    payment.amount = total;
+    payment.currencyCode = @"USD";
+    payment.shortDescription = description;
+    payment.paymentDetails = paymentDetails; // if not including payment details, then leave payment.paymentDetails as nil
+    
+    if (!payment.processable)
+    {
+        [UIUtils alertWithErrorMessage:@"Unable to process your payment, please try later"];
+    }
+    
+    // Set up payPalConfig
+    PayPalConfiguration *payPalConfig = [[PayPalConfiguration alloc] init];
+    if (kPayPalMerchantAcceptCreditCards)
+        payPalConfig.acceptCreditCards = YES;
+    else
+        payPalConfig.acceptCreditCards = NO;
+    payPalConfig.languageOrLocale = @"en";
+    payPalConfig.merchantName = kPayPalMerchantName;
+    payPalConfig.merchantPrivacyPolicyURL = [NSURL URLWithString:kPayPalMerchantPrivacyPolicyURL];
+    payPalConfig.merchantUserAgreementURL = [NSURL URLWithString:kPayPalMerchantUserAgreementURL];
+    payPalConfig.languageOrLocale = [NSLocale preferredLanguages][0];
+    
+    // Update payPalConfig re accepting credit cards.
+    payPalConfig.acceptCreditCards = acceptCreditCard;
+    
+    PayPalPaymentViewController *paymentViewController = [[PayPalPaymentViewController alloc] initWithPayment:payment                                                                                                configuration:payPalConfig                                                                                                     delegate:self];
+    [self presentViewController:paymentViewController animated:YES completion:nil];
 }
 
 #pragma mark - HttpConnection delegate
@@ -181,6 +234,23 @@
     {
         [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
     }
+}
+
+#pragma mark PayPalPaymentDelegate methods
+
+- (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment
+{
+    NSLog(@"PayPal Payment Success!");
+    //    self.resultText = [completedPayment description];
+    //details to be sent to server
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController
+{
+    NSLog(@"PayPal Payment Canceled");
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

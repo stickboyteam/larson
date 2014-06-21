@@ -117,9 +117,9 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available Classes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0lt-PL-6EZ">
-                                        <rect key="frame" x="173" y="8" width="575" height="57"/>
+                                        <rect key="frame" x="137" y="8" width="575" height="57"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="40"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="48"/>
                                         <color key="textColor" red="0.9215686917" green="0.231372565" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -308,6 +308,18 @@
                                 </state>
                                 <connections>
                                     <action selector="logoutButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="OdZ-xG-rFa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="54A-Xi-KeF">
+                                <rect key="frame" x="14" y="980" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="LXt-OO-dKK"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ver" id="IQ0-5s-ri1">
@@ -781,7 +793,7 @@
         <!--Attendance View Controller-->
         <scene sceneID="Djl-t1-1XX">
             <objects>
-                <viewController id="nF1-l2-Qtq" customClass="AttendanceViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AttendanceView" id="nF1-l2-Qtq" customClass="AttendanceViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uMb-bK-uY2">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -801,7 +813,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendance" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="naM-oP-1q6">
                                         <rect key="frame" x="143" y="11" width="605" height="68"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="48"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="48"/>
                                         <color key="textColor" red="0.9215686917" green="0.231372565" blue="0.31372550129999999" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -819,6 +831,21 @@
                                     <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="0oX-dl-0l4"/>
                                     <action selector="logoutButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="IYB-z0-8s3"/>
                                     <action selector="logoutButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="zcp-vV-Upa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="szA-Xc-jrF">
+                                <rect key="frame" x="14" y="980" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="9e8-H5-IXP"/>
+                                    <action selector="logoutButtonAction:" destination="EZf-vj-VVK" eventType="touchUpInside" id="ECG-Z0-sLW"/>
+                                    <action selector="logoutButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="TsC-KJ-s5d"/>
+                                    <action selector="logoutButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="g3I-lT-anF"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ver" id="FOs-t6-pNm">
@@ -858,6 +885,12 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="gDJ-mb-sBn">
+                                        <rect key="frame" x="237" y="74" width="194" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>

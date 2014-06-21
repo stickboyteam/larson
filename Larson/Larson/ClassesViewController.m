@@ -33,6 +33,14 @@
     self.view.backgroundColor = UIColorFromHEX(kCommonBGColor);
     _classesTableView.backgroundColor = UIColorFromHEX(kCommonBGColor);
     _classesTableView.contentInset = UIEdgeInsetsMake(-35, 0, -30, 0);
+    
+    
+    [_sortByCodeButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+    [_sortByNameButton setImage:nil forState:UIControlStateNormal];
+    
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"classPrefix"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedClassesList = [[NSArray alloc] initWithArray:[self.classesList sortedArrayUsingDescriptors:sortDescriptors]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,12 +51,26 @@
 
 - (IBAction)sortByCodeButtonAction:(id)sender
 {
+    [_sortByCodeButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+    [_sortByNameButton setImage:nil forState:UIControlStateNormal];
+
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"classPrefix"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedClassesList = [[NSArray alloc] initWithArray:[self.classesList sortedArrayUsingDescriptors:sortDescriptors]];
     
+    [_classesTableView reloadData];
 }
 
 - (IBAction)sortByNameButtonAction:(id)sender
 {
+    [_sortByCodeButton setImage:nil forState:UIControlStateNormal];
+    [_sortByNameButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
+
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"className"                                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    _sortedClassesList = [[NSArray alloc] initWithArray:[self.classesList sortedArrayUsingDescriptors:sortDescriptors]];
     
+    [_classesTableView reloadData];
 }
 
 - (IBAction)logoutButtonAction:(id)sender
@@ -61,7 +83,7 @@
 - (void) nextButtonAction:(id)sender
 {
     _rowIndex = [sender tag];
-    NSDictionary* classDict = [self.classesList objectAtIndex:[sender tag]];
+    NSDictionary* classDict = [_sortedClassesList objectAtIndex:[sender tag]];
     [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
 }
 
@@ -82,7 +104,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.classesList count];
+    return [_sortedClassesList count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,7 +120,7 @@
     
     cell.nextButton.tag = indexPath.row;
     [cell.nextButton addTarget:self action:@selector(nextButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    NSDictionary* classDict = [self.classesList objectAtIndex:indexPath.row];
+    NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
     cell.codeCategoryLabel.text = [classDict objectForKey:@"classPrefix"];
     cell.courseNameLabel.text = [classDict objectForKey:@"className"];
     cell.courseCodeLabel.text = [classDict objectForKey:@"classCode"];
@@ -132,7 +154,7 @@
         if (studentRosterVC)
         {
             studentRosterVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
-            studentRosterVC.classObject = [self.classesList objectAtIndex:_rowIndex];
+            studentRosterVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
             [self.navigationController pushViewController:studentRosterVC animated:YES];
         }
     }

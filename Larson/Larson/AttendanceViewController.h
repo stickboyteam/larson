@@ -16,4 +16,5 @@
 
 - (IBAction)enterEmailAddressButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
+- (IBAction)backButtonAction:(id)sender;
 @end

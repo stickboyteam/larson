@@ -43,16 +43,6 @@
 //    NSLog(@"respone %@",str2);
 }
 
-- (void) viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    NSLog(@"%@",_loginInputField.font.familyName);
-    NSLog(@"%@",_loginInputField.font.fontName);
-
-
-    //_loginInputField.font = [UIFont fontWithName:@"Lato-Regular" size:73];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

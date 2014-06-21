@@ -14,6 +14,8 @@
     IBOutlet UIButton *_sortByNameButton;
     
     NSInteger _rowIndex;
+    
+    NSArray *_sortedClassesList;
 }
 
 @property (nonatomic, strong) NSArray *classesList;
@@ -21,6 +23,5 @@
 - (IBAction)sortByCodeButtonAction:(id)sender;
 - (IBAction)sortByNameButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
-
 
 @end

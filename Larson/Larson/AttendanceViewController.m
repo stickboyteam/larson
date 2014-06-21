@@ -45,4 +45,9 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (IBAction)backButtonAction:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end
