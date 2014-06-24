@@ -73,14 +73,14 @@
 
 - (IBAction)cashCheckButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
     [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
 }
 
 - (IBAction)creditCardButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
     [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
 }
@@ -155,6 +155,8 @@
 
 - (void) paymentButtonAction:(id)sender
 {
+    _rowIndex = [sender tag];
+
     [self.view addSubview:_takePaymentView];
 }
 

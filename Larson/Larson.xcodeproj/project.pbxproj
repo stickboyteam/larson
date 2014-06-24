@@ -11,10 +11,6 @@
 		0E1DF41F19435CC80051E651 /* StudentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */; };
 		0E1DF4221943803A0051E651 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF4211943803A0051E651 /* AttendanceViewController.m */; };
 		0E4160CE1955858D0024113C /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160C81955858D0024113C /* libPayPalMobile.a */; };
-		0E4160D0195592310024113C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160CF195592310024113C /* AVFoundation.framework */; };
-		0E4160D21955923F0024113C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160D11955923F0024113C /* CoreLocation.framework */; };
-		0E4160D4195592530024113C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160D3195592530024113C /* MessageUI.framework */; };
-		0E4160D6195592AB0024113C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160D5195592AB0024113C /* SystemConfiguration.framework */; };
 		0E4D408219421C670015FA07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408119421C670015FA07 /* Foundation.framework */; };
 		0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408319421C670015FA07 /* CoreGraphics.framework */; };
 		0E4D408619421C670015FA07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408519421C670015FA07 /* UIKit.framework */; };
@@ -30,6 +26,11 @@
 		0E514CAD19531F0F00AA3B1C /* HttpConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CAC19531F0F00AA3B1C /* HttpConnection.m */; };
 		0E514CB01953215F00AA3B1C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */; };
 		0E514CB31953309300AA3B1C /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E514CB21953309300AA3B1C /* UIUtils.m */; };
+		0E679D2E1959D042001F1037 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E679D2A1959D042001F1037 /* AVFoundation.framework */; };
+		0E679D2F1959D042001F1037 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E679D2B1959D042001F1037 /* CoreLocation.framework */; };
+		0E679D301959D042001F1037 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E679D2C1959D042001F1037 /* MessageUI.framework */; };
+		0E679D311959D042001F1037 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E679D2D1959D042001F1037 /* SystemConfiguration.framework */; };
+		0E679D331959D25A001F1037 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E679D321959D25A001F1037 /* Images.xcassets */; };
 		0E71398E19430D830092DC5F /* StudentRosterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71398D19430D830092DC5F /* StudentRosterViewController.m */; };
 		0E84B5141945F72500061423 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5091945F72500061423 /* Lato-Black.ttf */; };
 		0E84B5151945F72500061423 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B50A1945F72500061423 /* Lato-BlackItalic.ttf */; };
@@ -44,9 +45,6 @@
 		0E84B51E1945F72500061423 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E84B5131945F72500061423 /* OFL.txt */; };
 		0E84B5201945FD1D00061423 /* UIFont+IBCustomFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */; };
 		0E84B523194607E400061423 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84B522194607E400061423 /* CustomTextField.m */; };
-		0E8ECFF0194B2FDC00EF7705 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */; };
-		0E8ECFF2194B31D800EF7705 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFF1194B31D800EF7705 /* Default.png */; };
-		0E8ECFF4194B31E300EF7705 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8ECFF3194B31E300EF7705 /* Default@2x.png */; };
 		0EAB854B1942D939002C00A6 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB85491942D939002C00A6 /* ClassesViewController.m */; };
 		0EAB85511942F43D002C00A6 /* ClassesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB85501942F43D002C00A6 /* ClassesTableCell.m */; };
 		0EAB85581942FCD3002C00A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EAB85571942FCD3002C00A6 /* Main.storyboard */; };
@@ -75,10 +73,6 @@
 		0E4160CB1955858D0024113C /* PayPalMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalMobile.h; sourceTree = "<group>"; };
 		0E4160CC1955858D0024113C /* PayPalPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPayment.h; sourceTree = "<group>"; };
 		0E4160CD1955858D0024113C /* PayPalPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalPaymentViewController.h; sourceTree = "<group>"; };
-		0E4160CF195592310024113C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		0E4160D11955923F0024113C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		0E4160D3195592530024113C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		0E4160D5195592AB0024113C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0E4D407E19421C670015FA07 /* Larson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Larson.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4D408119421C670015FA07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0E4D408319421C670015FA07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -103,6 +97,11 @@
 		0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		0E514CB11953309300AA3B1C /* UIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtils.h; sourceTree = "<group>"; };
 		0E514CB21953309300AA3B1C /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
+		0E679D2A1959D042001F1037 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0E679D2B1959D042001F1037 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0E679D2C1959D042001F1037 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		0E679D2D1959D042001F1037 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0E679D321959D25A001F1037 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0E71398C19430D830092DC5F /* StudentRosterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudentRosterViewController.h; sourceTree = "<group>"; };
 		0E71398D19430D830092DC5F /* StudentRosterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentRosterViewController.m; sourceTree = "<group>"; };
 		0E84B5091945F72500061423 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
@@ -119,9 +118,6 @@
 		0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+IBCustomFonts.m"; sourceTree = "<group>"; };
 		0E84B521194607E400061423 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		0E84B522194607E400061423 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
-		0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		0E8ECFF1194B31D800EF7705 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		0E8ECFF3194B31E300EF7705 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0EAB85481942D939002C00A6 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
 		0EAB85491942D939002C00A6 /* ClassesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesViewController.m; sourceTree = "<group>"; };
 		0EAB854F1942F43D002C00A6 /* ClassesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesTableCell.h; sourceTree = "<group>"; };
@@ -134,10 +130,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E4160D6195592AB0024113C /* SystemConfiguration.framework in Frameworks */,
-				0E4160D4195592530024113C /* MessageUI.framework in Frameworks */,
-				0E4160D21955923F0024113C /* CoreLocation.framework in Frameworks */,
-				0E4160D0195592310024113C /* AVFoundation.framework in Frameworks */,
+				0E679D2E1959D042001F1037 /* AVFoundation.framework in Frameworks */,
+				0E679D2F1959D042001F1037 /* CoreLocation.framework in Frameworks */,
+				0E679D301959D042001F1037 /* MessageUI.framework in Frameworks */,
+				0E679D311959D042001F1037 /* SystemConfiguration.framework in Frameworks */,
 				0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */,
 				0E4D408619421C670015FA07 /* UIKit.framework in Frameworks */,
 				0E4160CE1955858D0024113C /* libPayPalMobile.a in Frameworks */,
@@ -193,10 +189,10 @@
 		0E4D408019421C670015FA07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E4160D5195592AB0024113C /* SystemConfiguration.framework */,
-				0E4160D3195592530024113C /* MessageUI.framework */,
-				0E4160D11955923F0024113C /* CoreLocation.framework */,
-				0E4160CF195592310024113C /* AVFoundation.framework */,
+				0E679D2A1959D042001F1037 /* AVFoundation.framework */,
+				0E679D2B1959D042001F1037 /* CoreLocation.framework */,
+				0E679D2C1959D042001F1037 /* MessageUI.framework */,
+				0E679D2D1959D042001F1037 /* SystemConfiguration.framework */,
 				0E4D408119421C670015FA07 /* Foundation.framework */,
 				0E4D408319421C670015FA07 /* CoreGraphics.framework */,
 				0E4D408519421C670015FA07 /* UIKit.framework */,
@@ -208,10 +204,10 @@
 		0E4D408719421C670015FA07 /* Larson */ = {
 			isa = PBXGroup;
 			children = (
+				0E679D321959D25A001F1037 /* Images.xcassets */,
 				0E4160C71955858D0024113C /* PayPalMobile */,
 				0E514CAE1953215F00AA3B1C /* MBProgressHUD.h */,
 				0E514CAF1953215F00AA3B1C /* MBProgressHUD.m */,
-				0E8ECFEF194B2FDC00EF7705 /* Images.xcassets */,
 				0E84B51F1945FD1D00061423 /* UIFont+IBCustomFonts.m */,
 				0E4D409019421C670015FA07 /* AppDelegate.h */,
 				0E4D409119421C670015FA07 /* AppDelegate.m */,
@@ -245,8 +241,6 @@
 		0E4D408819421C670015FA07 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0E8ECFF3194B31E300EF7705 /* Default@2x.png */,
-				0E8ECFF1194B31D800EF7705 /* Default.png */,
 				0E4D408919421C670015FA07 /* Larson-Info.plist */,
 				0E4D408A19421C670015FA07 /* InfoPlist.strings */,
 				0E4D408D19421C670015FA07 /* main.m */,
@@ -368,18 +362,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E8ECFF4194B31E300EF7705 /* Default@2x.png in Resources */,
 				0E84B51E1945F72500061423 /* OFL.txt in Resources */,
 				0E84B51A1945F72500061423 /* Lato-Italic.ttf in Resources */,
 				0E84B5141945F72500061423 /* Lato-Black.ttf in Resources */,
 				0E84B5161945F72500061423 /* Lato-Bold.ttf in Resources */,
-				0E8ECFF2194B31D800EF7705 /* Default.png in Resources */,
 				0E84B51B1945F72500061423 /* Lato-Light.ttf in Resources */,
 				0E84B5151945F72500061423 /* Lato-BlackItalic.ttf in Resources */,
 				0E4D408C19421C670015FA07 /* InfoPlist.strings in Resources */,
 				0E84B51C1945F72500061423 /* Lato-LightItalic.ttf in Resources */,
+				0E679D331959D25A001F1037 /* Images.xcassets in Resources */,
 				0E84B5191945F72500061423 /* Lato-HairlineItalic.ttf in Resources */,
-				0E8ECFF0194B2FDC00EF7705 /* Images.xcassets in Resources */,
 				0E84B5171945F72500061423 /* Lato-BoldItalic.ttf in Resources */,
 				0E84B51D1945F72500061423 /* Lato-Regular.ttf in Resources */,
 				0E84B5181945F72500061423 /* Lato-Hairline.ttf in Resources */,
@@ -534,15 +526,18 @@
 		0E4D40B419421C670015FA07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
 				INFOPLIST_FILE = "Larson/Larson-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/PayPalMobile,
+					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/RedLaser,
 				);
 				OTHER_LDFLAGS = (
 					"-lc++",
@@ -557,15 +552,18 @@
 		0E4D40B519421C670015FA07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
 				INFOPLIST_FILE = "Larson/Larson-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/PayPalMobile,
+					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/RedLaser,
 				);
 				OTHER_LDFLAGS = (
 					"-lc++",

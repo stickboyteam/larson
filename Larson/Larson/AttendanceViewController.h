@@ -11,6 +11,7 @@
 @interface AttendanceViewController : UIViewController
 {
     IBOutlet UILabel *_courseNameLabel;
+    IBOutlet UIView *_scanView;
     
 }
 
