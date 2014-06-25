@@ -20,4 +20,6 @@
 
 + (void) alertWithInfoMessage:(NSString*)infoMessage;
 
++ (BOOL) validateEmail: (NSString *) candidate;
+
 @end

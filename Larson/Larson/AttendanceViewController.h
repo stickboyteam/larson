@@ -6,16 +6,20 @@
 //  Copyright (c) 2014 Vishwanath Vallamkondi. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ZBarSDK.h"
 
-@interface AttendanceViewController : UIViewController
+@interface AttendanceViewController : UIViewController <ZBarReaderDelegate>
 {
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UIView *_scanView;
-    
+    IBOutlet UIImageView *_successImageView;
 }
+
+@property (nonatomic, strong) NSDictionary *classDict;
+@property (nonatomic, strong) NSDictionary *studentDict;
 
 - (IBAction)enterEmailAddressButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
 - (IBAction)backButtonAction:(id)sender;
+
 @end

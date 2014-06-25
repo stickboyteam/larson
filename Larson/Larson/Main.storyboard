@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12E55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="pHt-jR-ukd">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
@@ -902,6 +903,7 @@
                     <connections>
                         <outlet property="_courseNameLabel" destination="mWW-NK-2nv" id="Pei-Ko-vd3"/>
                         <outlet property="_scanView" destination="wp5-al-468" id="uLr-g8-ST7"/>
+                        <outlet property="_successImageView" destination="hJE-dQ-gqF" id="FG7-aj-Fah"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="34N-67-qIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
