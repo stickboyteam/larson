@@ -91,6 +91,8 @@
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
+        attendanceVC.classDict = self.classDict;
+        attendanceVC.studentDict = self.studentDict;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }

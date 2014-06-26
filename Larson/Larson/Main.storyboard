@@ -884,9 +884,41 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="gDJ-mb-sBn">
                                         <rect key="frame" x="237" y="20" width="194" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="nF1-l2-Qtq" id="SUW-9Q-Z3o"/>
+                                        </connections>
                                     </textField>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gLT-LN-XvD">
+                                        <rect key="frame" x="237" y="49" width="193" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UnitCell" textLabel="s61-1b-s5V" style="IBUITableViewCellStyleDefault" id="c1E-dx-TNH">
+                                                <rect key="frame" x="0.0" y="22" width="193" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c1E-dx-TNH" id="vD0-QH-TuZ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="154" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s61-1b-s5V">
+                                                            <rect key="frame" x="15" y="0.0" width="139" height="43"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <sections/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="nF1-l2-Qtq" id="OAL-Tb-4tX"/>
+                                            <outlet property="delegate" destination="nF1-l2-Qtq" id="vTF-4u-Lvf"/>
+                                        </connections>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -902,8 +934,10 @@
                     </view>
                     <connections>
                         <outlet property="_courseNameLabel" destination="mWW-NK-2nv" id="Pei-Ko-vd3"/>
+                        <outlet property="_dropdownTableView" destination="gLT-LN-XvD" id="OBE-kP-LlZ"/>
                         <outlet property="_scanView" destination="wp5-al-468" id="uLr-g8-ST7"/>
                         <outlet property="_successImageView" destination="hJE-dQ-gqF" id="FG7-aj-Fah"/>
+                        <outlet property="_unitField" destination="gDJ-mb-sBn" id="RzO-rB-BU9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="34N-67-qIt" userLabel="First Responder" sceneMemberID="firstResponder"/>

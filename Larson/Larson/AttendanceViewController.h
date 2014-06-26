@@ -13,6 +13,11 @@
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UIView *_scanView;
     IBOutlet UIImageView *_successImageView;
+    IBOutlet UITextField *_unitField;
+    IBOutlet UITableView *_dropdownTableView;
+    
+    NSArray *_unitList;
+    NSInteger _selectedUnitIndex;
 }
 
 @property (nonatomic, strong) NSDictionary *classDict;

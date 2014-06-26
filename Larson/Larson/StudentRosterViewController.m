@@ -109,6 +109,7 @@
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
+        attendanceVC.classDict = self.classDetailObject;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }
@@ -165,6 +166,8 @@
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
+        attendanceVC.classDict = self.classDetailObject;
+        attendanceVC.studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }

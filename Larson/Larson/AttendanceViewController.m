@@ -44,6 +44,11 @@
     [_scanView addSubview:reader.view];
     
     _successImageView.hidden = YES;
+    
+    _unitList = [[NSArray alloc] initWithObjects:@"Unit 1",@"Unit 2",@"Unit 3",@"Unit 4",@"Unit 5",@"Unit 6",@"Unit 7", nil];
+    [_dropdownTableView reloadData];
+    
+    _unitField.text = [_unitList objectAtIndex:0];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,10 +78,32 @@
 
 - (void) registerAttendanceWithEmail:(NSString*)email
 {
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&btnEmailAttendanceSubmit=submit",[self.classDict objectForKey:@"classId"],email]];
-    [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
-    [conn setDelegate:self];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if ([UIUtils validateEmail:email])
+    {
+        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&btnEmailAttendanceSubmit=submit",[self.classDict objectForKey:@"classId"],email]];
+        [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
+        [conn setDelegate:self];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:@"Please enter a valid email"];
+    }
+}
+
+- (void) showDropdownView:(BOOL)show
+{
+    [UIView animateWithDuration:0.5
+                          delay:0.1
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^
+     {
+         CGRect frame = _dropdownTableView.frame;
+         frame.size.height = show ?  320 : 0;
+         _dropdownTableView.frame = frame;
+     }                     completion:^(BOOL finished)
+     {
+     }];
 }
 
 #pragma mark - ZBarReaderDelegate
@@ -110,6 +137,8 @@
     if (buttonIndex == 1)
     {
         NSLog(@"%@",[alertView textFieldAtIndex:0].text);
+        
+        [self registerAttendanceWithEmail:[[alertView textFieldAtIndex:0] text]];
     }
 }
 
@@ -129,11 +158,72 @@
     if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
     {
         [_successImageView setHidden:NO];
+        
+        [self.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1];
     }
     else
     {
         [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
     }
+}
+
+#pragma mark - textField delegate
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [self showDropdownView:YES];
+    return NO;
+}
+
+#pragma mark - tableView dataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_unitList count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 30;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"UnitCell";
+    
+    UITableViewCell* cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (indexPath.row == _selectedUnitIndex)
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
+    cell.textLabel.text = [_unitList objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - tableView delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *prevSelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedUnitIndex inSection:0]];
+    prevSelectedCell.accessoryType = UITableViewCellAccessoryNone;
+    
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    _selectedUnitIndex = [indexPath row];
+    
+    _unitField.text = [_unitList objectAtIndex:_selectedUnitIndex];
+    
+    [self performSelector:@selector(showDropdownView:) withObject:nil afterDelay:0.2];
 }
 
 @end
