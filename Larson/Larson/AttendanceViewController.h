@@ -8,7 +8,7 @@
 
 #import "ZBarSDK.h"
 
-@interface AttendanceViewController : UIViewController <ZBarReaderDelegate>
+@interface AttendanceViewController : UIViewController <ZBarReaderViewDelegate>
 {
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UIView *_scanView;
@@ -18,6 +18,8 @@
     
     NSArray *_unitList;
     NSInteger _selectedUnitIndex;
+    
+    ZBarReaderView *_readerView;
 }
 
 @property (nonatomic, strong) NSDictionary *classDict;

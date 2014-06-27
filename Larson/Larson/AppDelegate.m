@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "PayPalMobile.h"
+#import "ZBarSDK.h"
 
 @implementation AppDelegate
 
@@ -16,6 +17,8 @@
 {
 
     [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"YOUR_CLIENT_ID_FOR_PRODUCTION",                                                           PayPalEnvironmentSandbox :kPayPalClientID}];
+
+    [ZBarReaderView class];
 
     return YES;
 }

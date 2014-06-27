@@ -32,15 +32,13 @@
     
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = UIColorFromHEX(kLoginBGColor);
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-//    NSString* str = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/api/login.php?login=LarsonTestCode"] encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"respone %@",str);
-//
-//    NSString* str1 = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/api/new-student.php?first_name=john&last_name=cena&email=john.cena1@gmail.com&phone=123456&address=Mnw&city=Austin&state=Texas&zip=4302&btnRegistrationSubmit=submit"] encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"respone %@",str1);
-//    
-//    NSString* str2 = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/api/class-details.php?classId=17"] encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"respone %@",str2);
+    _loginInputField.text = @"";
 }
 
 - (void)didReceiveMemoryWarning

@@ -31,9 +31,7 @@
     // Do any additional setup after loading the view from its nib.
     
     self.view.backgroundColor = UIColorFromHEX(kCommonBGColor);
-    _classesTableView.backgroundColor = UIColorFromHEX(kCommonBGColor);
-    _classesTableView.contentInset = UIEdgeInsetsMake(-35, 0, -30, 0);
-    
+    _classesTableView.backgroundColor = UIColorFromHEX(kCommonBGColor);    
     
     [_sortByCodeButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
     [_sortByNameButton setImage:nil forState:UIControlStateNormal];

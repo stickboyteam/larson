@@ -30,25 +30,33 @@
     
     self.view.backgroundColor = UIColorFromHEX(kCommonBGColor);
     
-    ZBarReaderViewController *reader = [ZBarReaderViewController new];
-    reader.readerDelegate = self;
-    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
-    reader.showsZBarControls = NO;
-    ZBarImageScanner *scanner = reader.scanner;
-    
-    // EXAMPLE: disable rarely used I2/5 to improve performance
-    [scanner setSymbology: ZBAR_I25
-                   config: ZBAR_CFG_ENABLE
-                       to: 0];
-    reader.view.frame = CGRectMake(0, 0, 558, 445);
-    [_scanView addSubview:reader.view];
-    
     _successImageView.hidden = YES;
     
-    _unitList = [[NSArray alloc] initWithObjects:@"Unit 1",@"Unit 2",@"Unit 3",@"Unit 4",@"Unit 5",@"Unit 6",@"Unit 7", nil];
+    _unitList = [[NSArray alloc] initWithObjects:@"Unit 1 - Unit title goes here",@"Unit 2 - Unit title goes here",@"Unit 3 - Unit title goes here",@"Unit 4 - Unit title goes here",@"Unit 5 - Unit title goes here",@"Unit 6 - Unit title goes here",@"Unit 7 - Unit title goes here", nil];
     [_dropdownTableView reloadData];
     
     _unitField.text = [_unitList objectAtIndex:0];
+    
+    ZBarImageScanner * scanner = [ZBarImageScanner new];
+    [scanner setSymbology: ZBAR_I25
+                   config: ZBAR_CFG_ENABLE
+                       to: 0];
+    
+    _readerView = [[ZBarReaderView alloc] initWithImageScanner:scanner];
+    _readerView.trackingColor = [UIColor redColor];
+    _readerView.readerDelegate = self;
+    _readerView.tracksSymbols = YES;
+    
+    _readerView.frame = CGRectMake(0,0,558,445);
+    _readerView.torchMode = 0;
+    [_scanView addSubview:_readerView];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [_readerView start];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,29 +114,37 @@
      }];
 }
 
-#pragma mark - ZBarReaderDelegate
-
-- (void) readerControllerDidFailToRead: (ZBarReaderController*) reader
-                             withRetry: (BOOL) retry
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Q-R code text not found");
+    [self showDropdownView:NO];
 }
 
-- (void) imagePickerController: (UIImagePickerController*) reader
- didFinishPickingMediaWithInfo: (NSDictionary*) info
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    // ADD: get the decode results
-    id<NSFastEnumeration> results =
-    [info objectForKey: ZBarReaderControllerResults];
-    ZBarSymbol *symbol = nil;
-    for(symbol in results)
-        // EXAMPLE: just grab the first barcode
+    [_readerView willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+#pragma mark - ZBarReaderReaderView delegate
+
+- (void) readerView: (ZBarReaderView*) readerView
+     didReadSymbols: (ZBarSymbolSet*) symbols
+          fromImage: (UIImage*) image
+{
+    [readerView stop];
+
+    // do something useful with results
+    for(ZBarSymbol *sym in symbols) {
+        
+        NSLog(@"Scanned text %@",sym.data);
+        
+        [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Scanned text %@",sym.data]];
+
         break;
-    
-    NSLog(@"Scanned text %@",symbol.data);
-    
-    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Scanned text %@",symbol.data]];
+    }
+
+    NSLog(@"scanned qrcode");
 }
+
 
 #pragma mark - alertView delegate
 

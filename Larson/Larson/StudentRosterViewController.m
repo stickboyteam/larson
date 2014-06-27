@@ -33,7 +33,6 @@
     
     self.view.backgroundColor = UIColorFromHEX(kCommonBGColor);
     _tableView.backgroundColor = UIColorFromHEX(kCommonBGColor);
-    _tableView.contentInset = UIEdgeInsetsMake(-35, 0, -30, 0);
     
     [_takePaymentView removeFromSuperview];
     
