@@ -7,6 +7,7 @@
 //
 
 #import "ZBarSDK.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface AttendanceViewController : UIViewController <ZBarReaderViewDelegate>
 {

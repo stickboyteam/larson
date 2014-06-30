@@ -46,6 +46,7 @@
     _readerView.trackingColor = [UIColor redColor];
     _readerView.readerDelegate = self;
     _readerView.tracksSymbols = YES;
+    _readerView.device = [self frontCamera];
     
     _readerView.frame = CGRectMake(0,0,558,445);
     _readerView.torchMode = 0;
@@ -117,6 +118,19 @@
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self showDropdownView:NO];
+}
+
+- (AVCaptureDevice *)frontCamera
+{
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices)
+    {
+        if ([device position] == AVCaptureDevicePositionFront)
+        {
+            return device;
+        }
+    }
+    return nil;
 }
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
