@@ -22,4 +22,6 @@
 
 + (BOOL) validateEmail: (NSString *) candidate;
 
++ (NSString*) getDateStringOfFormat:(NSString*)dateFormat;
+
 @end

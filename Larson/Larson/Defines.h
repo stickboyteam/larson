@@ -25,6 +25,7 @@
 #define kStudentRosterViewID    @"StudentRosterView"
 #define kStudentInfoViewID      @"StudentInfoView"
 #define kAttendanceViewID       @"AttendanceView"
+#define kAddStudentViewID       @"AddStudentView"
 
 typedef enum serverRequestType
 {
@@ -32,7 +33,11 @@ typedef enum serverRequestType
     kRequestTypeClassDetail,
     kRequestTypeEditStudentInfo,
     kRequestTypeAddStudentInfo,
-    kRequestTypeSubmitAttendanceViaEmail
+    kRequestTypeSubmitAttendanceViaEmail,
+    kRequestTypeSubmitAttendanceViaQrcode,
+    kRequestTypeUpdatePaymentDetails,
+    kRequestTypeUpdateScannedQrCode,
+    kRequestTypeSearchStudents
 } RequestType;
 
 typedef enum screenType
@@ -48,10 +53,16 @@ typedef enum screenType
 #define kSubURLEditStudentInfo  @"api/edit-student.php"
 #define kSubURLAddStudentInfo   @"api/new-student.php"
 #define kSubURLAttendanceViaEmail   @"api/student-attendance-via-email.php"
+#define kSubURLUpdatePaymentDetails @"api/payment.php"
+#define kSubURLAttendanceViaQrcode @"api/student-attendance-via-qrcode.php"
+#define kSubURLUpdatePaymentDetails @"api/payment.php"
+#define kSubURLUpdateScannedQrCode    @"/api/scan-card.php"
+#define kSubURLSearchStudents         @"api/search-students.php"
 
 #define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 #define _calculateShippingAmount(amt) 0
 #define _calculateTaxAmount(amt) 0
+
 
 /************* PayPal Information *****************/
 
@@ -59,6 +70,7 @@ typedef enum screenType
 #define kPayPalMerchantPrivacyPolicyURL @"https://www.paypal.com/webapps/mpp/ua/privacy-full"
 #define kPayPalMerchantUserAgreementURL @"https://www.paypal.com/webapps/mpp/ua/useragreement-full"
 #define kPayPalMerchantAcceptCreditCards    1 // 0 - NO, 1 - YES
+#define kPaypalTransactionDateFormat    @"YYYY-MM-DD hh:mm:ss"
 
 // Set the environment:
 // - For live charges, use PayPalEnvironmentProduction (default).

@@ -32,10 +32,11 @@
     
     _successImageView.hidden = YES;
     
-    _unitList = [[NSArray alloc] initWithObjects:@"Unit 1 - Unit title goes here",@"Unit 2 - Unit title goes here",@"Unit 3 - Unit title goes here",@"Unit 4 - Unit title goes here",@"Unit 5 - Unit title goes here",@"Unit 6 - Unit title goes here",@"Unit 7 - Unit title goes here", nil];
-    [_dropdownTableView reloadData];
+    _selectedUnitIndex = 0;
     
-    _unitField.text = [_unitList objectAtIndex:0];
+    _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:0] objectForKey:@"unitTitle"];
+
+    [_dropdownTableView reloadData];
     
     ZBarImageScanner * scanner = [ZBarImageScanner new];
     [scanner setSymbology: ZBAR_I25
@@ -46,7 +47,7 @@
     _readerView.trackingColor = [UIColor redColor];
     _readerView.readerDelegate = self;
     _readerView.tracksSymbols = YES;
-    _readerView.device = [self frontCamera];
+   // _readerView.device = [self frontCamera];
     
     _readerView.frame = CGRectMake(0,0,558,445);
     _readerView.torchMode = 0;
@@ -89,7 +90,8 @@
 {
     if ([UIUtils validateEmail:email])
     {
-        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&btnEmailAttendanceSubmit=submit",[self.classDict objectForKey:@"classId"],email]];
+        NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&btnEmailAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],email,unitId]];
         [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
         [conn setDelegate:self];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -98,6 +100,23 @@
     {
         [UIUtils alertWithErrorMessage:@"Please enter a valid email"];
     }
+}
+
+- (void) registerAttendanceWithQrcode:(NSString*)qrcode
+{
+    NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&btnAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],qrcode,unitId]];
+    [conn setRequestType:kRequestTypeSubmitAttendanceViaQrcode];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void) updateServerWithCard:(NSString*)qrcode
+{
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdateScannedQrCode withPostString:[NSString stringWithFormat:@"&qrCode=%@&studentId=%@&btnScanSubmit=submit",qrcode,[self.studentDict objectForKey:@"id"]]];
+    [conn setRequestType:kRequestTypeUpdateScannedQrCode];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void) showDropdownView:(BOOL)show
@@ -151,7 +170,14 @@
         
         NSLog(@"Scanned text %@",sym.data);
         
-        [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Scanned text %@",sym.data]];
+        if (self.isAttendanceScreen)
+        {
+            [self registerAttendanceWithQrcode:sym.data];
+        }
+        else
+        {
+            [self updateServerWithCard:sym.data];
+        }
 
         break;
     }
@@ -164,11 +190,26 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1)
+    if (alertView.tag == 2)
     {
-        NSLog(@"%@",[alertView textFieldAtIndex:0].text);
-        
-        [self registerAttendanceWithEmail:[[alertView textFieldAtIndex:0] text]];
+        if (buttonIndex == 1)
+        {
+            [_successImageView setHidden:YES];
+            [_readerView start];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    else
+    {
+        if (buttonIndex == 1)
+        {
+            NSLog(@"%@",[alertView textFieldAtIndex:0].text);
+            
+            [self registerAttendanceWithEmail:[[alertView textFieldAtIndex:0] text]];
+        }
     }
 }
 
@@ -189,7 +230,14 @@
     {
         [_successImageView setHidden:NO];
         
-        [self.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1];
+        if (self.isAttendanceScreen)
+        {
+            [UIUtils alertWithTitle:@"Want to scan more cards?" message:Nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:2];
+        }
+        else
+        {
+            [self.navigationController performSelector:@selector(popViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1];
+        }
     }
     else
     {
@@ -214,7 +262,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_unitList count];
+    return [[self.classObject objectForKey:@"units"] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -227,12 +275,15 @@
     static NSString *CellIdentifier = @"UnitCell";
     
     UITableViewCell* cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    
     if (indexPath.row == _selectedUnitIndex)
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     
-    cell.textLabel.text = [_unitList objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:indexPath.row] objectForKey:@"unitTitle"];
     
     return cell;
 }
@@ -251,7 +302,7 @@
     
     _selectedUnitIndex = [indexPath row];
     
-    _unitField.text = [_unitList objectAtIndex:_selectedUnitIndex];
+    _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitTitle"];
     
     [self performSelector:@selector(showDropdownView:) withObject:nil afterDelay:0.2];
 }

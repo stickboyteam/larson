@@ -10,6 +10,7 @@
 #import "StudentRosterCell.h"
 #import "StudentInfoViewController.h"
 #import "AttendanceViewController.h"
+#import "AddExistingStudentViewController.h"
 
 @interface StudentRosterViewController ()
 
@@ -72,21 +73,44 @@
 
 - (IBAction)cashCheckButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
-    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
-    [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
+    [_amountField resignFirstResponder];
+    NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    int totalAmount = [amount intValue];
+    if (totalAmount > 0)
+    {
+        NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+        _isPaidByCard = NO;
+        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:@"Please enter a valid amount"];
+    }
 }
 
 - (IBAction)creditCardButtonAction:(id)sender
 {
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
-    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
-    [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
+    [_amountField resignFirstResponder];
+    NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    int totalAmount = [amount intValue];
+    if (totalAmount > 0)
+    {
+        NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+        _isPaidByCard = YES;
+        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:@"Please enter a valid amount"];
+    }
 }
 
 - (IBAction)takePaymentTapGestureAction:(id)sender
 {
     [_takePaymentView removeFromSuperview];
+    [self.view endEditing:YES];
 }
 
 - (IBAction)addNewStudentButtonAction:(id)sender
@@ -108,7 +132,9 @@
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
-        attendanceVC.classDict = self.classDetailObject;
+        attendanceVC.classDetailObject = self.classDetailObject;
+        attendanceVC.classObject = self.classObject;
+        attendanceVC.isAttendanceScreen = YES;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }
@@ -135,6 +161,15 @@
     _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
     
     [_tableView reloadData];
+}
+
+- (IBAction)addCurrentStudentButtonAction:(id)sender
+{
+    AddExistingStudentViewController* addExistingStudentVC = [self.storyboard instantiateViewControllerWithIdentifier:kAddStudentViewID];
+    if (addExistingStudentVC)
+    {
+        [self.navigationController pushViewController:addExistingStudentVC animated:YES];
+    }
 }
 
 #pragma mark -
@@ -165,8 +200,10 @@
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
-        attendanceVC.classDict = self.classDetailObject;
+        attendanceVC.classObject = self.classObject;
+        attendanceVC.classDetailObject = self.classDetailObject;
         attendanceVC.studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
+        attendanceVC.isAttendanceScreen = NO;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }
@@ -212,6 +249,19 @@
 
     PayPalPaymentViewController *paymentViewController = [[PayPalPaymentViewController alloc] initWithPayment:payment                                                                                                configuration:payPalConfig                                                                                                     delegate:self];
     [self presentViewController:paymentViewController animated:YES completion:nil];
+}
+
+- (void) updatePaymentDetailsToServer:(PayPalPayment*)paymentInfo
+{
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+    NSString* paymentMethod = @"Credit";
+    if (!_isPaidByCard)
+        paymentMethod = @"Cash";
+    
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
+    [conn setRequestType:kRequestTypeClassDetail];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 #pragma mark - tableView dataSource

@@ -30,6 +30,8 @@
     NSInteger _rowIndex;
     
     NSArray *_sortedStudentsList;
+    
+    BOOL _isPaidByCard;
 }
 
 @property (nonatomic, strong) NSDictionary* classObject;
@@ -44,5 +46,6 @@
 - (IBAction)backButtonAction:(id)sender;
 - (IBAction)sortByNameButtonAction:(id)sender;
 - (IBAction)sortByBalanceButtonAction:(id)sender;
+- (IBAction)addCurrentStudentButtonAction:(id)sender;
 
 @end

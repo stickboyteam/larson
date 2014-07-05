@@ -47,8 +47,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
 - (IBAction)loginButtonAction:(id)sender
 {
+    [_loginInputField resignFirstResponder];
     _trim(_loginInputField.text);
     
     if (_loginInputField.text.length > 0)

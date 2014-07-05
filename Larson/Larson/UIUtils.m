@@ -45,4 +45,12 @@
     return [emailTest evaluateWithObject:candidate];
 }
 
++ (NSString*) getDateStringOfFormat:(NSString*)dateFormat
+{
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:dateFormat];
+    return [dateFormatter stringFromDate:[NSDate date]];
+}
+
+
 @end

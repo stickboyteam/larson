@@ -51,18 +51,26 @@
 
 - (IBAction)cashCheckPaymentButtonAction:(id)sender
 {
+    [self.view endEditing:YES];
+
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+    _isPaidByCard = NO;
     [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
 }
 
 - (IBAction)creditCardPaymentButtonAction:(id)sender
 {
+    [self.view endEditing:YES];
+    
     NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+    _isPaidByCard = YES;
     [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
 }
 
 - (IBAction)saveButtonAction:(id)sender
 {
+    [self.view endEditing:YES];
+    
     _trim(_firstNameField.text);
     _trim(_lastNameField.text);
     _trim(_addressField.text);
@@ -88,17 +96,22 @@
 
 - (IBAction)scanButtonAction:(id)sender
 {
+    [self.view endEditing:YES];
+    
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
-        attendanceVC.classDict = self.classDict;
+        attendanceVC.classObject = self.classDict;
         attendanceVC.studentDict = self.studentDict;
+        attendanceVC.isAttendanceScreen = NO;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
 }
 
 - (IBAction)cancelButtonAction:(id)sender
 {
+    [self.view endEditing:YES];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -190,6 +203,23 @@
 
     if (paymentViewController)
         [self presentViewController:paymentViewController animated:YES completion:nil];
+}
+
+- (void) updatePaymentDetailsToServer:(PayPalPayment*)paymentInfo
+{
+    NSString* paymentMethod = @"Credit";
+    if (!_isPaidByCard)
+        paymentMethod = @"Cash";
+    
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&btnPaymentSubmit=submit",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[self.studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
+    [conn setRequestType:kRequestTypeClassDetail];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
 }
 
 #pragma mark - HttpConnection delegate

@@ -23,7 +23,9 @@
     IBOutlet UITextField *_stateField;
     IBOutlet UITextField *_zipcodeField;
     IBOutlet UILabel *_courseNameLabel;
-    IBOutlet UILabel *_courseFeeLabel;    
+    IBOutlet UILabel *_courseFeeLabel;
+    
+    BOOL _isPaidByCard;
 }
 
 @property (nonatomic, assign) ScreenType screenType;

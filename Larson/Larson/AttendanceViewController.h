@@ -17,14 +17,15 @@
     IBOutlet UITextField *_unitField;
     IBOutlet UITableView *_dropdownTableView;
     
-    NSArray *_unitList;
     NSInteger _selectedUnitIndex;
     
     ZBarReaderView *_readerView;
 }
 
-@property (nonatomic, strong) NSDictionary *classDict;
+@property (nonatomic, strong) NSDictionary *classObject;
 @property (nonatomic, strong) NSDictionary *studentDict;
+@property (nonatomic, strong) NSDictionary *classDetailObject;
+@property (nonatomic, assign) BOOL isAttendanceScreen;
 
 - (IBAction)enterEmailAddressButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
