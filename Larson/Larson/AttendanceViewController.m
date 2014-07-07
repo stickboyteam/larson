@@ -47,7 +47,7 @@
     _readerView.trackingColor = [UIColor redColor];
     _readerView.readerDelegate = self;
     _readerView.tracksSymbols = YES;
-   // _readerView.device = [self frontCamera];
+    _readerView.device = [self frontCamera];
     
     _readerView.frame = CGRectMake(0,0,558,445);
     _readerView.torchMode = 0;
@@ -91,7 +91,7 @@
     if ([UIUtils validateEmail:email])
     {
         NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
-        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&btnEmailAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],email,unitId]];
+        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&studentId=%@&btnEmailAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],email,unitId,[self.studentDict objectForKey:@"id"]]];
         [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
         [conn setDelegate:self];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -105,7 +105,7 @@
 - (void) registerAttendanceWithQrcode:(NSString*)qrcode
 {
     NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&btnAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],qrcode,unitId]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&studentId=%@&btnAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],qrcode,unitId,[self.studentDict objectForKey:@"id"]]];
     [conn setRequestType:kRequestTypeSubmitAttendanceViaQrcode];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

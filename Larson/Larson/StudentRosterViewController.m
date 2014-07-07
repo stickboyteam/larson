@@ -43,9 +43,17 @@
     [_sortByBalanceButton setImage:nil forState:UIControlStateNormal];
     [_sortByNameButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
     
-    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
-    _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
+    if ([[self.classDetailObject objectForKey:@"students"] isKindOfClass:[NSArray class]])
+    {
+        NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+        _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
+    }
+    else
+    {
+        _sortedStudentsList = [[NSArray alloc] init];
+        [UIUtils alertWithInfoMessage:@"No students registered for this class"];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -258,8 +266,8 @@
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
-    [conn setRequestType:kRequestTypeClassDetail];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],[studentDict objectForKey:@"classBalance"],[self.classObject objectForKey:@"classPrice"]]];
+    [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
@@ -342,6 +350,29 @@
     [self sortByNameButtonAction:nil];
 }
 
+#pragma mark - HttpConnection delegate
+
+- (void) httpConnection:(id)handler didFailWithError:(NSError*)error
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [UIUtils alertWithErrorMessage:error.localizedDescription];
+}
+
+- (void) httpConnection:(id)handler didFinishedSucessfully:(NSData*)data
+{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    
+    NSDictionary* responseDict = (NSDictionary*)[handler responseData];
+    if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
+    {
+        [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
+    }
+}
+
 #pragma mark PayPalPaymentDelegate methods
 
 - (void)payPalPaymentViewController:(PayPalPaymentViewController *)paymentViewController didCompletePayment:(PayPalPayment *)completedPayment
@@ -350,11 +381,13 @@
     NSLog(@"PayPal Payment description %@",[completedPayment description]);
     NSLog(@"PayPal Payment confirmation %@",[completedPayment confirmation]);
     
-    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
-    //details to be sent to server
+//    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     [_takePaymentView removeFromSuperview];
+
+    //details to be sent to server
+    [self updatePaymentDetailsToServer:completedPayment];
 }
 
 - (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController

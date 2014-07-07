@@ -211,8 +211,12 @@
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&btnPaymentSubmit=submit",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[self.studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
-    [conn setRequestType:kRequestTypeClassDetail];
+    NSString* outstandingBalance = @"0";
+    if (self.screenType == kScreenTypeEditStudent)
+        outstandingBalance = [self.studentDict objectForKey:@"classBalance"];
+    
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[self.studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingBalance,[self.classDict objectForKey:@"classPrice"]]];
+    [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
@@ -237,7 +241,7 @@
     NSDictionary* responseDict = (NSDictionary*)[handler responseData];
     if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
     {
-        if (self.screenType == kScreenTypeEditStudent)
+        if ([handler requestType] == kRequestTypeEditStudentInfo)
         {
             [UIUtils alertWithInfoMessage:@"Updated student info successfully"];
             
@@ -255,6 +259,10 @@
             [stdDict setObject:[self.studentDict objectForKey:@"classBalance"] forKey:@"classBalance"];
             
             [self.delegate dismissWithStudentInfo:stdDict];
+        }
+        else if ([handler requestType] == kRequestTypeAddStudentInfo)
+        {
+            [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
         }
         else
         {
@@ -278,10 +286,11 @@
     NSLog(@"PayPal Payment description %@",[completedPayment description]);
     NSLog(@"PayPal Payment confirmation %@",[completedPayment confirmation]);
     
-    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
-    //details to be sent to server
-    
+    //[UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"Payment made successfull with Id - %@",[[[completedPayment confirmation] objectForKey:@"response"] objectForKey:@"id"]]];
     [self dismissViewControllerAnimated:YES completion:nil];
+
+    //details to be sent to server
+    [self updatePaymentDetailsToServer:completedPayment];
 }
 
 - (void)payPalPaymentDidCancel:(PayPalPaymentViewController *)paymentViewController
