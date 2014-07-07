@@ -39,6 +39,11 @@
     NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"classPrefix"                                                                 ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
     _sortedClassesList = [[NSArray alloc] initWithArray:[self.classesList sortedArrayUsingDescriptors:sortDescriptors]];
+    
+    if (_sortedClassesList.count == 0)
+    {
+        [UIUtils alertWithInfoMessage:@"No classes available"];
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -87,7 +87,8 @@
         ClassesViewController* classesVC = [self.storyboard instantiateViewControllerWithIdentifier:kClassesViewID];
         if (classesVC)
         {
-            classesVC.classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
+            if ([[responseDict objectForKey:@"classes"] isKindOfClass:[NSArray class]])
+                classesVC.classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
             [self.navigationController pushViewController:classesVC animated:YES];
         }
     }
