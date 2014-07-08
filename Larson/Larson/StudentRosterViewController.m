@@ -38,7 +38,14 @@
     [_takePaymentView removeFromSuperview];
     
     _courseNameLabel.text = [self.classObject objectForKey:@"className"];
-    _courseCodeLabel.text = [NSString stringWithFormat:@"%@ • Total Students %@/%@",[self.classObject objectForKey:@"classCode"],[self.classDetailObject objectForKey:@"classStudentEnrolledTotal"],[self.classDetailObject objectForKey:@"classStudentTotal"]];
+    NSString* studentEnrolled = @"0";
+    if ([self.classDetailObject objectForKey:@"classStudentEnrolledTotal"])
+        studentEnrolled = [self.classDetailObject objectForKey:@"classStudentEnrolledTotal"];
+    
+    NSString* totalStudents = @"0";
+    if ([self.classDetailObject objectForKey:@"classStudentTotal"])
+        totalStudents = [self.classDetailObject objectForKey:@"classStudentTotal"];
+    _courseCodeLabel.text = [NSString stringWithFormat:@"%@ • Total Students %@/%@",[self.classObject objectForKey:@"classCode"],studentEnrolled,totalStudents];
     
     [_sortByBalanceButton setImage:nil forState:UIControlStateNormal];
     [_sortByNameButton setImage:[UIImage imageNamed:@"sorting_arrow"] forState:UIControlStateNormal];
@@ -137,13 +144,20 @@
 
 - (IBAction)startAttendanceButtonAction:(id)sender
 {
-    AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
-    if (attendanceVC)
+    if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
     {
-        attendanceVC.classDetailObject = self.classDetailObject;
-        attendanceVC.classObject = self.classObject;
-        attendanceVC.isAttendanceScreen = YES;
-        [self.navigationController pushViewController:attendanceVC animated:YES];
+        AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
+        if (attendanceVC)
+        {
+            attendanceVC.classDetailObject = self.classDetailObject;
+            attendanceVC.classObject = self.classObject;
+            attendanceVC.isAttendanceScreen = YES;
+            [self.navigationController pushViewController:attendanceVC animated:YES];
+        }
+    }
+    else
+    {
+        [UIUtils alertWithInfoMessage:@"No units available, please try later"];
     }
 }
 

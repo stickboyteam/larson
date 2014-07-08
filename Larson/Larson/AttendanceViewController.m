@@ -32,11 +32,17 @@
     
     _successImageView.hidden = YES;
     
-    _selectedUnitIndex = 0;
-    
-    _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:0] objectForKey:@"unitTitle"];
-
-    [_dropdownTableView reloadData];
+    if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
+    {
+        _selectedUnitIndex = 0;
+        _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:0] objectForKey:@"unitTitle"];
+        [_dropdownTableView reloadData];
+    }
+    else
+    {
+        _selectedUnitIndex = -1;
+        _unitField.text = @"Units not available";
+    }
     
     ZBarImageScanner * scanner = [ZBarImageScanner new];
     [scanner setSymbology: ZBAR_I25
@@ -90,7 +96,10 @@
 {
     if ([UIUtils validateEmail:email])
     {
-        NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+        NSString* unitId = @"na";
+        if (_selectedUnitIndex > -1)
+            unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+        
         HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&studentId=%@&btnEmailAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],email,unitId,[self.studentDict objectForKey:@"id"]]];
         [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
         [conn setDelegate:self];
@@ -104,7 +113,10 @@
 
 - (void) registerAttendanceWithQrcode:(NSString*)qrcode
 {
-    NSString* unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+    NSString* unitId = @"na";
+    if (_selectedUnitIndex > -1)
+        unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
+
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&studentId=%@&btnAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],qrcode,unitId,[self.studentDict objectForKey:@"id"]]];
     [conn setRequestType:kRequestTypeSubmitAttendanceViaQrcode];
     [conn setDelegate:self];
@@ -249,7 +261,10 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    [self showDropdownView:YES];
+    if ([[self.classObject objectForKey:@"units"] isKindOfClass:[NSArray class]])
+    {
+        [self showDropdownView:YES];
+    }
     return NO;
 }
 
@@ -262,7 +277,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.classObject objectForKey:@"units"] count];
+    if (_selectedUnitIndex == -1)
+        return 0;
+    else
+        return [[self.classObject objectForKey:@"units"] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

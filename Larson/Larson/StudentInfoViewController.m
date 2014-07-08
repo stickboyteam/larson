@@ -98,11 +98,17 @@
 {
     [self.view endEditing:YES];
     
+    if (!_studentDict)
+    {
+        [UIUtils alertWithInfoMessage:@"Please save student info"];
+        return;
+    }
+    
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
-        attendanceVC.classObject = self.classDict;
         attendanceVC.studentDict = self.studentDict;
+        attendanceVC.classObject = self.classDict;
         attendanceVC.isAttendanceScreen = NO;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
@@ -153,11 +159,34 @@
 
 - (void) addStudentInfoRequest
 {
-    NSString* postString = [NSString stringWithFormat:@"&classId=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",[self.classDict objectForKey:@"classId"],_firstNameField.text,_lastNameField.text,_emailField.text,_phoneNumberField.text,_addressField.text,_apartmentField.text,_cityField.text,_stateField.text,_zipcodeField.text];
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAddStudentInfo withPostString:postString];
-    [conn setRequestType:kRequestTypeEditStudentInfo];
-    [conn setDelegate:self];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];    
+    if (_firstNameField.text.length > 0)
+    {
+        if (_emailField.text.length > 0)
+        {
+            NSString* fName = _firstNameField.text;
+            NSString* lName = _lastNameField.text.length ? _lastNameField.text : @"";
+            NSString* email = _emailField.text;
+            NSString* phone = _phoneNumberField.text.length ? _phoneNumberField.text : @"";
+            NSString* address = _addressField.text.length ? _addressField.text : @"";
+            NSString* apt = _apartmentField.text.length ? _apartmentField.text : @"";
+            NSString* city = _cityField.text.length ? _cityField.text : @"";
+            NSString* state = _stateField.text.length ? _stateField.text : @"";
+            NSString* zip = _zipcodeField.text.length ? _zipcodeField.text : @"";
+            NSString* postString = [NSString stringWithFormat:@"&classId=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",[self.classDict objectForKey:@"classId"],fName,lName,email,phone,address,apt,city,state,zip];
+            HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAddStudentInfo withPostString:postString];
+            [conn setRequestType:kRequestTypeAddStudentInfo];
+            [conn setDelegate:self];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
+        else
+        {
+            [UIUtils alertWithErrorMessage:@"Please enter email"];
+        }
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:@"Please enter first name"];
+    }
 }
 
 - (void) initiatePaymentWithPaypalWithCreditCard:(BOOL)acceptCreditCard withDescription:(NSString*)description
@@ -259,18 +288,23 @@
             [stdDict setObject:[self.studentDict objectForKey:@"classBalance"] forKey:@"classBalance"];
             
             [self.delegate dismissWithStudentInfo:stdDict];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         else if ([handler requestType] == kRequestTypeAddStudentInfo)
         {
-            [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
+            [UIUtils alertWithInfoMessage:@"New student info added sucessfully"];
+            _studentDict = [responseDict objectForKey:@"student"];
+            [self updateClassInfoUIWithBalance:[self.studentDict objectForKey:@"classBalance"]];
         }
         else
         {
-            [UIUtils alertWithInfoMessage:@"Added student info successfully"];
-            [self.delegate dismissWithStudentInfo:[responseDict objectForKey:@"student"]];
+            [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
+            if (self.screenType == kScreenTypeNewStudent)
+            {
+                [self.delegate dismissWithStudentInfo:self.studentDict];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        
-        [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
