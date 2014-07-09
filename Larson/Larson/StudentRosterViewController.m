@@ -213,6 +213,8 @@
 - (void) paymentButtonAction:(id)sender
 {
     _rowIndex = [sender tag];
+    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+    _amountField.text = [NSString stringWithFormat:@"$%@",[studentDict objectForKey:@"classBalance"]];
 
     [self.view addSubview:_takePaymentView];
 }
@@ -279,8 +281,11 @@
     NSString* paymentMethod = @"Credit";
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
+    NSString* outstandingAmount = @"0.00";
+    if (paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue] > 0)
+        outstandingAmount = [NSString stringWithFormat:@"%d",paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue]];
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],[studentDict objectForKey:@"classBalance"],[self.classObject objectForKey:@"classPrice"]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -348,7 +353,7 @@
     
     if (_rowIndex == -1)
     {
-//        [studentsList addObject:studentInfo];
+        [studentsList addObject:studentInfo];
     }
     else
     {

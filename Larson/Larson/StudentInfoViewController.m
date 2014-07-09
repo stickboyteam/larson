@@ -53,18 +53,46 @@
 {
     [self.view endEditing:YES];
 
-    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
-    _isPaidByCard = NO;
-    [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
+    if (!_studentDict)
+    {
+        [UIUtils alertWithInfoMessage:@"Please save student info"];
+        return;
+    }
+    
+    int totalAmount = [[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""]intValue];
+    if (totalAmount > 0)
+    {
+        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+        _isPaidByCard = NO;
+        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription amount:totalAmount];
+    }
+    else
+    {
+        [UIUtils alertWithInfoMessage:@"you do not have any balance amount to pay"];
+    }
 }
 
 - (IBAction)creditCardPaymentButtonAction:(id)sender
 {
     [self.view endEditing:YES];
     
-    NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
-    _isPaidByCard = YES;
-    [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
+    if (!_studentDict)
+    {
+        [UIUtils alertWithInfoMessage:@"Please save student info"];
+        return;
+    }
+
+    int totalAmount = [[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] intValue];
+    if (totalAmount > 0)
+    {
+        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+        _isPaidByCard = YES;
+        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription amount:totalAmount];
+    }
+    else
+    {
+        [UIUtils alertWithInfoMessage:@"you do not have any balance amount to pay"];
+    }
 }
 
 - (IBAction)saveButtonAction:(id)sender
@@ -79,13 +107,34 @@
     _trim(_stateField.text);
     _trim(_zipcodeField.text);
     
-    if (self.screenType == kScreenTypeEditStudent)
+    if (_firstNameField.text.length > 0)
     {
-        [self editStudentInfoRequest];
+        if (_emailField.text.length > 0)
+        {
+            if ([UIUtils validateEmail:_emailField.text])
+            {
+                if (self.screenType == kScreenTypeEditStudent)
+                {
+                    [self editStudentInfoRequest];
+                }
+                else
+                {
+                    [self addStudentInfoRequest];
+                }
+            }
+            else
+            {
+                [UIUtils alertWithErrorMessage:@"Please enter valid email"];
+            }
+        }
+        else
+        {
+            [UIUtils alertWithErrorMessage:@"Please enter email"];
+        }
     }
     else
     {
-        [self addStudentInfoRequest];
+        [UIUtils alertWithErrorMessage:@"Please enter first name"];
     }
 }
 
@@ -142,7 +191,7 @@
 - (void) updateClassInfoUIWithBalance:(NSString*)balance
 {
     _courseNameLabel.text = [self.classDict objectForKey:@"className"];
-    if (balance.length > 0)
+    if (balance && balance.length > 0)
         _courseFeeLabel.text = [NSString stringWithFormat:@"$%@",balance];
     else
         _courseFeeLabel.text = @"$0.00";
@@ -150,7 +199,16 @@
 
 - (void) editStudentInfoRequest
 {
-    NSString* postString = [NSString stringWithFormat:@"&id=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnUpdateSubmit=submit",[self.studentDict objectForKey:@"id"],_firstNameField.text,_lastNameField.text,_emailField.text,_phoneNumberField.text,_addressField.text,_apartmentField.text,_cityField.text,_stateField.text,_zipcodeField.text];
+    NSString* fName = _firstNameField.text;
+    NSString* lName = _lastNameField.text.length ? _lastNameField.text : @"";
+    NSString* email = _emailField.text;
+    NSString* phone = _phoneNumberField.text.length ? _phoneNumberField.text : @"";
+    NSString* address = _addressField.text.length ? _addressField.text : @"";
+    NSString* apt = _apartmentField.text.length ? _apartmentField.text : @"";
+    NSString* city = _cityField.text.length ? _cityField.text : @"";
+    NSString* state = _stateField.text.length ? _stateField.text : @"";
+    NSString* zip = _zipcodeField.text.length ? _zipcodeField.text : @"";
+    NSString* postString = [NSString stringWithFormat:@"&id=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnUpdateSubmit=submit",[self.studentDict objectForKey:@"id"],fName,lName,email,phone,address,apt,city,state,zip];
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLEditStudentInfo withPostString:postString];
     [conn setRequestType:kRequestTypeEditStudentInfo];
     [conn setDelegate:self];
@@ -159,40 +217,24 @@
 
 - (void) addStudentInfoRequest
 {
-    if (_firstNameField.text.length > 0)
-    {
-        if (_emailField.text.length > 0)
-        {
-            NSString* fName = _firstNameField.text;
-            NSString* lName = _lastNameField.text.length ? _lastNameField.text : @"";
-            NSString* email = _emailField.text;
-            NSString* phone = _phoneNumberField.text.length ? _phoneNumberField.text : @"";
-            NSString* address = _addressField.text.length ? _addressField.text : @"";
-            NSString* apt = _apartmentField.text.length ? _apartmentField.text : @"";
-            NSString* city = _cityField.text.length ? _cityField.text : @"";
-            NSString* state = _stateField.text.length ? _stateField.text : @"";
-            NSString* zip = _zipcodeField.text.length ? _zipcodeField.text : @"";
-            NSString* postString = [NSString stringWithFormat:@"&classId=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",[self.classDict objectForKey:@"classId"],fName,lName,email,phone,address,apt,city,state,zip];
-            HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAddStudentInfo withPostString:postString];
-            [conn setRequestType:kRequestTypeAddStudentInfo];
-            [conn setDelegate:self];
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        }
-        else
-        {
-            [UIUtils alertWithErrorMessage:@"Please enter email"];
-        }
-    }
-    else
-    {
-        [UIUtils alertWithErrorMessage:@"Please enter first name"];
-    }
+    NSString* fName = _firstNameField.text;
+    NSString* lName = _lastNameField.text.length ? _lastNameField.text : @"";
+    NSString* email = _emailField.text;
+    NSString* phone = _phoneNumberField.text.length ? _phoneNumberField.text : @"";
+    NSString* address = _addressField.text.length ? _addressField.text : @"";
+    NSString* apt = _apartmentField.text.length ? _apartmentField.text : @"";
+    NSString* city = _cityField.text.length ? _cityField.text : @"";
+    NSString* state = _stateField.text.length ? _stateField.text : @"";
+    NSString* zip = _zipcodeField.text.length ? _zipcodeField.text : @"";
+    NSString* postString = [NSString stringWithFormat:@"&classId=%@&first_name=%@&last_name=%@&email=%@&phone=%@&address=%@&apt=%@&city=%@&state=%@&zip=%@&btnRegistrationSubmit=submit",[self.classDict objectForKey:@"classId"],fName,lName,email,phone,address,apt,city,state,zip];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAddStudentInfo withPostString:postString];
+    [conn setRequestType:kRequestTypeAddStudentInfo];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
-- (void) initiatePaymentWithPaypalWithCreditCard:(BOOL)acceptCreditCard withDescription:(NSString*)description
+- (void) initiatePaymentWithPaypalWithCreditCard:(BOOL)acceptCreditCard withDescription:(NSString*)description amount:(int)totalAmount
 {
-    NSString* amount = [self.studentDict objectForKey:@"classBalance"];
-    int totalAmount = [amount intValue];
     //include payment details
     NSDecimalNumber *shipping = [[NSDecimalNumber alloc] initWithInt:_calculateShippingAmount(totalAmount)];
     NSDecimalNumber *tax = [[NSDecimalNumber alloc] initWithInt:_calculateTaxAmount(totalAmount)];
@@ -240,9 +282,7 @@
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     
-    NSString* outstandingBalance = @"0";
-    if (self.screenType == kScreenTypeEditStudent)
-        outstandingBalance = [self.studentDict objectForKey:@"classBalance"];
+    NSString* outstandingBalance = @"0.00";
     
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&totalclassamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,[self.studentDict objectForKey:@"classBalance"],paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingBalance,[self.classDict objectForKey:@"classPrice"]]];
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
@@ -301,6 +341,9 @@
             [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
             if (self.screenType == kScreenTypeNewStudent)
             {
+                NSMutableDictionary* stdDict = [NSMutableDictionary dictionaryWithDictionary:_studentDict];
+                [stdDict setObject:@"0.00" forKey:@"classBalance"];
+                _studentDict = [NSDictionary dictionaryWithDictionary:stdDict];
                 [self.delegate dismissWithStudentInfo:self.studentDict];
             }
             [self.navigationController popViewControllerAnimated:YES];
