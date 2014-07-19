@@ -285,7 +285,7 @@
     if (paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue] > 0)
         outstandingAmount = [NSString stringWithFormat:@"%d",paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue]];
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kPaypalTransactionDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -349,7 +349,13 @@
 
 - (void) dismissWithStudentInfo:(NSDictionary*)studentInfo
 {
-    NSMutableArray* studentsList = [NSMutableArray arrayWithArray:[self.classDetailObject objectForKey:@"students"]];
+    NSMutableArray* studentsList;
+    if ([[self.classDetailObject objectForKey:@"students"] isKindOfClass:[NSArray class]])
+    {
+        studentsList = [NSMutableArray arrayWithArray:[self.classDetailObject objectForKey:@"students"]];
+    }
+    else
+        studentsList = [[NSMutableArray alloc] init];
     
     if (_rowIndex == -1)
     {

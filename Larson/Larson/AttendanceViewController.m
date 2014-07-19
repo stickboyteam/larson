@@ -100,7 +100,7 @@
         if (_selectedUnitIndex > -1)
             unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
         
-        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&studentId=%@&btnEmailAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],email,unitId,[self.studentDict objectForKey:@"id"]]];
+        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&btnEmailAttendanceSubmit=submit&dateOfAttendance=%@",[self.classObject objectForKey:@"classId"],email,unitId,[UIUtils getDateStringOfFormat:kDateFormat]]];
         [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
         [conn setDelegate:self];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -117,7 +117,7 @@
     if (_selectedUnitIndex > -1)
         unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
 
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&studentId=%@&btnAttendanceSubmit=submit",[self.classObject objectForKey:@"classId"],qrcode,unitId,[self.studentDict objectForKey:@"id"]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&btnAttendanceSubmit=submit&dateOfAttendance=%@",[self.classObject objectForKey:@"classId"],qrcode,unitId,[UIUtils getDateStringOfFormat:kDateFormat]]];
     [conn setRequestType:kRequestTypeSubmitAttendanceViaQrcode];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

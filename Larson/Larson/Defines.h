@@ -62,6 +62,7 @@ typedef enum screenType
 #define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 #define _calculateShippingAmount(amt) 0
 #define _calculateTaxAmount(amt) 0
+#define kDateFormat    @"YYYY-MM-dd HH:mm:ss"
 
 
 /************* PayPal Information *****************/
@@ -70,7 +71,6 @@ typedef enum screenType
 #define kPayPalMerchantPrivacyPolicyURL @"https://www.paypal.com/webapps/mpp/ua/privacy-full"
 #define kPayPalMerchantUserAgreementURL @"https://www.paypal.com/webapps/mpp/ua/useragreement-full"
 #define kPayPalMerchantAcceptCreditCards    1 // 0 - NO, 1 - YES
-#define kPaypalTransactionDateFormat    @"YYYY-MM-dd hh:mm:ss"
 
 // Set the environment:
 // - For live charges, use PayPalEnvironmentProduction (default).
