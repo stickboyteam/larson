@@ -73,7 +73,16 @@
 
 - (void) addButtonAction:(id)sender
 {
+    _rowIndex = [sender tag];
     
+    [self.view endEditing:YES];
+    
+    NSDictionary* studentDict = [_searchedStudentsList objectAtIndex:[sender tag]];
+    
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAssignStudent withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&btnAssignSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"]]];
+    [conn setRequestType:kRequestTypeAssignStudent];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void) searchRequestWithSearchText:(NSString*)searchText
@@ -157,7 +166,12 @@
         {
             [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
             
-            [self.navigationController popViewControllerAnimated:YES];
+            NSMutableArray* studentsList = [NSMutableArray arrayWithArray:_searchedStudentsList];
+            [studentsList removeObjectAtIndex:_rowIndex];
+            _searchedStudentsList = nil;
+            _searchedStudentsList = [[NSArray alloc] initWithArray:studentsList];
+            
+            [_tableView reloadData];
         }
     }
     else

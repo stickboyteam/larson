@@ -190,6 +190,7 @@
     AddExistingStudentViewController* addExistingStudentVC = [self.storyboard instantiateViewControllerWithIdentifier:kAddStudentViewID];
     if (addExistingStudentVC)
     {
+        addExistingStudentVC.classObject = self.classObject;
         [self.navigationController pushViewController:addExistingStudentVC animated:YES];
     }
 }
@@ -289,8 +290,8 @@
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     NSString* outstandingAmount = @"0.00";
-    if (paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue] > 0)
-        outstandingAmount = [NSString stringWithFormat:@"%d",paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue]];
+    if ([[studentDict objectForKey:@"classBalance"] intValue] - paymentInfo.amount.intValue > 0)
+        outstandingAmount = [NSString stringWithFormat:@"%d",[[studentDict objectForKey:@"classBalance"] intValue] - paymentInfo.amount.intValue];
     HttpConnection* conn;
     if (outstandingAmount.intValue > 0)
     {

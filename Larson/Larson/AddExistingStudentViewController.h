@@ -15,7 +15,11 @@
     IBOutlet UITableView *_tableView;
     
     NSArray *_searchedStudentsList;
+    
+    NSInteger _rowIndex;
 }
+
+@property (nonatomic, strong) NSDictionary *classObject;
 
 - (IBAction)searchButtonAction:(id)sender;
 - (IBAction)backButtonAction:(id)sender;
