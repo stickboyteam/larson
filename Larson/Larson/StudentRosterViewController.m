@@ -215,8 +215,15 @@
     _rowIndex = [sender tag];
     NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
     _amountField.text = [NSString stringWithFormat:@"$%@",[studentDict objectForKey:@"classBalance"]];
-
-    [self.view addSubview:_takePaymentView];
+    
+    if ([[studentDict objectForKey:@"classBalance"] intValue] > 0)
+    {
+        [self.view addSubview:_takePaymentView];
+    }
+    else
+    {
+        [UIUtils alertWithInfoMessage:@"You do not have balance to pay"];
+    }
 }
 
 - (void) scanButtonAction:(id)sender
@@ -284,8 +291,15 @@
     NSString* outstandingAmount = @"0.00";
     if (paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue] > 0)
         outstandingAmount = [NSString stringWithFormat:@"%d",paymentInfo.amount.intValue-[[studentDict objectForKey:@"classBalance"] intValue]];
-    
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    HttpConnection* conn;
+    if (outstandingAmount.intValue > 0)
+    {
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePartialPayments withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPartialSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    }
+    else
+    {
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    }
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

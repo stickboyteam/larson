@@ -37,7 +37,8 @@ typedef enum serverRequestType
     kRequestTypeSubmitAttendanceViaQrcode,
     kRequestTypeUpdatePaymentDetails,
     kRequestTypeUpdateScannedQrCode,
-    kRequestTypeSearchStudents
+    kRequestTypeSearchStudents,
+    kRequestTypeUpdatePartialPayments
 } RequestType;
 
 typedef enum screenType
@@ -58,6 +59,7 @@ typedef enum screenType
 #define kSubURLUpdatePaymentDetails @"api/payment.php"
 #define kSubURLUpdateScannedQrCode    @"/api/scan-card.php"
 #define kSubURLSearchStudents         @"api/search-students.php"
+#define kSubURLUpdatePartialPayments    @"api/partial-payment.php"
 
 #define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 #define _calculateShippingAmount(amt) 0
