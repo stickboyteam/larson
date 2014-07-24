@@ -63,7 +63,7 @@
     {
         _screenTitleLabel.text = @"Scan Card";
         if ([self.studentDict objectForKey:@"lastname"])
-            _courseNameLabel.text = [NSString stringWithFormat:@"%@ %@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"lastname"]];
+            _courseNameLabel.text = [NSString stringWithFormat:@"• %@ %@ •",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"lastname"]];
         else
             _courseNameLabel.text = [self.studentDict objectForKey:@"name"];
         _unitField.hidden = YES;
