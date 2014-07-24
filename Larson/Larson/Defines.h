@@ -45,7 +45,9 @@ typedef enum serverRequestType
 typedef enum screenType
 {
 	kScreenTypeEditStudent = 200,
-    kScreenTypeNewStudent
+    kScreenTypeNewStudent,
+    kScreenTypeScanCard,
+    kScreenTypeAttendance
 } ScreenType;
 
 #define kServerURL @"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/"

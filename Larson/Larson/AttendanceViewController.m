@@ -32,17 +32,7 @@
     
     _successImageView.hidden = YES;
     
-    if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
-    {
-        _selectedUnitIndex = 0;
-        _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:0] objectForKey:@"unitTitle"];
-        [_dropdownTableView reloadData];
-    }
-    else
-    {
-        _selectedUnitIndex = -1;
-        _unitField.text = @"Units not available";
-    }
+    [self setInterface];
     
     ZBarImageScanner * scanner = [ZBarImageScanner new];
     [scanner setSymbology: ZBAR_I25
@@ -65,6 +55,36 @@
     [super viewDidAppear:animated];
     
     [_readerView start];
+}
+
+- (void) setInterface
+{
+    if (!self.isAttendanceScreen)
+    {
+        _screenTitleLabel.text = @"Scan Card";
+        if ([self.studentDict objectForKey:@"lastname"])
+            _courseNameLabel.text = [NSString stringWithFormat:@"%@ %@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"lastname"]];
+        else
+            _courseNameLabel.text = [self.studentDict objectForKey:@"name"];
+        _unitField.hidden = YES;
+        _dropdownTableView.hidden = YES;
+        _forgetCardLabel.hidden = YES;
+        _enterEmailButton.hidden = YES;
+    }
+    else
+    {
+        if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
+        {
+            _selectedUnitIndex = 0;
+            _unitField.text = [[[self.classObject objectForKey:@"units"] objectAtIndex:0] objectForKey:@"unitTitle"];
+            [_dropdownTableView reloadData];
+        }
+        else
+        {
+            _selectedUnitIndex = -1;
+            _unitField.text = @"Units not available";
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning

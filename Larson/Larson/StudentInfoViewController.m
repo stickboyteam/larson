@@ -310,27 +310,30 @@
     NSDictionary* responseDict = (NSDictionary*)[handler responseData];
     if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
     {
+        /*
         if ([handler requestType] == kRequestTypeEditStudentInfo)
         {
             [UIUtils alertWithInfoMessage:@"Updated student info successfully"];
             
-            NSMutableDictionary* stdDict = [NSMutableDictionary dictionary];
-            [stdDict setObject:[self.studentDict objectForKey:@"id"] forKey:@"id"];
-            [stdDict setObject:_firstNameField.text forKey:@"name"];
-            [stdDict setObject:_lastNameField.text forKey:@"lastname"];
-            [stdDict setObject:_emailField.text forKey:@"email"];
-            [stdDict setObject:_phoneNumberField.text forKey:@"phone"];
-            [stdDict setObject:_addressField.text forKey:@"address"];
-            [stdDict setObject:_apartmentField.text forKey:@"apt"];
-            [stdDict setObject:_cityField.text forKey:@"city"];
-            [stdDict setObject:_stateField.text forKey:@"state"];
-            [stdDict setObject:_zipcodeField.text forKey:@"zip"];
-            [stdDict setObject:[self.studentDict objectForKey:@"classBalance"] forKey:@"classBalance"];
+//            NSMutableDictionary* stdDict = [NSMutableDictionary dictionary];
+//            [stdDict setObject:[self.studentDict objectForKey:@"id"] forKey:@"id"];
+//            [stdDict setObject:_firstNameField.text forKey:@"name"];
+//            [stdDict setObject:_lastNameField.text forKey:@"lastname"];
+//            [stdDict setObject:_emailField.text forKey:@"email"];
+//            [stdDict setObject:_phoneNumberField.text forKey:@"phone"];
+//            [stdDict setObject:_addressField.text forKey:@"address"];
+//            [stdDict setObject:_apartmentField.text forKey:@"apt"];
+//            [stdDict setObject:_cityField.text forKey:@"city"];
+//            [stdDict setObject:_stateField.text forKey:@"state"];
+//            [stdDict setObject:_zipcodeField.text forKey:@"zip"];
+//            [stdDict setObject:[self.studentDict objectForKey:@"classBalance"] forKey:@"classBalance"];
             
-            [self.delegate dismissWithStudentInfo:stdDict];
+//            [self.delegate dismissWithStudentInfo:stdDict];
             [self.navigationController popViewControllerAnimated:YES];
         }
-        else if ([handler requestType] == kRequestTypeAddStudentInfo)
+        else*/
+
+        if ([handler requestType] == kRequestTypeAddStudentInfo)
         {
             [UIUtils alertWithInfoMessage:@"New student info added sucessfully"];
             _studentDict = [responseDict objectForKey:@"student"];
@@ -339,13 +342,13 @@
         else
         {
             [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
-            if (self.screenType == kScreenTypeNewStudent)
-            {
-                NSMutableDictionary* stdDict = [NSMutableDictionary dictionaryWithDictionary:_studentDict];
-                [stdDict setObject:@"0.00" forKey:@"classBalance"];
-                _studentDict = [NSDictionary dictionaryWithDictionary:stdDict];
-                [self.delegate dismissWithStudentInfo:self.studentDict];
-            }
+//            if (self.screenType == kScreenTypeNewStudent)
+//            {
+//                NSMutableDictionary* stdDict = [NSMutableDictionary dictionaryWithDictionary:_studentDict];
+//                [stdDict setObject:@"0.00" forKey:@"classBalance"];
+//                _studentDict = [NSDictionary dictionaryWithDictionary:stdDict];
+//                [self.delegate dismissWithStudentInfo:self.studentDict];
+//            }
             [self.navigationController popViewControllerAnimated:YES];
         }
     }

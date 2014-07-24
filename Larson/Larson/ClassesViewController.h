@@ -16,9 +16,12 @@
     NSInteger _rowIndex;
     
     NSArray *_sortedClassesList;
+    
+    BOOL _isFirstTime;
 }
 
 @property (nonatomic, strong) NSArray *classesList;
+@property (nonatomic, strong) NSDictionary* passphraseObject;
 
 - (IBAction)sortByCodeButtonAction:(id)sender;
 - (IBAction)sortByNameButtonAction:(id)sender;

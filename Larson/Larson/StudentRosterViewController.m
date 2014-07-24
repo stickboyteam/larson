@@ -38,6 +38,24 @@
     [_takePaymentView removeFromSuperview];
     
     _courseNameLabel.text = [self.classObject objectForKey:@"className"];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [PayPalMobile preconnectWithEnvironment:kPayPalEnvironment];
+    [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) setInterface
+{
     NSString* studentEnrolled = @"0";
     if ([self.classDetailObject objectForKey:@"classStudentEnrolledTotal"])
         studentEnrolled = [self.classDetailObject objectForKey:@"classStudentEnrolledTotal"];
@@ -55,25 +73,13 @@
         NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
         _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
+        [_tableView reloadData];
     }
     else
     {
         _sortedStudentsList = [[NSArray alloc] init];
         [UIUtils alertWithInfoMessage:@"No students registered for this class"];
     }
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [PayPalMobile preconnectWithEnvironment:kPayPalEnvironment];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)backButtonAction:(id)sender
@@ -306,6 +312,14 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
+- (void) classDetailRequestWithClassId:(NSString*)classId
+{
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
+    [conn setRequestType:kRequestTypeClassDetail];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
 #pragma mark - tableView dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -405,7 +419,16 @@
     NSDictionary* responseDict = (NSDictionary*)[handler responseData];
     if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
     {
-        [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
+        if ([handler requestType] == kRequestTypeClassDetail)
+        {
+            _classDetailObject = nil;
+            _classDetailObject = [[NSDictionary alloc] initWithDictionary:responseDict];
+            [self setInterface];
+        }
+        else
+        {
+            [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] delegate:self];
+        }
     }
     else
     {
@@ -434,6 +457,14 @@
 {
     NSLog(@"PayPal Payment Canceled");
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+#pragma mark - alertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
 }
 
 @end

@@ -88,7 +88,10 @@
         if (classesVC)
         {
             if ([[responseDict objectForKey:@"classes"] isKindOfClass:[NSArray class]])
+            {
                 classesVC.classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
+            }
+            classesVC.passphraseObject = [[NSDictionary alloc] initWithObjectsAndKeys:_loginInputField.text,@"passcode", nil];
             [self.navigationController pushViewController:classesVC animated:YES];
         }
     }

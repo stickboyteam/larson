@@ -16,6 +16,9 @@
     IBOutlet UIImageView *_successImageView;
     IBOutlet UITextField *_unitField;
     IBOutlet UITableView *_dropdownTableView;
+    IBOutlet UILabel *_screenTitleLabel;
+    IBOutlet UILabel *_forgetCardLabel;
+    IBOutlet UIButton *_enterEmailButton;
     
     NSInteger _selectedUnitIndex;
     

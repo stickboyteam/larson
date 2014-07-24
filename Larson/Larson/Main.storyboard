@@ -893,7 +893,6 @@
                                         </state>
                                         <connections>
                                             <action selector="enterEmailAddressButtonAction:" destination="nF1-l2-Qtq" eventType="touchUpInside" id="aIR-y7-cca"/>
-                                            <action selector="saveButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="Bfk-zZ-NfA"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forget Your Card?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fan-BW-125">
@@ -959,7 +958,10 @@
                     <connections>
                         <outlet property="_courseNameLabel" destination="mWW-NK-2nv" id="Pei-Ko-vd3"/>
                         <outlet property="_dropdownTableView" destination="gLT-LN-XvD" id="OBE-kP-LlZ"/>
+                        <outlet property="_enterEmailButton" destination="Fc6-Wz-sYQ" id="Mr4-be-4bW"/>
+                        <outlet property="_forgetCardLabel" destination="fan-BW-125" id="C6h-WE-UuB"/>
                         <outlet property="_scanView" destination="wp5-al-468" id="uLr-g8-ST7"/>
+                        <outlet property="_screenTitleLabel" destination="naM-oP-1q6" id="gty-sZ-Suc"/>
                         <outlet property="_successImageView" destination="hJE-dQ-gqF" id="FG7-aj-Fah"/>
                         <outlet property="_unitField" destination="gDJ-mb-sBn" id="RzO-rB-BU9"/>
                     </connections>

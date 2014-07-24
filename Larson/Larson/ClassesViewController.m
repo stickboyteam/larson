@@ -44,6 +44,19 @@
     {
         [UIUtils alertWithInfoMessage:@"No classes available"];
     }
+    
+    _isFirstTime = YES;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (!_isFirstTime)
+    {
+        [self loginRequestWithPasscode:[self.passphraseObject objectForKey:@"passcode"]];
+    }
+    
+    _isFirstTime = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,8 +99,15 @@
 - (void) nextButtonAction:(id)sender
 {
     _rowIndex = [sender tag];
-    NSDictionary* classDict = [_sortedClassesList objectAtIndex:[sender tag]];
-    [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
+//    NSDictionary* classDict = [_sortedClassesList objectAtIndex:[sender tag]];
+//    [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
+    
+    StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
+    if (studentRosterVC)
+    {
+        studentRosterVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
+        [self.navigationController pushViewController:studentRosterVC animated:YES];
+    }
 }
 
 - (void) classDetailRequestWithClassId:(NSString*)classId
@@ -95,6 +115,14 @@
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
     [conn setRequestType:kRequestTypeClassDetail];
     [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void) loginRequestWithPasscode:(NSString*)passcode
+{
+    HttpConnection* httpConn = [[HttpConnection alloc] initWithServerURL:kSubURLLogin withPostString:[NSString stringWithFormat:@"&login=%@",passcode]];
+    [httpConn setRequestType:kRequestTypeLogin];
+    [httpConn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
@@ -153,12 +181,23 @@
     NSDictionary* responseDict = (NSDictionary*)[handler responseData];
     if ([[responseDict objectForKey:@"status"] isEqualToString:@"success"])
     {
-        StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
-        if (studentRosterVC)
+        if ([handler requestType] == kRequestTypeLogin)
         {
-            studentRosterVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
-            studentRosterVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
-            [self.navigationController pushViewController:studentRosterVC animated:YES];
+            if ([[responseDict objectForKey:@"classes"] isKindOfClass:[NSArray class]])
+            {
+                _classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
+                [_classesTableView reloadData];
+            }
+        }
+        else
+        {
+            StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
+            if (studentRosterVC)
+            {
+                studentRosterVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
+                studentRosterVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
+                [self.navigationController pushViewController:studentRosterVC animated:YES];
+            }
         }
     }
     else
