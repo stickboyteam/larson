@@ -11,8 +11,12 @@
 #import "StudentInfoViewController.h"
 #import "AttendanceViewController.h"
 #import "AddExistingStudentViewController.h"
+#import "AppDelegate.h"
 
 @interface StudentRosterViewController ()
+
+@property (nonatomic, strong) NSMutableArray* studentCheckedInList;
+@property (nonatomic, strong) NSMutableArray* studentNonCheckedInList;
 
 @end
 
@@ -38,6 +42,12 @@
     [_takePaymentView removeFromSuperview];
     
     _courseNameLabel.text = [self.classObject objectForKey:@"className"];
+    
+    if (!_studentCheckedInList)
+        _studentCheckedInList = [[NSMutableArray alloc] init];
+    
+    if (!_studentNonCheckedInList)
+        _studentNonCheckedInList = [[NSMutableArray alloc] init];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -73,7 +83,9 @@
         NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
         _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
-        [_tableView reloadData];
+        
+        [self.studentNonCheckedInList addObjectsFromArray:_sortedStudentsList];
+        [self sortStudentRosterList];
     }
     else
     {
@@ -176,7 +188,7 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
     _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
 
-    [_tableView reloadData];
+    [self sortStudentRosterList];
 }
 
 - (IBAction)sortByBalanceButtonAction:(id)sender
@@ -188,7 +200,7 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
     _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
     
-    [_tableView reloadData];
+    [self sortStudentRosterList];
 }
 
 - (IBAction)addCurrentStudentButtonAction:(id)sender
@@ -244,6 +256,32 @@
         attendanceVC.isAttendanceScreen = NO;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
+}
+
+- (void) checkInButtonAction:(UIButton*)sender
+{
+    sender.selected = !sender.selected;
+
+    if (sender.selected)
+    {
+        NSDictionary* studentDict = [self.studentNonCheckedInList objectAtIndex:[sender tag]];
+        NSString* checkInString = [[NSString alloc] initWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
+        [[_appDelegate checkInList] addObject:checkInString];
+        [self.studentCheckedInList addObject:studentDict];
+        [self.studentNonCheckedInList removeObject:studentDict];
+    }
+    else
+    {
+        NSDictionary* studentDict = [self.studentCheckedInList objectAtIndex:[sender tag]];
+        NSString* checkInString = [[NSString alloc] initWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
+        [[_appDelegate checkInList] removeObject:checkInString];
+        [self.studentNonCheckedInList addObject:studentDict];
+        [self.studentCheckedInList removeObject:studentDict];
+    }
+    
+    NSLog(@"%@",[_appDelegate checkInList]);
+    
+    [_tableView reloadData];
 }
 
 - (void) initiatePaymentWithPaypalWithCreditCard:(BOOL)acceptCreditCard withDescription:(NSString*)description
@@ -320,16 +358,54 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
+- (void) sortStudentRosterList
+{
+    NSString* classIdString = [NSString stringWithFormat:@"%@_",[self.classObject objectForKey:@"classId"]];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self contains %@",classIdString];
+    NSArray* filteredCheckInList = [[_appDelegate checkInList] filteredArrayUsingPredicate:predicate];
+
+    if (filteredCheckInList.count > 0)
+    {
+        [self.studentCheckedInList removeAllObjects];
+        [self.studentNonCheckedInList removeAllObjects];
+
+        for (NSString* checkInId in filteredCheckInList)
+        {
+            for (NSDictionary* studentDict in _sortedStudentsList)
+            {
+                NSString* checkInKey = [NSString stringWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
+                if ([checkInKey isEqualToString:checkInId])
+                {
+                    [self.studentCheckedInList addObject:studentDict];
+                }
+                else
+                {
+                    [self.studentNonCheckedInList addObject:studentDict];
+                }
+            }
+        }
+    }
+    
+    [_tableView reloadData];
+}
+
 #pragma mark - tableView dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_sortedStudentsList count];
+    if (section == 0)
+    {
+        return [self.studentNonCheckedInList count];
+    }
+    else
+    {
+        return [self.studentCheckedInList count];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -337,18 +413,71 @@
     return 88;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 37;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+    {
+        UIView* view2 = [[UIView alloc] initWithFrame:CGRectZero];
+        return view2;
+    }
+    else
+    {
+        UIView* view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 768, 37)];
+        UIImageView* iView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 768, 37)];
+        iView.image = [UIImage imageNamed:@"bg_nav.png"];
+        [view1 addSubview:iView];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 768, 37)];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont fontWithName:@"Helvetica Neue" size:17.0];
+        label.text = @"Checked In";
+        [view1 addSubview:label];
+        return view1;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"StudentRosterCell";
-    
-    StudentRosterCell* cell = (StudentRosterCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+    StudentRosterCell* cell;
+    if (indexPath.section == 0)
+    {
+        static NSString *CellIdentifier = @"StudentRosterCell";
+        
+       cell = (StudentRosterCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    }
+    else
+    {
+        static NSString *CellIdentifier = @"StudentRosterCell2";
+        
+       cell = (StudentRosterCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    }
+    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateNormal];
+    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateHighlighted];
+    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateDisabled];
+    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateNormal];
+	[cell.checkButton setTitle:@"\u2611" forState:UIControlStateSelected];
+
     cell.editButton.tag = indexPath.row;
     cell.paymentButton.tag = indexPath.row;
     cell.scanButton.tag = indexPath.row;
+    cell.checkButton.tag = indexPath.row;
     [cell.editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.paymentButton addTarget:self action:@selector(paymentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.scanButton addTarget:self action:@selector(scanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.checkButton addTarget:self action:@selector(checkInButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:indexPath.row];
     cell.firstNameLabel.text = [studentDict objectForKey:@"name"];
@@ -364,7 +493,35 @@
     else
         cell.balanceAmountLabel.text = @"$0.00";
     
+    if (indexPath.section == 0)
+    {
+        cell.checkButton.selected = NO;
+    }
+    else
+    {
+        cell.checkButton.selected = YES;
+    }
+    
     return cell;
+}
+
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    
+}
+
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 #pragma mark - tableView delegate

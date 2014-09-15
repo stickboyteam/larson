@@ -66,6 +66,7 @@ typedef enum screenType
 #define kSubURLAssignStudent            @"api/student-assign.php"
 
 #define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+#define _appDelegate (AppDelegate*)[[UIApplication sharedApplication] delegate]
 #define _calculateShippingAmount(amt) 0
 #define _calculateTaxAmount(amt) 0
 #define kDateFormat    @"YYYY-MM-dd HH:mm:ss"

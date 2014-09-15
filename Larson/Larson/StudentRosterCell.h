@@ -19,4 +19,5 @@
 @property (strong, nonatomic) IBOutlet UIButton *editButton;
 @property (strong, nonatomic) IBOutlet UIButton *paymentButton;
 @property (strong, nonatomic) IBOutlet UIButton *scanButton;
+@property (strong, nonatomic) IBOutlet UIButton *checkButton;
 @end

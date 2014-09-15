@@ -13,9 +13,14 @@
 
 @implementation AppDelegate
 
+@synthesize checkInList = _checkInList;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    NSMutableArray* checkInList1 = [[NSMutableArray alloc] init];
+    self.checkInList = checkInList1;
+    
     [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"YOUR_CLIENT_ID_FOR_PRODUCTION",                                                           PayPalEnvironmentSandbox :kPayPalClientID}];
 
     [ZBarReaderView class];
@@ -33,11 +38,20 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* savedObjects = [[NSArray alloc] initWithArray:self.checkInList];
+    [defaults setObject:savedObjects forKey:@"CheckedIn"];
+    [defaults synchronize];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* savedObjects = [[NSArray alloc] initWithArray:[defaults objectForKey:@"CheckedIn"]];
+    [self.checkInList removeAllObjects];
+    [self.checkInList addObjectsFromArray:savedObjects];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

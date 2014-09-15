@@ -112,7 +112,7 @@
 
 - (void) classDetailRequestWithClassId:(NSString*)classId
 {
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"?classId=%@",classId]];
     [conn setRequestType:kRequestTypeClassDetail];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
