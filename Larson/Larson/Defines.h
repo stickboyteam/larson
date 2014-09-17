@@ -71,6 +71,7 @@ typedef enum screenType
 #define _calculateTaxAmount(amt) 0
 #define kDateFormat    @"YYYY-MM-dd HH:mm:ss"
 
+#define kTaxRate    @"0"
 
 /************* PayPal Information *****************/
 
@@ -78,6 +79,7 @@ typedef enum screenType
 #define kPayPalMerchantPrivacyPolicyURL @"https://www.paypal.com/webapps/mpp/ua/privacy-full"
 #define kPayPalMerchantUserAgreementURL @"https://www.paypal.com/webapps/mpp/ua/useragreement-full"
 #define kPayPalMerchantAcceptCreditCards    1 // 0 - NO, 1 - YES
+#define kMerchantEmail  @"vishwa.larson@gmail.com"
 
 // Set the environment:
 // - For live charges, use PayPalEnvironmentProduction (default).

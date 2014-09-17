@@ -9,7 +9,7 @@
 #import "ZBarSDK.h"
 #import <AVFoundation/AVFoundation.h>
 
-@interface AttendanceViewController : UIViewController <ZBarReaderViewDelegate>
+@interface AttendanceViewController : UIViewController <ZBarReaderViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     IBOutlet UILabel *_courseNameLabel;
     IBOutlet UIView *_scanView;

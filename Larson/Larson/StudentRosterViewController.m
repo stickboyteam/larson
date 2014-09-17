@@ -17,10 +17,13 @@
 
 @property (nonatomic, strong) NSMutableArray* studentCheckedInList;
 @property (nonatomic, strong) NSMutableArray* studentNonCheckedInList;
+@property (nonatomic, assign) BOOL addNewStudent;
 
 @end
 
 @implementation StudentRosterViewController
+
+@synthesize addNewStudent = _addNewStudent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +51,9 @@
     
     if (!_studentNonCheckedInList)
         _studentNonCheckedInList = [[NSMutableArray alloc] init];
+    
+    if (!_rowIndexPath)
+        _rowIndexPath = [[NSIndexPath alloc] init];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -83,7 +89,7 @@
         NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"name"                                                                 ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
         _sortedStudentsList = [[NSArray alloc] initWithArray:[[self.classDetailObject objectForKey:@"students"] sortedArrayUsingDescriptors:sortDescriptors]];
-        
+        [self.studentNonCheckedInList removeAllObjects];
         [self.studentNonCheckedInList addObjectsFromArray:_sortedStudentsList];
         [self sortStudentRosterList];
     }
@@ -111,7 +117,15 @@
     int totalAmount = [amount intValue];
     if (totalAmount > 0)
     {
-        NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+        NSDictionary* studentDict;
+        if (_rowIndexPath.section == 0)
+        {
+            studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
+        else
+        {
+            studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
         NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
         _isPaidByCard = NO;
         [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
@@ -129,10 +143,19 @@
     int totalAmount = [amount intValue];
     if (totalAmount > 0)
     {
-        NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+        NSDictionary* studentDict;
+        if (_rowIndexPath.section == 0)
+        {
+            studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
+        else
+        {
+            studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
         NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
         _isPaidByCard = YES;
-        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
+//        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
+        [UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
     }
     else
     {
@@ -148,8 +171,7 @@
 
 - (IBAction)addNewStudentButtonAction:(id)sender
 {
-    _rowIndex = -1;
-    
+    _addNewStudent = YES;
     StudentInfoViewController* addStudentInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentInfoViewID];
     if (addStudentInfoVC)
     {
@@ -215,24 +237,42 @@
 
 #pragma mark -
 
-- (void) editButtonAction:(id)sender
+- (void) editButtonAction:(UIButton*)sender
 {
-    _rowIndex = [sender tag];
+    _addNewStudent = NO;
+    _rowIndexPath = [sender indexPath];
     StudentInfoViewController* editStudentInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentInfoViewID];
     if (editStudentInfoVC)
     {
         editStudentInfoVC.screenType = kScreenTypeEditStudent;
-        editStudentInfoVC.studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
         editStudentInfoVC.classDict = self.classObject;
         editStudentInfoVC.delegate = self;
+        if (sender.indexPath.section == 0)
+        {
+            editStudentInfoVC.studentDict = [self.studentNonCheckedInList objectAtIndex:[sender tag]];
+        }
+        else
+        {
+            editStudentInfoVC.studentDict = [self.studentCheckedInList objectAtIndex:[sender tag]];
+        }
+
         [self.navigationController pushViewController:editStudentInfoVC animated:YES];
     }
 }
 
 - (void) paymentButtonAction:(id)sender
 {
-    _rowIndex = [sender tag];
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+    _rowIndexPath = [sender indexPath];
+    NSDictionary* studentDict;
+    if (_rowIndexPath.section == 0)
+    {
+        studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
+    else
+    {
+        studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
+
     _amountField.text = [NSString stringWithFormat:@"$%@",[studentDict objectForKey:@"classBalance"]];
     
     if ([[studentDict objectForKey:@"classBalance"] intValue] > 0)
@@ -245,14 +285,21 @@
     }
 }
 
-- (void) scanButtonAction:(id)sender
+- (void) scanButtonAction:(UIButton*)sender
 {
     AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
     if (attendanceVC)
     {
         attendanceVC.classObject = self.classObject;
         attendanceVC.classDetailObject = self.classDetailObject;
-        attendanceVC.studentDict = [_sortedStudentsList objectAtIndex:[sender tag]];
+        if (sender.indexPath.section == 0)
+        {
+            attendanceVC.studentDict = [self.studentNonCheckedInList objectAtIndex:sender.indexPath.row];
+        }
+        else
+        {
+            attendanceVC.studentDict = [self.studentCheckedInList objectAtIndex:sender.indexPath.row];
+        }
         attendanceVC.isAttendanceScreen = NO;
         [self.navigationController pushViewController:attendanceVC animated:YES];
     }
@@ -329,7 +376,15 @@
 
 - (void) updatePaymentDetailsToServer:(PayPalPayment*)paymentInfo
 {
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:_rowIndex];
+    NSDictionary* studentDict;
+    if (_rowIndexPath.section == 0)
+    {
+        studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
+    else
+    {
+        studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
     NSString* paymentMethod = @"Credit";
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
@@ -464,22 +519,28 @@
         
        cell = (StudentRosterCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     }
-    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateNormal];
-    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateHighlighted];
-    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateDisabled];
-    [cell.checkButton setTitle:@"\u2610" forState:UIControlStateNormal];
-	[cell.checkButton setTitle:@"\u2611" forState:UIControlStateSelected];
-
-    cell.editButton.tag = indexPath.row;
-    cell.paymentButton.tag = indexPath.row;
-    cell.scanButton.tag = indexPath.row;
-    cell.checkButton.tag = indexPath.row;
+    
+    cell.editButton.indexPath = indexPath;
+    cell.paymentButton.indexPath = indexPath;
+    cell.scanButton.indexPath = indexPath;
+    cell.checkButton.indexPath = indexPath;
     [cell.editButton addTarget:self action:@selector(editButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.paymentButton addTarget:self action:@selector(paymentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.scanButton addTarget:self action:@selector(scanButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.checkButton addTarget:self action:@selector(checkInButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSDictionary* studentDict = [_sortedStudentsList objectAtIndex:indexPath.row];
+    NSDictionary* studentDict;
+    if (indexPath.section == 0)
+    {
+        studentDict = [self.studentNonCheckedInList objectAtIndex:indexPath.row];
+        cell.checkButton.selected = NO;
+    }
+    else
+    {
+        studentDict = [self.studentCheckedInList objectAtIndex:indexPath.row];
+        cell.checkButton.selected = YES;
+    }
+
     cell.firstNameLabel.text = [studentDict objectForKey:@"name"];
     if ([studentDict objectForKey:@"lastname"])
         cell.lastNameLabel.text = [studentDict objectForKey:@"lastname"];
@@ -492,15 +553,6 @@
         cell.balanceAmountLabel.text = [NSString stringWithFormat:@"$%@",[studentDict objectForKey:@"classBalance"]];
     else
         cell.balanceAmountLabel.text = @"$0.00";
-    
-    if (indexPath.section == 0)
-    {
-        cell.checkButton.selected = NO;
-    }
-    else
-    {
-        cell.checkButton.selected = YES;
-    }
     
     return cell;
 }
@@ -543,7 +595,7 @@
     else
         studentsList = [[NSMutableArray alloc] init];
     
-    if (_rowIndex == -1)
+    if (_addNewStudent)
     {
         [studentsList addObject:studentInfo];
     }

@@ -24,4 +24,12 @@
 
 + (NSString*) getDateStringOfFormat:(NSString*)dateFormat;
 
++ (void) handlePaymentWithName:(NSString*)name amount:(NSString*)amount description:(NSString*)description payerEmail:(NSString*)payerEmail;
+
+@end
+
+@interface UIButton(indexPath)
+
+@property (nonatomic, retain) NSIndexPath *indexPath;
+
 @end

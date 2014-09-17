@@ -82,12 +82,13 @@
         return;
     }
 
-    int totalAmount = [[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] intValue];
-    if (totalAmount > 0)
+    NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    if ([totalAmount intValue] > 0)
     {
         NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
         _isPaidByCard = YES;
-        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription amount:totalAmount];
+        [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
+//        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription amount:totalAmount];
     }
     else
     {
@@ -341,7 +342,7 @@
         }
         else
         {
-            [UIUtils alertWithInfoMessage:[responseDict objectForKey:@"message"]];
+            [UIUtils alertWithInfoMessage:@"Student info saved successfully"];
 //            if (self.screenType == kScreenTypeNewStudent)
 //            {
 //                NSMutableDictionary* stdDict = [NSMutableDictionary dictionaryWithDictionary:_studentDict];

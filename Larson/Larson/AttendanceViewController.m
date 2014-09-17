@@ -70,9 +70,14 @@
         _dropdownTableView.hidden = YES;
         _forgetCardLabel.hidden = YES;
         _enterEmailButton.hidden = YES;
+        _dropdownTableView.delegate = nil;
+        _dropdownTableView.dataSource = nil;
     }
     else
     {
+        _dropdownTableView.delegate = self;
+        _dropdownTableView.dataSource = self;
+
         if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
             _selectedUnitIndex = 0;

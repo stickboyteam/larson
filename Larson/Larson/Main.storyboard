@@ -1056,10 +1056,6 @@
                                             </tableViewCell>
                                         </prototypes>
                                         <sections/>
-                                        <connections>
-                                            <outlet property="dataSource" destination="nF1-l2-Qtq" id="OAL-Tb-4tX"/>
-                                            <outlet property="delegate" destination="nF1-l2-Qtq" id="vTF-4u-Lvf"/>
-                                        </connections>
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

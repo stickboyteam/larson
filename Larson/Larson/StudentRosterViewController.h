@@ -27,7 +27,7 @@
     
     IBOutlet UITextField *_amountField;
     
-    NSInteger _rowIndex;
+    NSIndexPath *_rowIndexPath;
     
     NSArray *_sortedStudentsList;
     
