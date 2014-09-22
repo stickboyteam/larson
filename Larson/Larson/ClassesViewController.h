@@ -7,7 +7,7 @@
 //
 
 
-@interface ClassesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,HttpConnectionDelegate>
+@interface ClassesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,HttpConnectionDelegate,UIPopoverControllerDelegate>
 {
     IBOutlet UITableView *_classesTableView;
     IBOutlet UIButton *_sortByCodeButton;
@@ -26,5 +26,6 @@
 - (IBAction)sortByCodeButtonAction:(id)sender;
 - (IBAction)sortByNameButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;
+- (IBAction)startAttendanceButtonAction:(id)sender;
 
 @end

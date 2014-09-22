@@ -67,7 +67,15 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"%@",url]];
+//YourAppReturnURLRoot://takePayment?Type=CreditCard&InvoiceId=INV2-AHWG-SQHP-QMLT-1234&Tip=5.00&TxId=111-11-1111
+    
+//    However, if a payment is canceled, the response of the PayPal Here app would be similar to the following:
+        
+//        YourAppReturnURLRoot://takePayment?Type=Unknown
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kAppDelegateOpenURLNotification object:url];
+    
+//    [UIUtils alertWithInfoMessage:[NSString stringWithFormat:@"%@",url]];
     
     return YES;
 }

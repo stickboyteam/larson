@@ -97,9 +97,30 @@
     if ([application canOpenURL:pphUrl]){
         [application openURL:pphUrl];
     } else {
-        NSURL *url = [NSURL URLWithString:@"itms://itunes.apple.com/us/app/paypal-here/id505911015?mt=8"];
+        
+        NSURL *url = [NSURL URLWithString:@"http://itunes.apple.com/us/app/paypal-here/id505911015"];
         [application openURL:url];
     }
+}
+
++ (NSDictionary*) getDictionaryFromCallbackResponse:(NSURL*)responseUrl
+{
+    //YourAppReturnURLRoot://takePayment?Type=CreditCard&InvoiceId=INV2-AHWG-SQHP-QMLT-1234&Tip=5.00&TxId=111-11-1111
+    
+    //    However, if a payment is canceled, the response of the PayPal Here app would be similar to the following:
+    
+    //        YourAppReturnURLRoot://takePayment?Type=Unknown
+
+    NSString* responseString = [[NSString alloc] initWithString:[[[responseUrl absoluteString] componentsSeparatedByString:@"?"] lastObject]];
+    NSMutableDictionary* dictionary = [[NSMutableDictionary alloc] init];
+    NSArray* array = [NSArray arrayWithArray:[responseString componentsSeparatedByString:@"&"]];
+    for (NSString* obj in array)
+    {
+        NSArray* arrayObj = [obj componentsSeparatedByString:@"="];
+        [dictionary setObject:[arrayObj lastObject] forKey:[arrayObj firstObject]];
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:dictionary];
 }
 
 @end

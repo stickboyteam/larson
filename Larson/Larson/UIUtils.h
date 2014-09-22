@@ -26,6 +26,8 @@
 
 + (void) handlePaymentWithName:(NSString*)name amount:(NSString*)amount description:(NSString*)description payerEmail:(NSString*)payerEmail;
 
++ (NSDictionary*) getDictionaryFromCallbackResponse:(NSURL*)responseUrl;
+
 @end
 
 @interface UIButton(indexPath)

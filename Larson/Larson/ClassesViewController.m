@@ -9,12 +9,17 @@
 #import "ClassesViewController.h"
 #import "ClassesTableCell.h"
 #import "StudentRosterViewController.h"
+#import "AttendanceViewController.h"
 
 @interface ClassesViewController ()
+
+@property (nonatomic, strong) UIPopoverController* popOverController;
 
 @end
 
 @implementation ClassesViewController
+
+@synthesize popOverController = _popOverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -94,6 +99,22 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (IBAction)startAttendanceButtonAction:(id)sender
+{
+    UITableView* table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 120, 250)];
+    table.tag = 11;
+    table.delegate = self;
+    table.dataSource = self;
+    UIViewController* viewC = [[UIViewController alloc] init];
+    viewC.view = table;
+    UIPopoverController* popOverC = [[UIPopoverController alloc] initWithContentViewController:viewC];
+    popOverC.delegate = self;
+    popOverC.popoverContentSize = CGSizeMake(120, 250);
+    [popOverC presentPopoverFromRect:[(UIButton*)sender frame] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    
+    _popOverController = popOverC;
+}
+
 #pragma mark - 
 
 - (void) nextButtonAction:(id)sender
@@ -112,7 +133,7 @@
 
 - (void) classDetailRequestWithClassId:(NSString*)classId
 {
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"?classId=%@",classId]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
     [conn setRequestType:kRequestTypeClassDetail];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -140,30 +161,61 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return tableView.tag == 0 ? 85 : 30;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"ClassesTableCell";
-    
-    ClassesTableCell* cell = (ClassesTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    cell.nextButton.tag = indexPath.row;
-    [cell.nextButton addTarget:self action:@selector(nextButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
-    cell.codeCategoryLabel.text = [classDict objectForKey:@"classPrefix"];
-    cell.courseNameLabel.text = [classDict objectForKey:@"className"];
-    cell.courseCodeLabel.text = [classDict objectForKey:@"classCode"];
-    
-    return cell;
+    if (tableView.tag == 0)
+    {
+        static NSString *CellIdentifier = @"ClassesTableCell";
+        
+        ClassesTableCell* cell = (ClassesTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        cell.nextButton.tag = indexPath.row;
+        [cell.nextButton addTarget:self action:@selector(nextButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
+        cell.codeCategoryLabel.text = [classDict objectForKey:@"classPrefix"];
+        cell.courseNameLabel.text = [classDict objectForKey:@"className"];
+        cell.courseCodeLabel.text = [classDict objectForKey:@"classCode"];
+        
+        return cell;
+    }
+    else
+    {
+        static NSString *CellIdentifier2 = @"ClassesCell";
+        UITableViewCell* cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+        if (!cell)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
+        }
+        NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
+        cell.textLabel.text = [classDict objectForKey:@"classPrefix"];
+        return cell;
+    }
 }
 
 #pragma mark - tableView delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    if (tableView.tag == 11)
+    {
+        _rowIndex = indexPath.row;
+        NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
+
+        if ([[[classDict objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
+        {
+            [self.popOverController dismissPopoverAnimated:YES];
+            [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
+        }
+        else
+        {
+            [UIUtils alertWithInfoMessage:@"No units available for the selected class, please try later"];
+        }
+    }
 }
 
 #pragma mark - HttpConnection delegate
@@ -191,12 +243,13 @@
         }
         else
         {
-            StudentRosterViewController* studentRosterVC = [self.storyboard instantiateViewControllerWithIdentifier:kStudentRosterViewID];
-            if (studentRosterVC)
+            AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
+            if (attendanceVC)
             {
-                studentRosterVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
-                studentRosterVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
-                [self.navigationController pushViewController:studentRosterVC animated:YES];
+                attendanceVC.classDetailObject = [NSDictionary dictionaryWithDictionary:responseDict];
+                attendanceVC.classObject = [_sortedClassesList objectAtIndex:_rowIndex];
+                attendanceVC.isAttendanceScreen = YES;
+                [self.navigationController pushViewController:attendanceVC animated:YES];
             }
         }
     }

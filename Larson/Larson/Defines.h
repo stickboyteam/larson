@@ -73,6 +73,8 @@ typedef enum screenType
 
 #define kTaxRate    @"0"
 
+#define kAppDelegateOpenURLNotification @"appDelegateOpenUrlNotification"
+
 /************* PayPal Information *****************/
 
 #define kPayPalMerchantName @"Larson App"

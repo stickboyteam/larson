@@ -62,6 +62,15 @@
     
     [PayPalMobile preconnectWithEnvironment:kPayPalEnvironment];
     [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openURLNotification:) name:kAppDelegateOpenURLNotification object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -405,6 +414,35 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
+- (void) updatePaymentDetailsToServerMadeThroughPaypalHere:(NSDictionary*)paymentInfo
+{
+    NSDictionary* studentDict;
+    if (_rowIndexPath.section == 0)
+    {
+        studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
+    else
+    {
+        studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+    }
+    NSString* paymentMethod = [paymentInfo objectForKey:@"Type"];
+    NSString* outstandingAmount = @"0.00";
+    if ([[studentDict objectForKey:@"classBalance"] intValue] - [[paymentInfo objectForKey:@"Tip"] intValue] > 0)
+        outstandingAmount = [NSString stringWithFormat:@"%d",[[studentDict objectForKey:@"classBalance"] intValue] - [[paymentInfo objectForKey:@"Tip"] intValue]];
+    HttpConnection* conn;
+    if (outstandingAmount.intValue > 0)
+    {
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePartialPayments withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPartialSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],[paymentInfo objectForKey:@"Tip"],paymentMethod,[paymentInfo objectForKey:@"TxId"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    }
+    else
+    {
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],[paymentInfo objectForKey:@"Tip"],paymentMethod,[paymentInfo objectForKey:@"TxId"],outstandingAmount,[self.classObject objectForKey:@"classPrice"]]];
+    }
+    [conn setRequestType:kRequestTypeUpdatePaymentDetails];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
 - (void) classDetailRequestWithClassId:(NSString*)classId
 {
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLClassDetail withPostString:[NSString stringWithFormat:@"&classId=%@",classId]];
@@ -674,6 +712,23 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+}
+
+#pragma mark - openURL notification
+
+- (void) openURLNotification:(id)responseUrl
+{
+    [_takePaymentView removeFromSuperview];
+
+    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)responseUrl];
+    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
+    {
+        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
+    }
+    else
+    {
+        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+    }
 }
 
 @end

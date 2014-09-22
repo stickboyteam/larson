@@ -43,6 +43,20 @@
     [self updateClassInfoUIWithBalance:[self.studentDict objectForKey:@"classBalance"]];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openURLNotification:) name:kAppDelegateOpenURLNotification object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -291,6 +305,18 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
+- (void) updatePaymentDetailsToServerMadeThroughPaypalHere:(NSDictionary*)paymentInfo
+{
+    NSString* paymentMethod = [paymentInfo objectForKey:@"Type"];
+    
+    NSString* outstandingBalance = @"0.00";
+    
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],[paymentInfo objectForKey:@"Tip"],paymentMethod,[paymentInfo objectForKey:@"TxId"],outstandingBalance,[self.classDict objectForKey:@"classPrice"]]];
+    [conn setRequestType:kRequestTypeUpdatePaymentDetails];
+    [conn setDelegate:self];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
@@ -378,6 +404,21 @@
 {
     NSLog(@"PayPal Payment Canceled");
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - openURL notification
+
+- (void) openURLNotification:(id)responseUrl
+{
+    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)responseUrl];
+    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
+    {
+        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
+    }
+    else
+    {
+        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+    }
 }
 
 @end
