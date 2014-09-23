@@ -77,6 +77,7 @@
     {
         _dropdownTableView.delegate = self;
         _dropdownTableView.dataSource = self;
+        _courseNameLabel.text = [self.classObject objectForKey:@"className"];
 
         if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
