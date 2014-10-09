@@ -10,6 +10,7 @@
 		0E1DF41C194341320051E651 /* StudentRosterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF41B194341320051E651 /* StudentRosterCell.m */; };
 		0E1DF41F19435CC80051E651 /* StudentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */; };
 		0E1DF4221943803A0051E651 /* AttendanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1DF4211943803A0051E651 /* AttendanceViewController.m */; };
+		0E28D87919D324600088C0CF /* Raygun4iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E28D87819D324600088C0CF /* Raygun4iOS.framework */; };
 		0E4160CE1955858D0024113C /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4160C81955858D0024113C /* libPayPalMobile.a */; };
 		0E4D408219421C670015FA07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408119421C670015FA07 /* Foundation.framework */; };
 		0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4D408319421C670015FA07 /* CoreGraphics.framework */; };
@@ -78,6 +79,7 @@
 		0E1DF41E19435CC80051E651 /* StudentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudentInfoViewController.m; sourceTree = "<group>"; };
 		0E1DF4201943803A0051E651 /* AttendanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttendanceViewController.h; sourceTree = "<group>"; };
 		0E1DF4211943803A0051E651 /* AttendanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttendanceViewController.m; sourceTree = "<group>"; };
+		0E28D87819D324600088C0CF /* Raygun4iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Raygun4iOS.framework; sourceTree = "<group>"; };
 		0E4160C81955858D0024113C /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPayPalMobile.a; sourceTree = "<group>"; };
 		0E4160C91955858D0024113C /* PayPalConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalConfiguration.h; sourceTree = "<group>"; };
 		0E4160CA1955858D0024113C /* PayPalFuturePaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayPalFuturePaymentViewController.h; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				0E679D311959D042001F1037 /* SystemConfiguration.framework in Frameworks */,
 				0E4D408419421C670015FA07 /* CoreGraphics.framework in Frameworks */,
 				0E4D408619421C670015FA07 /* UIKit.framework in Frameworks */,
+				0E28D87919D324600088C0CF /* Raygun4iOS.framework in Frameworks */,
 				0E4160CE1955858D0024113C /* libPayPalMobile.a in Frameworks */,
 				0E4D408219421C670015FA07 /* Foundation.framework in Frameworks */,
 			);
@@ -203,6 +206,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E28D87719D324600088C0CF /* Raygun */ = {
+			isa = PBXGroup;
+			children = (
+				0E28D87819D324600088C0CF /* Raygun4iOS.framework */,
+			);
+			path = Raygun;
+			sourceTree = "<group>";
+		};
 		0E4160C71955858D0024113C /* PayPalMobile */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +268,7 @@
 		0E4D408719421C670015FA07 /* Larson */ = {
 			isa = PBXGroup;
 			children = (
+				0E28D87719D324600088C0CF /* Raygun */,
 				0E6B64C7195B190800608882 /* ZBarSDK */,
 				0E679D321959D25A001F1037 /* Images.xcassets */,
 				0E4160C71955858D0024113C /* PayPalMobile */,
@@ -659,6 +671,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: reema bhatia (Z5J9J6A573)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/Raygun,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
 				INFOPLIST_FILE = "Larson/Larson-Info.plist";
@@ -689,6 +705,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: reema bhatia (Z5J9J6A573)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: reema bhatia (Z5J9J6A573)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Vishwanath/WorkingProjects/oDesk/Stickboy/Larson/Git/larson/Larson/Larson/Raygun,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Larson/Larson-Prefix.pch";
 				INFOPLIST_FILE = "Larson/Larson-Info.plist";

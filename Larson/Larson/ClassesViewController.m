@@ -14,6 +14,7 @@
 @interface ClassesViewController ()
 
 @property (nonatomic, strong) UIPopoverController* popOverController;
+@property (nonatomic, strong) NSMutableArray* filteredClassesList;
 
 @end
 
@@ -45,9 +46,15 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
     _sortedClassesList = [[NSArray alloc] initWithArray:[self.classesList sortedArrayUsingDescriptors:sortDescriptors]];
     
+    _filteredClassesList = [[NSMutableArray alloc] init];
+
     if (_sortedClassesList.count == 0)
     {
         [UIUtils alertWithInfoMessage:@"No classes available"];
+    }
+    else
+    {
+        [self filterClassesList];
     }
     
     _isFirstTime = YES;
@@ -105,6 +112,7 @@
     table.tag = 11;
     table.delegate = self;
     table.dataSource = self;
+    [table reloadData];
     UIViewController* viewC = [[UIViewController alloc] init];
     viewC.view = table;
     UIPopoverController* popOverC = [[UIPopoverController alloc] initWithContentViewController:viewC];
@@ -147,6 +155,22 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
+- (void) filterClassesList
+{
+    [_filteredClassesList removeAllObjects];
+    
+    for (NSDictionary* classDict in _sortedClassesList)
+    {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"courseCodeId == %@",[classDict objectForKey:@"courseCodeId"]];
+        NSArray* array = [self.filteredClassesList filteredArrayUsingPredicate:predicate];
+        if (array.count == 0)
+        {
+            NSDictionary* dict = [[NSDictionary alloc] initWithDictionary:classDict copyItems:YES];
+            [self.filteredClassesList addObject:dict];
+        }
+    }
+}
+
 #pragma mark - tableView dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -156,7 +180,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_sortedClassesList count];
+    if (tableView.tag == 11)
+    {
+        return [self.filteredClassesList count];
+    }
+    else
+    {
+        return [_sortedClassesList count];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -189,7 +220,7 @@
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
         }
-        NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
+        NSDictionary* classDict = [self.filteredClassesList objectAtIndex:indexPath.row];
         cell.textLabel.text = [classDict objectForKey:@"classPrefix"];
         return cell;
     }
@@ -209,7 +240,16 @@
         if ([[[classDict objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
             [self.popOverController dismissPopoverAnimated:YES];
-            [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
+            AttendanceViewController* attendanceVC = [self.storyboard instantiateViewControllerWithIdentifier:kAttendanceViewID];
+            if (attendanceVC)
+            {
+                attendanceVC.classObject = [self.filteredClassesList objectAtIndex:_rowIndex];
+                attendanceVC.isAttendanceScreen = YES;
+                attendanceVC.isFromClasses = YES;
+                [self.navigationController pushViewController:attendanceVC animated:YES];
+            }
+
+//            [self classDetailRequestWithClassId:[classDict objectForKey:@"classId"]];
         }
         else
         {
@@ -238,7 +278,9 @@
             if ([[responseDict objectForKey:@"classes"] isKindOfClass:[NSArray class]])
             {
                 _classesList = [NSArray arrayWithArray:[responseDict objectForKey:@"classes"]];
-                [_classesTableView reloadData];
+                [self sortByCodeButtonAction:nil];
+                [self filterClassesList];
+//                [_classesTableView reloadData];
             }
         }
         else

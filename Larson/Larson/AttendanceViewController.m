@@ -77,7 +77,10 @@
     {
         _dropdownTableView.delegate = self;
         _dropdownTableView.dataSource = self;
-        _courseNameLabel.text = [self.classObject objectForKey:@"className"];
+        if (_isFromClasses)
+            _courseNameLabel.text = [self.classObject objectForKey:@"classPrefix"];
+        else
+            _courseNameLabel.text = [self.classObject objectForKey:@"className"];
 
         if ([[[self.classObject objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
@@ -126,7 +129,7 @@
         if (_selectedUnitIndex > -1)
             unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
         
-        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&btnEmailAttendanceSubmit=submit&dateOfAttendance=%@",[self.classObject objectForKey:@"classId"],email,unitId,[UIUtils getDateStringOfFormat:kDateFormat]]];
+        HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaEmail withPostString:[NSString stringWithFormat:@"&classId=%@&email=%@&unitId=%@&btnEmailAttendanceSubmit=submit&dateOfAttendance=%@&courseCodeId=%@",[self.classObject objectForKey:@"classId"],email,unitId,[UIUtils getDateStringOfFormat:kDateFormat],[self.classObject objectForKey:@"courseCodeId"]]];
         [conn setRequestType:kRequestTypeSubmitAttendanceViaEmail];
         [conn setDelegate:self];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -143,7 +146,7 @@
     if (_selectedUnitIndex > -1)
         unitId = [[[self.classObject objectForKey:@"units"] objectAtIndex:_selectedUnitIndex] objectForKey:@"unitId"];
 
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&btnAttendanceSubmit=submit&dateOfAttendance=%@",[self.classObject objectForKey:@"classId"],qrcode,unitId,[UIUtils getDateStringOfFormat:kDateFormat]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAttendanceViaQrcode withPostString:[NSString stringWithFormat:@"&classId=%@&qrCode=%@&unitId=%@&btnAttendanceSubmit=submit&dateOfAttendance=%@&courseCodeId=%@",[self.classObject objectForKey:@"classId"],qrcode,unitId,[UIUtils getDateStringOfFormat:kDateFormat],[self.classObject objectForKey:@"courseCodeId"]]];
     [conn setRequestType:kRequestTypeSubmitAttendanceViaQrcode];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

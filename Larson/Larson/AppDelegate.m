@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 #import "PayPalMobile.h"
 #import "ZBarSDK.h"
+#import <Raygun4iOS/Raygun.h>
 
 @implementation AppDelegate
 
@@ -23,6 +24,8 @@
     
     [PayPalMobile initializeWithClientIdsForEnvironments:@{PayPalEnvironmentProduction : @"YOUR_CLIENT_ID_FOR_PRODUCTION",                                                           PayPalEnvironmentSandbox :kPayPalClientID}];
 
+    [Raygun sharedReporterWithApiKey:kRayGunApiKey];
+    
     [ZBarReaderView class];
 
     return YES;

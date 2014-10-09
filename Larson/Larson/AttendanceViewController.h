@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSDictionary *studentDict;
 @property (nonatomic, strong) NSDictionary *classDetailObject;
 @property (nonatomic, assign) BOOL isAttendanceScreen;
+@property (nonatomic, assign) BOOL isFromClasses;
 
 - (IBAction)enterEmailAddressButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;

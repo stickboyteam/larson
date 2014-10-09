@@ -79,7 +79,7 @@
     
     NSDictionary* studentDict = [_searchedStudentsList objectAtIndex:[sender tag]];
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAssignStudent withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&btnAssignSubmit=submit",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLAssignStudent withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&btnAssignSubmit=submit&courseCodeId=%@",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[self.classObject objectForKey:@"courseCodeId"]]];
     [conn setRequestType:kRequestTypeAssignStudent];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
