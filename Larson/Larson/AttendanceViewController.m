@@ -198,6 +198,12 @@
     [_readerView willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
+- (void) restartScanning
+{
+    [_successImageView setHidden:YES];
+    [_readerView start];
+}
+
 #pragma mark - ZBarReaderReaderView delegate
 
 - (void) readerView: (ZBarReaderView*) readerView
@@ -273,7 +279,8 @@
         
         if (self.isAttendanceScreen)
         {
-            [UIUtils alertWithTitle:@"Want to scan more cards?" message:Nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:2];
+//            [UIUtils alertWithTitle:@"Want to scan more cards?" message:Nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:2];
+            [self performSelector:@selector(restartScanning) withObject:nil afterDelay:1];
         }
         else
         {
