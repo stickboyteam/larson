@@ -258,11 +258,11 @@
         editStudentInfoVC.delegate = self;
         if (sender.indexPath.section == 0)
         {
-            editStudentInfoVC.studentDict = [self.studentNonCheckedInList objectAtIndex:[sender tag]];
+            editStudentInfoVC.studentDict = [self.studentNonCheckedInList objectAtIndex:[[sender indexPath] row]];
         }
         else
         {
-            editStudentInfoVC.studentDict = [self.studentCheckedInList objectAtIndex:[sender tag]];
+            editStudentInfoVC.studentDict = [self.studentCheckedInList objectAtIndex:[[sender indexPath] row]];
         }
 
         [self.navigationController pushViewController:editStudentInfoVC animated:YES];
@@ -320,7 +320,7 @@
 
     if (sender.selected)
     {
-        NSDictionary* studentDict = [self.studentNonCheckedInList objectAtIndex:[sender tag]];
+        NSDictionary* studentDict = [self.studentNonCheckedInList objectAtIndex:[[sender indexPath] row]];
         NSString* checkInString = [[NSString alloc] initWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
         [[_appDelegate checkInList] addObject:checkInString];
         [self.studentCheckedInList addObject:studentDict];
@@ -328,7 +328,7 @@
     }
     else
     {
-        NSDictionary* studentDict = [self.studentCheckedInList objectAtIndex:[sender tag]];
+        NSDictionary* studentDict = [self.studentCheckedInList objectAtIndex:[[sender indexPath] row]];
         NSString* checkInString = [[NSString alloc] initWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
         [[_appDelegate checkInList] removeObject:checkInString];
         [self.studentNonCheckedInList addObject:studentDict];
@@ -462,20 +462,26 @@
         [self.studentCheckedInList removeAllObjects];
         [self.studentNonCheckedInList removeAllObjects];
 
-        for (NSString* checkInId in filteredCheckInList)
+        for (NSDictionary* studentDict in _sortedStudentsList)
         {
-            for (NSDictionary* studentDict in _sortedStudentsList)
+            for (NSString* checkInId in filteredCheckInList)
             {
                 NSString* checkInKey = [NSString stringWithFormat:@"%@_%@",[self.classObject objectForKey:@"classId"],[studentDict objectForKey:@"id"]];
-                if ([checkInKey isEqualToString:checkInId])
+                if ([checkInId isEqualToString:checkInKey])
                 {
                     [self.studentCheckedInList addObject:studentDict];
-                }
-                else
-                {
-                    [self.studentNonCheckedInList addObject:studentDict];
+                    break;
                 }
             }
+        }
+        
+        for (NSDictionary* studentDict in _sortedStudentsList)
+        {
+            NSPredicate* predicate1 = [NSPredicate predicateWithFormat:@"self contains %@",[studentDict objectForKey:@"id"]];
+            NSArray* filteredCheckInList1 = [self.studentCheckedInList filteredArrayUsingPredicate:predicate1];
+            
+            if (filteredCheckInList1.count == 0)
+                [self.studentNonCheckedInList addObject:studentDict];
         }
     }
     
@@ -669,6 +675,8 @@
         if ([handler requestType] == kRequestTypeClassDetail)
         {
             _classDetailObject = nil;
+            [self.studentNonCheckedInList removeAllObjects];
+            [self.studentCheckedInList removeAllObjects];
             _classDetailObject = [[NSDictionary alloc] initWithDictionary:responseDict];
             [self setInterface];
         }

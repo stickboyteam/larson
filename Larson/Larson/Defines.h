@@ -11,11 +11,11 @@
 
 #define UIColorFromHEX(hex) [UIColor colorWithRed:((float)((hex & 0xFF0000) >> 16))/255.0 green:((float)((hex & 0xFF00) >> 8))/255.0 blue:((float)(hex & 0xFF))/255.0 alpha:1.0]
 
-//#ifdef DEBUG
+#ifdef DEBUG
 #define NSLog(__FORMAT__, ...) NSLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-//#else
-//#define NSLog(__FORMAT__, ...)  ((void)0)
-//#endif
+#else
+#define NSLog(__FORMAT__, ...)  ((void)0)
+#endif
 
 #define kLoginBGColor 0xebebeb
 #define kCommonBGColor 0xf2f2f2

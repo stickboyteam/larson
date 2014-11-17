@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Larson/ClassesViewController.m"
-            timestampString = "434562152.482898"
+            filePath = "Larson/StudentRosterViewController.m"
+            timestampString = "437937565.025272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
-            landmarkName = "-filterClassesList"
+            startingLineNumber = "670"
+            endingLineNumber = "670"
+            landmarkName = "-httpConnection:didFinishedSucessfully:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Larson/ClassesViewController.m"
-            timestampString = "434562175.919359"
+            filePath = "Larson/StudentRosterViewController.m"
+            timestampString = "437931822.390385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "-setInterface"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Larson/ClassesViewController.m"
-            timestampString = "434562190.829761"
+            filePath = "Larson/StudentRosterViewController.m"
+            timestampString = "437932329.405442"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            startingLineNumber = "456"
+            endingLineNumber = "456"
+            landmarkName = "-sortStudentRosterList"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Larson/StudentRosterViewController.m"
+            timestampString = "437936244.577122"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "-checkInButtonAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
