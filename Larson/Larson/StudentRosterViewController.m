@@ -135,9 +135,12 @@
         {
             studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
         }
-        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+        //NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
         _isPaidByCard = NO;
-        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Confirm Payment of %@ ?",_amountField.text] message:nil delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        alert.tag = 1111;
+        [alert show];
+//        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
     }
     else
     {
@@ -161,10 +164,20 @@
         {
             studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
         }
-        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+       // NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
         _isPaidByCard = YES;
 //        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription];
-        [UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
+        
+        [_takePaymentView removeFromSuperview];
+        
+        NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
+        [dictionary setObject:amount forKey:@"Tip"];
+        [dictionary setObject:@"Paypal here" forKey:@"Type"];
+        [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
+
+        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+
+        //[UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
     }
     else
     {
@@ -385,6 +398,11 @@
 
 - (void) updatePaymentDetailsToServer:(PayPalPayment*)paymentInfo
 {
+    
+}
+
+- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId
+{
     NSDictionary* studentDict;
     if (_rowIndexPath.section == 0)
     {
@@ -398,16 +416,16 @@
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     NSString* outstandingAmount = @"0.00";
-    if ([[studentDict objectForKey:@"classBalance"] intValue] - paymentInfo.amount.intValue > 0)
-        outstandingAmount = [NSString stringWithFormat:@"%d",[[studentDict objectForKey:@"classBalance"] intValue] - paymentInfo.amount.intValue];
+    if ([[studentDict objectForKey:@"classBalance"] intValue] - amountPaid.intValue > 0)
+        outstandingAmount = [NSString stringWithFormat:@"%d",[[studentDict objectForKey:@"classBalance"] intValue] - amountPaid.intValue];
     HttpConnection* conn;
     if (outstandingAmount.intValue > 0)
     {
-        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePartialPayments withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPartialSubmit=submit&courseCodeId=%@",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"],[self.classObject objectForKey:@"courseCodeId"]]];
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePartialPayments withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPartialSubmit=submit&courseCodeId=%@",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],amountPaid,paymentMethod,transactionId,outstandingAmount,[self.classObject objectForKey:@"classPrice"],[self.classObject objectForKey:@"courseCodeId"]]];
     }
     else
     {
-        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit&courseCodeId=%@",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingAmount,[self.classObject objectForKey:@"classPrice"],[self.classObject objectForKey:@"courseCodeId"]]];
+        conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit&courseCodeId=%@",[studentDict objectForKey:@"id"],[self.classObject objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],amountPaid,paymentMethod,transactionId,outstandingAmount,[self.classObject objectForKey:@"classPrice"],[self.classObject objectForKey:@"courseCodeId"]]];
     }
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
@@ -680,6 +698,10 @@
             _classDetailObject = [[NSDictionary alloc] initWithDictionary:responseDict];
             [self setInterface];
         }
+        else if ([handler requestType] == kRequestTypeUpdatePaymentDetails)
+        {
+            [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] okBtnTitle:@"Ok" cancelBtnTitle:nil delegate:self tag:111];
+        }
         else
         {
             [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] delegate:self];
@@ -719,7 +741,38 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+    if (alertView.tag == 1111)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerWithAmountPaid:[_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash/Check"];
+        }
+    }
+    else if (alertView.tag == 111)
+    {
+        NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        int totalAmount = [amount intValue];
+        if (totalAmount > 0)
+        {
+            NSDictionary* studentDict;
+            if (_rowIndexPath.section == 0)
+            {
+                studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+            }
+            else
+            {
+                studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+            }
+            NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+            _isPaidByCard = YES;
+            [UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
+        }
+    }
+    else
+    {
+        [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+        [_takePaymentView removeFromSuperview];
+    }
 }
 
 #pragma mark - openURL notification

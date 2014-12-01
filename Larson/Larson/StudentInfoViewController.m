@@ -76,9 +76,11 @@
     int totalAmount = [[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""]intValue];
     if (totalAmount > 0)
     {
-        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
-        _isPaidByCard = NO;
-        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription amount:totalAmount];
+//        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+//        _isPaidByCard = NO;
+//        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription amount:totalAmount];
+        
+        [UIUtils alertWithTitle:[NSString stringWithFormat:@"Confirm Payment of %@ ?",_courseFeeLabel.text] message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:1111];
     }
     else
     {
@@ -99,9 +101,16 @@
     NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
     if ([totalAmount intValue] > 0)
     {
-        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
-        _isPaidByCard = YES;
-        [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
+        NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
+        [dictionary setObject:totalAmount forKey:@"Tip"];
+        [dictionary setObject:@"Paypal here" forKey:@"Type"];
+        [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
+        
+        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+
+//        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+//        _isPaidByCard = YES;
+//        [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
 //        [self initiatePaymentWithPaypalWithCreditCard:YES withDescription:paymentDescription amount:totalAmount];
     }
     else
@@ -293,13 +302,18 @@
 
 - (void) updatePaymentDetailsToServer:(PayPalPayment*)paymentInfo
 {
+    
+}
+
+- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId
+{
     NSString* paymentMethod = @"Credit";
     if (!_isPaidByCard)
         paymentMethod = @"Cash";
     
     NSString* outstandingBalance = @"0.00";
     
-    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit&courseCodeId=%@",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],paymentInfo.amount.stringValue,paymentMethod,[[[paymentInfo confirmation] objectForKey:@"response"] objectForKey:@"id"],outstandingBalance,[self.classDict objectForKey:@"classPrice"],[self.classDict objectForKey:@"courseCodeId"]]];
+    HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit&courseCodeId=%@",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],amountPaid,paymentMethod,transactionId,outstandingBalance,[self.classDict objectForKey:@"classPrice"],[self.classDict objectForKey:@"courseCodeId"]]];
     [conn setRequestType:kRequestTypeUpdatePaymentDetails];
     [conn setDelegate:self];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -366,6 +380,10 @@
             _studentDict = [responseDict objectForKey:@"student"];
             [self updateClassInfoUIWithBalance:[self.studentDict objectForKey:@"classBalance"]];
         }
+        else if ([handler requestType] == kRequestTypeUpdatePaymentDetails)
+        {
+            [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] okBtnTitle:@"Ok" cancelBtnTitle:nil delegate:self tag:111];
+        }
         else
         {
             [UIUtils alertWithInfoMessage:@"Student info saved successfully"];
@@ -418,6 +436,31 @@
     else
     {
         [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+    }
+}
+
+#pragma mark - alertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1111)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash/Check"];
+        }
+    }
+    else if (alertView.tag == 111)
+    {
+        NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        if ([totalAmount intValue] > 0)
+        {
+            NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+            _isPaidByCard = YES;
+            
+            [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
+        }
+
     }
 }
 

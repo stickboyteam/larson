@@ -50,7 +50,9 @@ typedef enum screenType
     kScreenTypeAttendance
 } ScreenType;
 
-#define kServerURL @"http://www.larsoned.com.php53-9.dfw1-2.websitetestlink.com/"
+#define kServerURL @"http://stagelarsontrak.larsoned.com.php53-6.dfw1-2.websitetestlink.com/"
+//http://stagelarsontrak.larsoned.com.php53-6.dfw1-2.websitetestlink.com/api/
+//http://larsontrak.larsoned.com/
 
 #define kSubURLLogin   @"api/login.php"
 #define kSubURLClassDetail @"api/class-details.php"
@@ -81,7 +83,7 @@ typedef enum screenType
 #define kPayPalMerchantPrivacyPolicyURL @"https://www.paypal.com/webapps/mpp/ua/privacy-full"
 #define kPayPalMerchantUserAgreementURL @"https://www.paypal.com/webapps/mpp/ua/useragreement-full"
 #define kPayPalMerchantAcceptCreditCards    1 // 0 - NO, 1 - YES
-#define kMerchantEmail  @"vishwa.larson@gmail.com"
+#define kMerchantEmail  @"david@larsoned.com" //@"vishwa.larson@gmail.com"
 
 // Set the environment:
 // - For live charges, use PayPalEnvironmentProduction (default).
