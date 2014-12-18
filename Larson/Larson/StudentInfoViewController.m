@@ -11,6 +11,8 @@
 
 @interface StudentInfoViewController ()
 
+@property (nonatomic, strong) NSDictionary* paymentDetails;
+
 @end
 
 @implementation StudentInfoViewController
@@ -101,13 +103,8 @@
     NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
     if ([totalAmount intValue] > 0)
     {
-        NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
-        [dictionary setObject:totalAmount forKey:@"Tip"];
-        [dictionary setObject:@"Paypal here" forKey:@"Type"];
-        [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
+        [UIUtils alertWithTitle:[NSString stringWithFormat:@"Process payment of %@ ?",_courseFeeLabel.text] message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:222];
         
-        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
-
 //        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
 //        _isPaidByCard = YES;
 //        [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
@@ -428,15 +425,16 @@
 
 - (void) openURLNotification:(NSNotification*)notification
 {
-    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)[notification object]];
-    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
-    {
-        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
-    }
-    else
-    {
-        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
-    }
+//    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)[notification object]];
+//    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
+//    {
+//        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
+//    }
+//    else
+//    {
+//        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+//    }
+    [UIUtils alertWithTitle:@"Was payment processed successfully?" message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:333];
 }
 
 #pragma mark - alertView delegate
@@ -452,15 +450,36 @@
     }
     else if (alertView.tag == 111)
     {
-        NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
-        if ([totalAmount intValue] > 0)
+        [self updateClassInfoUIWithBalance:nil];
+    }
+    else if (alertView.tag == 222)
+    {
+        if (buttonIndex == 1)
         {
-            NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
-            _isPaidByCard = YES;
+            NSString* totalAmount = [_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+            NSMutableDictionary* dictionary = [[NSMutableDictionary alloc] init];
+            [dictionary setObject:totalAmount forKey:@"Tip"];
+            [dictionary setObject:@"Paypal here" forKey:@"Type"];
+            [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
+            self.paymentDetails = dictionary;
             
-            [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
-        }
+            if ([totalAmount intValue] > 0)
+            {
+                NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+                _isPaidByCard = YES;
+                
+                [UIUtils handlePaymentWithName:[self.classDict objectForKey:@"className"] amount:totalAmount description:paymentDescription payerEmail:[self.studentDict objectForKey:@"email"]];
+            }
 
+            //[self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+        }
+    }
+    else if (alertView.tag == 333)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerMadeThroughPaypalHere:self.paymentDetails];
+        }
     }
 }
 

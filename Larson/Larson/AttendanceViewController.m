@@ -316,7 +316,7 @@
     if (_selectedUnitIndex == -1)
         return 0;
     else
-        return [[self.classObject objectForKey:@"units"] count];
+        return [(NSArray*)[self.classObject objectForKey:@"units"] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

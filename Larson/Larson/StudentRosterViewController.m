@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSMutableArray* studentCheckedInList;
 @property (nonatomic, strong) NSMutableArray* studentNonCheckedInList;
 @property (nonatomic, assign) BOOL addNewStudent;
+@property (nonatomic, strong) NSDictionary* paymentDetails;
 
 @end
 
@@ -170,12 +171,7 @@
         
         [_takePaymentView removeFromSuperview];
         
-        NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
-        [dictionary setObject:amount forKey:@"Tip"];
-        [dictionary setObject:@"Paypal here" forKey:@"Type"];
-        [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
-
-        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+        [UIUtils alertWithTitle:[NSString stringWithFormat:@"Process payment of %@ ?",_amountField.text] message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:222];
 
         //[UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
     }
@@ -700,6 +696,7 @@
         }
         else if ([handler requestType] == kRequestTypeUpdatePaymentDetails)
         {
+//            [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] okBtnTitle:@"Ok" cancelBtnTitle:nil delegate:self tag:111];
             [UIUtils alertWithTitle:@"Info" message:[responseDict objectForKey:@"message"] okBtnTitle:@"Ok" cancelBtnTitle:nil delegate:self tag:111];
         }
         else
@@ -750,10 +747,20 @@
     }
     else if (alertView.tag == 111)
     {
-        NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
-        int totalAmount = [amount intValue];
-        if (totalAmount > 0)
+        [self classDetailRequestWithClassId:[self.classObject objectForKey:@"classId"]];
+    }
+    else if (alertView.tag == 222)
+    {
+        if (buttonIndex == 1)
         {
+            NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+            
+            NSMutableDictionary* dictionary = [[NSMutableDictionary alloc] init];
+            [dictionary setObject:amount forKey:@"Tip"];
+            [dictionary setObject:@"Paypal here" forKey:@"Type"];
+            [dictionary setObject:@"paypalhere_txid" forKey:@"TxId"];
+            self.paymentDetails = dictionary;
+            
             NSDictionary* studentDict;
             if (_rowIndexPath.section == 0)
             {
@@ -766,6 +773,14 @@
             NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
             _isPaidByCard = YES;
             [UIUtils handlePaymentWithName:[self.classObject objectForKey:@"className"] amount:amount description:paymentDescription payerEmail:[studentDict objectForKey:@"email"]];
+//            [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+        }
+    }
+    else if (alertView.tag == 333)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerMadeThroughPaypalHere:self.paymentDetails];
         }
     }
     else
@@ -781,15 +796,16 @@
 {
     [_takePaymentView removeFromSuperview];
 
-    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)[notification object]];
-    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
-    {
-        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
-    }
-    else
-    {
-        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
-    }
+//    NSDictionary* dictionary = [UIUtils getDictionaryFromCallbackResponse:(NSURL*)[notification object]];
+//    if ([[dictionary objectForKey:@"Type"] rangeOfString:@"Unknown"].length > 0)
+//    {
+//        [UIUtils alertWithInfoMessage:@"Payment cancelled"];
+//    }
+//    else
+//    {
+//        [self updatePaymentDetailsToServerMadeThroughPaypalHere:dictionary];
+//    }
+    [UIUtils alertWithTitle:@"Was payment processed successfully?" message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:333];
 }
 
 @end

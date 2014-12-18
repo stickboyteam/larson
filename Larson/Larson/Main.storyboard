@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="pHt-jR-ukd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="pHt-jR-ukd">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -818,7 +818,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="1qI-GF-doy">
-                                <rect key="frame" x="33" y="565" width="702" height="190"/>
+                                <rect key="frame" x="33" y="637" width="702" height="190"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_white2" id="HVU-de-njp">
@@ -870,7 +870,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vaC-OZ-TEh">
-                                <rect key="frame" x="300" y="795" width="168" height="63"/>
+                                <rect key="frame" x="180" y="852" width="168" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="btn_scan">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -880,23 +880,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p9A-sB-f9x">
-                                <rect key="frame" x="540" y="795" width="168" height="63"/>
+                                <rect key="frame" x="420" y="852" width="168" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="btn_cancel">
+                                <state key="normal" image="btn_red_back">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="cancelButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="tGb-pa-V80"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ovD-48-z2G">
-                                <rect key="frame" x="60" y="795" width="168" height="63"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="btn_save">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="QHu-ut-tJS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DcN-jB-Pqe">
@@ -915,6 +905,16 @@
                                 <rect key="frame" x="554" y="989" width="96" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ovD-48-z2G">
+                                <rect key="frame" x="300" y="549" width="168" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="btn_save">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="QHu-ut-tJS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1289,7 +1289,6 @@
         <image name="btn_add" width="76" height="40"/>
         <image name="btn_add_student" width="125" height="30"/>
         <image name="btn_back" width="93" height="30"/>
-        <image name="btn_cancel" width="168" height="63"/>
         <image name="btn_cash_check" width="256" height="40"/>
         <image name="btn_cash_check-1" width="164" height="53"/>
         <image name="btn_ccard" width="256" height="40"/>
@@ -1303,6 +1302,7 @@
         <image name="btn_logout" width="93" height="30"/>
         <image name="btn_next" width="78" height="40"/>
         <image name="btn_payment" width="74" height="33"/>
+        <image name="btn_red_back" width="168" height="63"/>
         <image name="btn_save" width="168" height="63"/>
         <image name="btn_scan" width="168" height="63"/>
         <image name="btn_scan-1" width="63" height="33"/>
