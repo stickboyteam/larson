@@ -50,7 +50,8 @@ typedef enum screenType
     kScreenTypeAttendance
 } ScreenType;
 
-#define kServerURL @"http://stagelarsontrak-larsoned-com-k6uhd90ta3av.runscope.net/"
+#define kServerURL @"http://larsontrak.larsoned.com/"
+//http://stagelarsontrak-larsoned-com-k6uhd90ta3av.runscope.net/
 //http://stagelarsontrak.larsoned.com.php53-6.dfw1-2.websitetestlink.com/api/
 //http://larsontrak.larsoned.com/
 
@@ -64,7 +65,6 @@ typedef enum screenType
 #define kSubURLUpdatePaymentDetails @"api/payment.php"
 #define kSubURLUpdateScannedQrCode    @"/api/scan-card.php"
 #define kSubURLSearchStudents         @"api/search-students.php"
-#define kSubURLUpdatePartialPayments    @"api/partial-payment.php"
 #define kSubURLAssignStudent            @"api/student-assign.php"
 
 #define _trim(text) [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
