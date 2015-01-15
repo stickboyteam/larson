@@ -14,7 +14,7 @@
 		<string>https://github.com/stickboyteam/larson</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Larson/Larson.xcodeproj/project.xcworkspace</string>
+	<string>Larson/Larson.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>67740048B6BF5607B312617447BA76D3394A5073</key>

@@ -237,7 +237,11 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == 2)
+    if (alertView.tag == 3)
+    {
+        [self performSelector:@selector(restartScanning) withObject:nil afterDelay:0.5];
+    }
+    else if (alertView.tag == 2)
     {
         if (buttonIndex == 1)
         {
@@ -289,7 +293,15 @@
     }
     else
     {
-        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
+        if (self.isAttendanceScreen)
+        {
+            //        [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
+            [UIUtils alertWithTitle:@"Error" message:[responseDict objectForKey:@"message"] okBtnTitle:@"Ok" cancelBtnTitle:nil delegate:self tag:3];
+        }
+        else
+        {
+            [UIUtils alertWithErrorMessage:[responseDict objectForKey:@"message"]];
+        }
     }
 }
 
