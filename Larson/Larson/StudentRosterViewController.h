@@ -37,7 +37,8 @@
 @property (nonatomic, strong) NSDictionary* classObject;
 @property (nonatomic, strong) NSDictionary* classDetailObject;
 
-- (IBAction)cashCheckButtonAction:(id)sender;
+- (IBAction)cashButtonAction:(id)sender;
+- (IBAction)checkButtonAction:(id)sender;
 - (IBAction)creditCardButtonAction:(id)sender;
 - (IBAction)takePaymentTapGestureAction:(id)sender;
 - (IBAction)addNewStudentButtonAction:(id)sender;

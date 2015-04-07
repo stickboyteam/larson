@@ -120,7 +120,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (IBAction)cashCheckButtonAction:(id)sender
+- (IBAction)cashButtonAction:(id)sender
 {
     [_amountField resignFirstResponder];
     NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
@@ -142,6 +142,35 @@
         alert.tag = 1111;
         [alert show];
 //        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
+    }
+    else
+    {
+        [UIUtils alertWithErrorMessage:@"Please enter a valid amount"];
+    }
+}
+
+- (IBAction)checkButtonAction:(id)sender
+{
+    [_amountField resignFirstResponder];
+    NSString* amount = [_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""];
+    int totalAmount = [amount intValue];
+    if (totalAmount > 0)
+    {
+        NSDictionary* studentDict;
+        if (_rowIndexPath.section == 0)
+        {
+            studentDict = [self.studentNonCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
+        else
+        {
+            studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
+        }
+        //NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[studentDict objectForKey:@"name"],[studentDict objectForKey:@"email"],[self.classObject objectForKey:@"classCode"]];
+        _isPaidByCard = NO;
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Confirm Payment of %@ ?",_amountField.text] message:nil delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        alert.tag = 2222;
+        [alert show];
+        //        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription];
     }
     else
     {
@@ -397,7 +426,7 @@
     
 }
 
-- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId
+- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId paymentMethod:(NSString*)paymentMethod
 {
     NSDictionary* studentDict;
     if (_rowIndexPath.section == 0)
@@ -408,9 +437,6 @@
     {
         studentDict = [self.studentCheckedInList objectAtIndex:_rowIndexPath.row];
     }
-    NSString* paymentMethod = @"Credit";
-    if (!_isPaidByCard)
-        paymentMethod = @"Cash";
     NSString* outstandingAmount = @"0.00";
     if ([[studentDict objectForKey:@"classBalance"] intValue] - amountPaid.intValue > 0)
         outstandingAmount = [NSString stringWithFormat:@"%d",[[studentDict objectForKey:@"classBalance"] intValue] - amountPaid.intValue];
@@ -730,7 +756,14 @@
     {
         if (buttonIndex == 1)
         {
-            [self updatePaymentDetailsToServerWithAmountPaid:[_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash/Check"];
+            [self updatePaymentDetailsToServerWithAmountPaid:[_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash" paymentMethod:@"Cash"];
+        }
+    }
+    else if (alertView.tag == 2222)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerWithAmountPaid:[_amountField.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Check" paymentMethod:@"Check"];
         }
     }
     else if (alertView.tag == 111)

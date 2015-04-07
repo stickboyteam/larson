@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="pHt-jR-ukd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="pHt-jR-ukd">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Lato-Regular.ttf">
+            <string>Lato-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="XMb-Zr-Zpk">
@@ -557,23 +562,35 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="E70-lZ-buU">
-                                        <rect key="frame" x="214" y="406" width="164" height="53"/>
+                                        <rect key="frame" x="288" y="406" width="164" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="btn_cash_check-1">
+                                        <state key="normal" title="Check">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="cashCheckButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="l0D-Nh-PUf"/>
+                                            <action selector="checkButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="j1v-fw-dWB"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CYI-lG-xGT">
-                                        <rect key="frame" x="442" y="406" width="164" height="53"/>
+                                        <rect key="frame" x="502" y="406" width="164" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="btn_ccard-1">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="creditCardButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="E5A-gO-vqb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sJg-8R-7Ts">
+                                        <rect key="frame" x="74" y="406" width="164" height="53"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Lato-Regular" family="Lato" pointSize="18"/>
+                                        <state key="normal" title="Cash">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cashButtonAction:" destination="Zil-5j-flH" eventType="touchUpInside" id="ere-Va-ZSJ"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -847,13 +864,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8Qo-52-ODa">
-                                        <rect key="frame" x="67" y="117" width="256" height="40"/>
+                                        <rect key="frame" x="198" y="117" width="125" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="btn_cash_check">
+                                        <state key="normal" title="Check">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="cashCheckPaymentButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="eFb-zg-0bJ"/>
+                                            <action selector="checkButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="yRv-aR-FRz"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gXe-Zm-tWy">
@@ -864,6 +882,17 @@
                                         </state>
                                         <connections>
                                             <action selector="creditCardPaymentButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="vMq-x8-kd4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="n4o-OB-sVp">
+                                        <rect key="frame" x="41" y="117" width="125" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cash">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cashButtonAction:" destination="wjo-cV-Pxb" eventType="touchUpInside" id="4Qh-fM-tcY"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1289,8 +1318,6 @@
         <image name="btn_add" width="76" height="40"/>
         <image name="btn_add_student" width="125" height="30"/>
         <image name="btn_back" width="93" height="30"/>
-        <image name="btn_cash_check" width="256" height="40"/>
-        <image name="btn_cash_check-1" width="164" height="53"/>
         <image name="btn_ccard" width="256" height="40"/>
         <image name="btn_ccard-1" width="164" height="53"/>
         <image name="btn_check_down" width="24" height="24"/>

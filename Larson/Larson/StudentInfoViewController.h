@@ -34,7 +34,8 @@
 
 @property (nonatomic, strong) id <StudentRosterViewControllerDelegate> delegate;
 
-- (IBAction)cashCheckPaymentButtonAction:(id)sender;
+- (IBAction)cashButtonAction:(id)sender;
+- (IBAction)checkButtonAction:(id)sender;
 - (IBAction)creditCardPaymentButtonAction:(id)sender;
 - (IBAction)saveButtonAction:(id)sender;
 - (IBAction)logoutButtonAction:(id)sender;

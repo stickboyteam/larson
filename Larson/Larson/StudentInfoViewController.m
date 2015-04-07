@@ -65,7 +65,32 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)cashCheckPaymentButtonAction:(id)sender
+- (IBAction)cashButtonAction:(id)sender
+{
+    [self.view endEditing:YES];
+    
+    if (!_studentDict)
+    {
+        [UIUtils alertWithInfoMessage:@"Please save student info"];
+        return;
+    }
+    
+    int totalAmount = [[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""]intValue];
+    if (totalAmount > 0)
+    {
+        //        NSString* paymentDescription = [NSString stringWithFormat:@"%@_%@_%@",[self.studentDict objectForKey:@"name"],[self.studentDict objectForKey:@"email"],[self.classDict objectForKey:@"classCode"]];
+        //        _isPaidByCard = NO;
+        //        [self initiatePaymentWithPaypalWithCreditCard:NO withDescription:paymentDescription amount:totalAmount];
+        
+        [UIUtils alertWithTitle:[NSString stringWithFormat:@"Confirm Payment of %@ ?",_courseFeeLabel.text] message:nil okBtnTitle:@"Yes" cancelBtnTitle:@"No" delegate:self tag:2222];
+    }
+    else
+    {
+        [UIUtils alertWithInfoMessage:@"you do not have any balance amount to pay"];
+    }
+}
+
+- (IBAction)checkButtonAction:(id)sender
 {
     [self.view endEditing:YES];
 
@@ -302,12 +327,8 @@
     
 }
 
-- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId
+- (void) updatePaymentDetailsToServerWithAmountPaid:(NSString*)amountPaid transactionId:(NSString*)transactionId paymentMethod:(NSString*)paymentMethod
 {
-    NSString* paymentMethod = @"Credit";
-    if (!_isPaidByCard)
-        paymentMethod = @"Cash";
-    
     NSString* outstandingBalance = @"0.00";
     
     HttpConnection* conn = [[HttpConnection alloc] initWithServerURL:kSubURLUpdatePaymentDetails withPostString:[NSString stringWithFormat:@"&studentId=%@&classId=%@&transactionDate=%@&studentpaidamount=%@&paymentmethod=%@&transactionId=%@&studentOutstandingBalance=%@&totalclassamount=%@&paymentstatus=p&btnPaymentSubmit=submit&courseCodeId=%@",[self.studentDict objectForKey:@"id"],[self.classDict objectForKey:@"classId"],[UIUtils getDateStringOfFormat:kDateFormat],amountPaid,paymentMethod,transactionId,outstandingBalance,[self.classDict objectForKey:@"classPrice"],[self.classDict objectForKey:@"courseCodeId"]]];
@@ -445,7 +466,14 @@
     {
         if (buttonIndex == 1)
         {
-            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash/Check"];
+            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash" paymentMethod:@"Cash"];
+        }
+    }
+    else if (alertView.tag == 2222)
+    {
+        if (buttonIndex == 1)
+        {
+            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Check" paymentMethod:@"Check"];
         }
     }
     else if (alertView.tag == 111)
