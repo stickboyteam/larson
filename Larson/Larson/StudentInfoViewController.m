@@ -466,14 +466,14 @@
     {
         if (buttonIndex == 1)
         {
-            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash" paymentMethod:@"Cash"];
+            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Check" paymentMethod:@"Check"];
         }
     }
     else if (alertView.tag == 2222)
     {
         if (buttonIndex == 1)
         {
-            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Check" paymentMethod:@"Check"];
+            [self updatePaymentDetailsToServerWithAmountPaid:[_courseFeeLabel.text stringByReplacingOccurrencesOfString:@"$" withString:@""] transactionId:@"Cash" paymentMethod:@"Cash"];
         }
     }
     else if (alertView.tag == 111)
