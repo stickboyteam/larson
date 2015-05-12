@@ -50,10 +50,12 @@ typedef enum screenType
     kScreenTypeAttendance
 } ScreenType;
 
+
 //#define kServerURL @"http://larsontrak-larsoned-com-k6uhd90ta3av.runscope.net/"
+//#define kServerURL @"https://larsontrak-larsoned-com-k6uhd90ta3av.runscope.net/"
 #define kServerURL @"http://stagelarsontrak-larsoned-com-k6uhd90ta3av.runscope.net/"
-//http://stagelarsontrak.larsoned.com.php53-6.dfw1-2.websitetestlink.com/api/
 //http://larsontrak.larsoned.com/
+//https://larsontrak-larsoned-com-k6uhd90ta3av.runscope.net/
 
 #define kSubURLLogin   @"api/login.php"
 #define kSubURLClassDetail @"api/class-details.php"

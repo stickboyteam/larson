@@ -161,12 +161,15 @@
     
     for (NSDictionary* classDict in _sortedClassesList)
     {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"courseCodeId == %@",[classDict objectForKey:@"courseCodeId"]];
-        NSArray* array = [self.filteredClassesList filteredArrayUsingPredicate:predicate];
-        if (array.count == 0)
+        if ([[[classDict objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
-            NSDictionary* dict = [[NSDictionary alloc] initWithDictionary:classDict copyItems:YES];
-            [self.filteredClassesList addObject:dict];
+            NSPredicate* predicate = [NSPredicate predicateWithFormat:@"courseCodeId == %@",[classDict objectForKey:@"courseCodeId"]];
+            NSArray* array = [self.filteredClassesList filteredArrayUsingPredicate:predicate];
+            if (array.count == 0)
+            {
+                NSDictionary* dict = [[NSDictionary alloc] initWithDictionary:classDict copyItems:YES];
+                [self.filteredClassesList addObject:dict];
+            }
         }
     }
 }
@@ -235,7 +238,7 @@
     if (tableView.tag == 11)
     {
         _rowIndex = indexPath.row;
-        NSDictionary* classDict = [_sortedClassesList objectAtIndex:indexPath.row];
+        NSDictionary* classDict = [_filteredClassesList objectAtIndex:indexPath.row];
 
         if ([[[classDict objectForKey:@"units"] lastObject] isKindOfClass:[NSDictionary class]])
         {
